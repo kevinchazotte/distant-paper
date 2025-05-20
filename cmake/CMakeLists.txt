@@ -20,6 +20,7 @@ if(NOT TARGET download-all)
 endif()
 
 include(ExternalProject)
+set(GRPC_GIT_SUBMODULES "third_party/protobuf" "third_party/abseil-cpp")
 # add all third party projects via ExternalProject_Add
 foreach(proj ${projects})
   # set cmake DOWNLOAD_DIR and SOURCE_DIR to be picked up by ExternalProject_Add call
@@ -27,8 +28,8 @@ foreach(proj ${projects})
   set(SOURCE_DIR "${PROJECT_BUILD_DIR}/src/${proj}")
   foreach(build_type Release;RelWithDebInfo;Debug)
     set(CMAKE_BUILD_TYPE ${build_type})
-    set(BINARY_DIR "${PROJECT_BUILD_DIR}/bld/x64/${CMAKE_BUILD_TYPE}/${proj}")
-    set(INSTALL_DIR "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/${proj}")
+    set(BINARY_DIR "${PROJECT_BUILD_DIR}/bld/x64/${CMAKE_BUILD_TYPE}/${proj}/")
+    set(INSTALL_DIR "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/")
     # include project via "${proj}.cmake" file in this directory
     include(${proj})
     # if the project cmake file creates a `download-${proj}` target, make download-all depend on it
