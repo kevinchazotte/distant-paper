@@ -18,7 +18,7 @@ if(NOT RESULT EQUAL 0)
 endif()
 
 execute_process(
-    COMMAND ${CMAKE_COMMAND} --build bld --verbose
+    COMMAND ${CMAKE_COMMAND} --build bld --verbose -j1
     RESULT_VARIABLE SUPERBUILD_RESULT
 )
 if(NOT SUPERBUILD_RESULT EQUAL 0)

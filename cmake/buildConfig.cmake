@@ -44,11 +44,11 @@ if(abseil-cpp IN_LIST projects)
 endif()
 
 if(zlib IN_LIST projects)
-  top_level_static_imported_library(zlib zlib "")
+  top_level_static_imported_library(zlib zlibstatic "")
 endif()
 
 if(boringssl IN_LIST projects)
-  top_level_static_imported_library(boringssl boringssl "")
+  top_level_static_imported_library(boringssl ssl "")
 endif()
 
 if(cares IN_LIST projects)
@@ -66,7 +66,6 @@ if(protobuf IN_LIST projects)
   make_static_imported_library(protobuf libprotobuf ${protobuf_debug_string})
   make_static_imported_library(protobuf libprotobuf-lite ${protobuf_debug_string})
   make_static_imported_library(protobuf libprotoc ${protobuf_debug_string})
-  make_static_imported_library(protobuf libupb ${protobuf_debug_string})
   make_static_imported_library(protobuf libutf8_range "")
   make_static_imported_library(protobuf libutf8_validity "")
   add_library(protobuf INTERFACE)
@@ -76,12 +75,13 @@ if(protobuf IN_LIST projects)
     INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
   )
   target_link_libraries(protobuf INTERFACE SuperBuild::abseil-cpp SuperBuild::zlib
-    SuperBuild::libprotobuf SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libupb SuperBuild::libutf8_range SuperBuild::libutf8_validity
+    SuperBuild::libprotobuf SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libutf8_range SuperBuild::libutf8_validity
   )
 endif()
 
 if(grpc IN_LIST projects)
   top_level_static_imported_library(grpc grpc "")
-  add_dependencies(SuperBuild::grpc SuperBuild::zlib SuperBuild::protobuf SuperBuild::boringssl SuperBuild::cares SuperBuild::re2)
-  target_link_libraries(SuperBuild::grpc INTERFACE SuperBuild::zlib SuperBuild::protobuf SuperBuild::boringssl SuperBuild::cares SuperBuild::re2)
+  make_static_imported_library(grpc grpc++ "")
+  add_dependencies(SuperBuild::grpc SuperBuild::grpc++ SuperBuild::zlib SuperBuild::protobuf SuperBuild::boringssl SuperBuild::cares SuperBuild::re2)
+  target_link_libraries(SuperBuild::grpc INTERFACE SuperBuild::grpc++ SuperBuild::zlib SuperBuild::protobuf SuperBuild::boringssl SuperBuild::cares SuperBuild::re2)
 endif()

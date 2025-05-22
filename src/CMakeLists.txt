@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(src)
 
 add_executable(src main.cpp ../proto/test.pb.cc)
-target_link_libraries(src SuperBuild::abseil-cpp SuperBuild::protobuf)
+target_link_libraries(src SuperBuild::abseil-cpp SuperBuild::protobuf SuperBuild::grpc)
