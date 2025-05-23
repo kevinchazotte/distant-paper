@@ -1,6 +1,13 @@
 unset(projects)
 
-list(APPEND projects abseil-cpp zlib boringssl cares re2 protobuf grpc)
+list(APPEND projects SFML abseil-cpp zlib boringssl cares re2 protobuf grpc)
+
+# SFML via https://github.com/SFML/SFML/releases
+set(SFML_version 3.0.1)
+set(SFML_tag 3.0.1)
+set(SFML_url "https://github.com/SFML/SFML/archive/refs/tags/${SFML_tag}.tar.gz")
+set(SFML_name "SFML-${SFML_tag}.tar.gz")
+set(SFML_md5 "b0cf66a658d9e5852fb7d2c6233a49ea")
 
 # abseil-cpp via https://github.com/abseil/abseil-cpp/releases
 set(abseil-cpp_version 20250127.0)

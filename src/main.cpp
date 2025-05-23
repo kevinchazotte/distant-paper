@@ -5,9 +5,9 @@
 #include <thread>
 #include <chrono>
 
-// Generated protobuf and gRPC files
-#include "greeter.pb.h"
-#include "greeter.grpc.pb.h"
+// SFML headers
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 // gRPC headers
 #include <grpcpp/grpcpp.h>
@@ -15,6 +15,10 @@
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
 // No security headers needed for insecure credentials
+
+// Generated protobuf and gRPC files
+#include "greeter.pb.h"
+#include "greeter.grpc.pb.h"
 
 // Server implementation
 class GreeterServiceImpl final : public helloworld::Greeter::Service {
@@ -114,5 +118,73 @@ int main() {
     }
 
     std::cout << "[Main] Test sequence finished." << std::endl;
+
+    // Create the main window
+    sf::RenderWindow window;
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    window.create(sf::VideoMode({1024, 768}, desktop.bitsPerPixel), "SFML window");
+
+    sf::Font font;
+    if (!font.openFromFile("../assets/fonts/KodeMono-VariableFont_wght.ttf")) {
+        std::cerr << "Error loading font\n";
+        return EXIT_FAILURE;
+    }
+
+    // Create a text object
+    sf::Text text(font, "Hello, SFML UI!");
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(sf::Vector2f(10.f, 10.f)); // Position from top-left
+
+    // Create a simple button (represented by a rectangle and text)
+    sf::RectangleShape button(sf::Vector2f(150.f, 50.f));
+    button.setPosition(sf::Vector2f(10.f, 50.f));
+    button.setFillColor(sf::Color::Green);
+
+    sf::Text buttonText(font, "Click Me");
+    buttonText.setCharacterSize(20);
+    buttonText.setFillColor(sf::Color::Blue);
+    // Center text on button (approximate)
+    sf::FloatRect buttonRect = button.getGlobalBounds();
+    sf::FloatRect textRect = buttonText.getLocalBounds();
+    buttonText.setOrigin(sf::Vector2f(textRect.position.x + textRect.size.x / 2.0f,
+        textRect.position.y + textRect.size.y / 2.0f));
+    buttonText.setPosition(sf::Vector2f(buttonRect.position.x + buttonRect.size.x / 2.0f,
+        buttonRect.position.y + buttonRect.size.y / 2.0f));
+
+    // Main loop: continues as long as the window is open
+    while (window.isOpen()) {
+        // Process events
+        while (const std::optional event = window.pollEvent()) {
+            // Close window: exit
+            if (event->is<sf::Event::Closed>()) {
+                window.close();
+            }
+
+            // Mouse button pressed event
+            if (const sf::Event::MouseButtonPressed* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+                if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
+                    // Check if the click was inside the button
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (button.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                        text.setString("Button Clicked!");
+                        std::cout << "Button was clicked!" << std::endl;
+                    }
+                }
+            }
+        }
+
+        // Clear screen
+        window.clear(sf::Color::Black); // Fill background with black
+
+        // Draw the text and button
+        window.draw(text);
+        window.draw(button);
+        window.draw(buttonText);
+
+        // Update the window
+        window.display();
+    }
+
     return 0;
 }

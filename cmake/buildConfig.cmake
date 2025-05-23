@@ -27,6 +27,40 @@ endfunction()
 
 # create library targets for each added third party project
 
+# SFML has different Mac/UNIX behavior AND different lib files for static linking and debug configs
+# see https://www.sfml-dev.org/tutorials/2.5/start-vc.php
+if(WIN32 AND "SFML" IN_LIST projects)
+  add_library(SuperBuild::SFML STATIC IMPORTED GLOBAL)
+  set_target_properties(SuperBuild::SFML PROPERTIES
+    IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-main${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-main${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-main-d${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/include/"
+    INTERFACE_COMPILE_DEFINITIONS SFML_STATIC
+  )
+  # to statically link SFML, you need to manually link all dependencies, which are included library files in SFML
+  # TODO: use SFML_USE_SYSTEM_DEPS to remove these dependencies and add them to the SuperBuild independently of SFML
+  # TODO: add UNIX and MAC support for the library, which should be (largely) consistent with the above 
+  set(sfml_dependency_debug_string "d")
+  set(sfml_debug_string "-d")
+  target_link_libraries(SuperBuild::SFML INTERFACE
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-audio-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-network-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-graphics-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-window-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-system-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}flac$<$<CONFIG:Debug>:${sfml_dependency_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}freetype$<$<CONFIG:Debug>:${sfml_dependency_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}ogg$<$<CONFIG:Debug>:${sfml_dependency_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}vorbis$<$<CONFIG:Debug>:${sfml_dependency_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}vorbisenc$<$<CONFIG:Debug>:${sfml_dependency_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}vorbisfile$<$<CONFIG:Debug>:${sfml_dependency_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    ws2_32.lib
+    winmm.lib
+    opengl32.lib
+  )
+endif()
+
 if(abseil-cpp IN_LIST projects)
   add_library(abseil-cpp INTERFACE)
   add_library(SuperBuild::abseil-cpp ALIAS abseil-cpp)

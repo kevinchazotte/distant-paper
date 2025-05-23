@@ -17,4 +17,6 @@ endif()
 # Find the libraries installed by SuperBuild
 find_package(build REQUIRED PATHS "${PROJECT_BUILD_DIR}")
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 add_subdirectory(src)

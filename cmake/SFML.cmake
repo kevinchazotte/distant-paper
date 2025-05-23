@@ -1,4 +1,5 @@
 message(STATUS "${proj}.cmake with CMAKE_BUILD_TYPE:'${CMAKE_BUILD_TYPE}'")
+set(SFML_STATIC_LIBRARIES TRUE)
 
 if(NOT TARGET download-${proj})
   ExternalProject_Add(download-${proj}
@@ -25,12 +26,7 @@ ExternalProject_Add(${proj}${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_DIR}
     -DCMAKE_CXX_STANDARD_REQUIRED:BOOL=ON
     -DCMAKE_CXX_STANDARD:STRING=17
-    -DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
-    # project specific args for re2
-    -DCMAKE_POLICY_DEFAULT_CMP0091=NEW # without this, re2 doesn't adhere to runtime library and config
-    -DRE2_BUILD_TESTING:BOOL=OFF
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -Dabsl_DIR="${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/cmake/absl/"
-  UPDATE_COMMAND ""
-  DEPENDS abseil-cpp${CMAKE_BUILD_TYPE}
+    -DCMAKE_MSVC_RUNTIME_LIBRARY:STRING=${CMAKE_MSVC_RUNTIME_LIBRARY}
+    # project specific args for SFML
+    -DBUILD_SHARED_LIBS:BOOL=OFF
 )
