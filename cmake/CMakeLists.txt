@@ -28,7 +28,7 @@ foreach(proj ${projects})
   set(SOURCE_DIR "${PROJECT_BUILD_DIR}/src/${proj}")
   foreach(build_type Release;RelWithDebInfo;Debug)
     set(CMAKE_BUILD_TYPE ${build_type})
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
       set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
     else()
       set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded") # Default for Release, RelWithDebInfo

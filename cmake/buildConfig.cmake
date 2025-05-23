@@ -44,7 +44,7 @@ if(abseil-cpp IN_LIST projects)
 endif()
 
 if(zlib IN_LIST projects)
-  top_level_static_imported_library(zlib zlibstatic "")
+  top_level_static_imported_library(zlib zlibstatic "d")
 endif()
 
 if(boringssl IN_LIST projects)
