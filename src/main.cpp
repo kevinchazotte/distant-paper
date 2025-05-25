@@ -20,6 +20,8 @@
 #include "greeter.pb.h"
 #include "greeter.grpc.pb.h"
 
+#include "UIRenderer.h"
+
 // Server implementation
 class GreeterServiceImpl final : public helloworld::Greeter::Service {
     grpc::Status SayHello(grpc::ServerContext* context,
@@ -120,7 +122,7 @@ int main() {
     std::cout << "[Main] Test sequence finished." << std::endl;
 
     // Create the main window
-    sf::RenderWindow window;
+    /*sf::RenderWindow window;
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     window.create(sf::VideoMode({1024, 768}, desktop.bitsPerPixel), "SFML window");
 
@@ -184,6 +186,37 @@ int main() {
 
         // Update the window
         window.display();
+    }*/
+
+    sf::RenderWindow window;
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    window.create(sf::VideoMode({ 1024, 768 }, desktop.bitsPerPixel), "SFML window");
+
+    sf::Font font;
+    if (!font.openFromFile("../assets/fonts/KodeMono-VariableFont_wght.ttf")) {
+        std::cerr << "Error loading font\n";
+        return EXIT_FAILURE;
+    }
+    auto renderer = std::make_unique<UIRenderer>(window, font);
+    while (window.isOpen()) {
+        while (const std::optional event = window.pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
+                window.close();
+            }
+            // add interactive elements
+        }
+        renderer->clear();
+        if (0) {
+            renderer->renderHomeScreen();
+        }
+        else {
+            std::vector<WhiteboardStateMachine::Line> lines = std::vector<WhiteboardStateMachine::Line>();
+            std::vector<WhiteboardStateMachine::Rectangle> rectangles = std::vector<WhiteboardStateMachine::Rectangle>();
+            WhiteboardStateMachine::Line currentLine = WhiteboardStateMachine::Line();
+            WhiteboardStateMachine::Rectangle currentRect = WhiteboardStateMachine::Rectangle();
+            renderer->renderWhiteboard(lines, rectangles, currentLine, currentRect, false, false, WhiteboardStateMachine::DrawTool::MARKER);
+        }
+        renderer->display();
     }
 
     return 0;

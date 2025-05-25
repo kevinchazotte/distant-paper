@@ -3,8 +3,15 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project(src)
+set(proj src)
+project(${proj})
 
-add_executable(src main.cpp ../proto/greeter.grpc.pb.cc ../proto/greeter.pb.cc)
-target_include_directories(src PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../proto/")
-target_link_libraries(src SuperBuild::abseil-cpp SuperBuild::protobuf SuperBuild::grpc SuperBuild::SFML)
+file(GLOB cpp_source_files "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB h_source_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+add_executable(${proj}
+  ${cpp_source_files} ${h_source_files} ../proto/greeter.grpc.pb.cc ../proto/greeter.pb.cc
+)
+
+target_include_directories(${proj} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../proto/")
+target_link_libraries(${proj} SuperBuild::abseil-cpp SuperBuild::protobuf SuperBuild::grpc SuperBuild::SFML)
