@@ -6,14 +6,14 @@
 
 namespace WhiteboardStateMachine {
 	enum class AppState {
-        HOME,
-        WHITEBOARD
+        kHome,
+        kWhiteboard
     };
 
     enum class DrawTool {
-        MARKER,
-        RECTANGLE,
-        ERASER
+        kMarker,
+        kRectangle,
+        kEraser
     };
 
     struct DrawPoint {

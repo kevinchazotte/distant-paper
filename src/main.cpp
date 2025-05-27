@@ -20,7 +20,15 @@
 #include "greeter.pb.h"
 #include "greeter.grpc.pb.h"
 
+#include "IDrawingManager.h"
+#include "IEventHandler.h"
+#include "IServerManager.h"
+
+#include "DrawingManager.h"
+#include "HomePageEventHandler.h"
+#include "ServerManager.h"
 #include "UIRenderer.h"
+#include "WhiteboardPageEventHandler.h"
 
 // Server implementation
 class GreeterServiceImpl final : public helloworld::Greeter::Service {
@@ -121,73 +129,6 @@ int main() {
 
     std::cout << "[Main] Test sequence finished." << std::endl;
 
-    // Create the main window
-    /*sf::RenderWindow window;
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    window.create(sf::VideoMode({1024, 768}, desktop.bitsPerPixel), "SFML window");
-
-    sf::Font font;
-    if (!font.openFromFile("../assets/fonts/KodeMono-VariableFont_wght.ttf")) {
-        std::cerr << "Error loading font\n";
-        return EXIT_FAILURE;
-    }
-
-    // Create a text object
-    sf::Text text(font, "Hello, SFML UI!");
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f(10.f, 10.f)); // Position from top-left
-
-    // Create a simple button (represented by a rectangle and text)
-    sf::RectangleShape button(sf::Vector2f(150.f, 50.f));
-    button.setPosition(sf::Vector2f(10.f, 50.f));
-    button.setFillColor(sf::Color::Green);
-
-    sf::Text buttonText(font, "Click Me");
-    buttonText.setCharacterSize(20);
-    buttonText.setFillColor(sf::Color::Blue);
-    // Center text on button (approximate)
-    sf::FloatRect buttonRect = button.getGlobalBounds();
-    sf::FloatRect textRect = buttonText.getLocalBounds();
-    buttonText.setOrigin(sf::Vector2f(textRect.position.x + textRect.size.x / 2.0f,
-        textRect.position.y + textRect.size.y / 2.0f));
-    buttonText.setPosition(sf::Vector2f(buttonRect.position.x + buttonRect.size.x / 2.0f,
-        buttonRect.position.y + buttonRect.size.y / 2.0f));
-
-    // Main loop: continues as long as the window is open
-    while (window.isOpen()) {
-        // Process events
-        while (const std::optional event = window.pollEvent()) {
-            // Close window: exit
-            if (event->is<sf::Event::Closed>()) {
-                window.close();
-            }
-
-            // Mouse button pressed event
-            if (const sf::Event::MouseButtonPressed* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
-                if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
-                    // Check if the click was inside the button
-                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                    if (button.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                        text.setString("Button Clicked!");
-                        std::cout << "Button was clicked!" << std::endl;
-                    }
-                }
-            }
-        }
-
-        // Clear screen
-        window.clear(sf::Color::Black); // Fill background with black
-
-        // Draw the text and button
-        window.draw(text);
-        window.draw(button);
-        window.draw(buttonText);
-
-        // Update the window
-        window.display();
-    }*/
-
     sf::RenderWindow window;
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     window.create(sf::VideoMode({ 1024, 768 }, desktop.bitsPerPixel), "SFML window");
@@ -197,16 +138,28 @@ int main() {
         std::cerr << "Error loading font\n";
         return EXIT_FAILURE;
     }
-    auto renderer = std::make_unique<UIRenderer>(window, font);
+
+    std::shared_ptr<UIRenderer> renderer = std::make_unique<UIRenderer>(window, font);
+    std::shared_ptr<IServerManager> serverManager = std::make_shared<ServerManager>();
+    std::shared_ptr<IDrawingManager> drawingManager = std::make_shared<DrawingManager>(serverManager);
+    std::shared_ptr<IEventHandler> homePageEventHandler = std::make_shared<HomePageEventHandler>(window, serverManager);
+    std::shared_ptr<IEventHandler> whiteboardPageEventHandler = std::make_shared<WhiteboardPageEventHandler>(window, serverManager, drawingManager);
+    WhiteboardStateMachine::AppState currentState = WhiteboardStateMachine::AppState::kHome;
+    WhiteboardStateMachine::DrawTool currentTool = WhiteboardStateMachine::DrawTool::kMarker;
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            // add interactive elements
+            if (currentState == WhiteboardStateMachine::AppState::kHome) {
+                homePageEventHandler->handleEvent(*event, currentState, currentTool);
+            }
+            else if (currentState == WhiteboardStateMachine::AppState::kWhiteboard) {
+                whiteboardPageEventHandler->handleEvent(*event, currentState, currentTool);
+            }
         }
         renderer->clear();
-        if (0) {
+        if (currentState == WhiteboardStateMachine::AppState::kHome) {
             renderer->renderHomeScreen();
         }
         else {
@@ -214,7 +167,7 @@ int main() {
             std::vector<WhiteboardStateMachine::Rectangle> rectangles = std::vector<WhiteboardStateMachine::Rectangle>();
             WhiteboardStateMachine::Line currentLine = WhiteboardStateMachine::Line();
             WhiteboardStateMachine::Rectangle currentRect = WhiteboardStateMachine::Rectangle();
-            renderer->renderWhiteboard(lines, rectangles, currentLine, currentRect, false, false, WhiteboardStateMachine::DrawTool::MARKER);
+            renderer->renderWhiteboard(lines, rectangles, currentLine, currentRect, false, false, currentTool);
         }
         renderer->display();
     }

@@ -18,11 +18,9 @@ private:
 	sf::RenderWindow& m_Window;
 	sf::Font& m_Font;
 
-	static const int WINDOW_WIDTH = 1024;
-	static const int WINDOW_HEIGHT = 768;
-	static const int MENU_BAR_HEIGHT = 60;
-	static const int BUTTON_WIDTH = 120;
-	static const int BUTTON_HEIGHT = 40;
+	static const int kMenuBarHeight = 60;
+	static const int kButtonWidth = 120;
+	static const int kButtonHeight = 40;
 
 	void drawTitle();
 	void drawButton(float x, float y, float width, float height, const std::string& text, sf::Color color);

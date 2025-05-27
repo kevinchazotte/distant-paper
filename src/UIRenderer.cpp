@@ -13,8 +13,8 @@ void UIRenderer::display() {
 
 void UIRenderer::renderHomeScreen() {
 	drawTitle();
-	drawButton(WINDOW_WIDTH/2 - BUTTON_WIDTH/2, 350, BUTTON_WIDTH, BUTTON_HEIGHT, "CONNECT", sf::Color::Black);
-	drawButton(WINDOW_WIDTH/2 - BUTTON_WIDTH/2, 420, BUTTON_WIDTH, BUTTON_HEIGHT, "EXIT", sf::Color::Black);
+	drawButton(m_Window.getSize().x / 2 - kButtonWidth / 2, m_Window.getSize().y / 2, kButtonWidth, kButtonHeight, "CONNECT", sf::Color::Black);
+	drawButton(m_Window.getSize().x / 2 - kButtonWidth / 2, m_Window.getSize().y / 1.6, kButtonWidth, kButtonHeight, "EXIT", sf::Color::Black);
 }
 
 void UIRenderer::renderWhiteboard(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
@@ -25,7 +25,7 @@ void UIRenderer::renderWhiteboard(const std::vector<WhiteboardStateMachine::Line
 }
 
 void UIRenderer::renderMenuBar(WhiteboardStateMachine::DrawTool currentTool) {
-	sf::RectangleShape menuBar(sf::Vector2f(WINDOW_WIDTH, MENU_BAR_HEIGHT));
+	sf::RectangleShape menuBar(sf::Vector2f(m_Window.getSize().x, kMenuBarHeight));
 	menuBar.setFillColor(sf::Color::White);
 	menuBar.setOutlineColor(sf::Color::Black);
 	menuBar.setOutlineThickness(2);
@@ -34,21 +34,21 @@ void UIRenderer::renderMenuBar(WhiteboardStateMachine::DrawTool currentTool) {
 	// temporary values for visualizing
 	int buttonX = 10;
 	int buttonY = 10;
-	int spacing = BUTTON_WIDTH + 10;
+	int spacing = kButtonWidth + 10;
 
 	// come up with a better way of distinguishing which tool is currently selected
 	sf::Color homeColor = sf::Color::Black;
-	sf::Color markerColor = (currentTool == WhiteboardStateMachine::DrawTool::MARKER) ? sf::Color(100, 100, 100) : sf::Color::Black;
-	sf::Color rectColor = (currentTool == WhiteboardStateMachine::DrawTool::RECTANGLE) ? sf::Color(100, 100, 100) : sf::Color::Black;
-	sf::Color eraserColor = (currentTool == WhiteboardStateMachine::DrawTool::ERASER) ? sf::Color(100, 100, 100) : sf::Color::Black;
+	sf::Color markerColor = (currentTool == WhiteboardStateMachine::DrawTool::kMarker) ? sf::Color(100, 100, 100) : sf::Color::Black;
+	sf::Color rectColor = (currentTool == WhiteboardStateMachine::DrawTool::kRectangle) ? sf::Color(100, 100, 100) : sf::Color::Black;
+	sf::Color eraserColor = (currentTool == WhiteboardStateMachine::DrawTool::kEraser) ? sf::Color(100, 100, 100) : sf::Color::Black;
 
-	drawButton(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, "HOME", homeColor);
+	drawButton(buttonX, buttonY, kButtonWidth, kButtonHeight, "HOME", homeColor);
 	buttonX += spacing;
-	drawButton(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, "MARKER", markerColor);
+	drawButton(buttonX, buttonY, kButtonWidth, kButtonHeight, "MARKER", markerColor);
 	buttonX += spacing;
-	drawButton(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, "RECTANGLE", rectColor);
+	drawButton(buttonX, buttonY, kButtonWidth, kButtonHeight, "RECTANGLE", rectColor);
 	buttonX += spacing;
-	drawButton(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, "ERASER", eraserColor);
+	drawButton(buttonX, buttonY, kButtonWidth, kButtonHeight, "ERASER", eraserColor);
 }
 
 void UIRenderer::renderDrawings(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
@@ -63,7 +63,7 @@ void UIRenderer::renderDrawings(const std::vector<WhiteboardStateMachine::Line>&
 	}
 
 	// Draw current line being drawn
-	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::MARKER && currentLine.points.size() >= 2) {
+	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::kMarker && currentLine.points.size() >= 2) {
 		for (size_t i = 1; i < currentLine.points.size(); ++i) {
 			drawLine(currentLine.points[i-1].position, currentLine.points[i].position, currentLine.points[i].color);
 		}
@@ -77,7 +77,7 @@ void UIRenderer::renderDrawings(const std::vector<WhiteboardStateMachine::Line>&
 	}
 
 	// Draw current rectangle preview
-	if (isRectStarted && currentTool == WhiteboardStateMachine::DrawTool::RECTANGLE) {
+	if (isRectStarted && currentTool == WhiteboardStateMachine::DrawTool::kRectangle) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(m_Window);
 		drawRectangle(currentRect.start, sf::Vector2f(mousePos.x, mousePos.y), sf::Color(128, 128, 128));
 	}
@@ -87,7 +87,7 @@ void UIRenderer::drawTitle() {
 	sf::Text title(m_Font, "WHITEBOARD");
 	title.setCharacterSize(48);
 	title.setFillColor(sf::Color::Black);
-	title.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - title.getGlobalBounds().size.x / 2, 200));
+	title.setPosition(sf::Vector2f(m_Window.getSize().x / 2 - title.getGlobalBounds().size.x / 2, 200));
 	m_Window.draw(title);
 }
 
