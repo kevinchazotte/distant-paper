@@ -15,7 +15,7 @@ void HomePageEventHandler::handleEvent(const sf::Event& event, WhiteboardStateMa
             sf::FloatRect connectButtonArea = sf::FloatRect(sf::Vector2f(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 2),
                 sf::Vector2f(kButtonWidth, kButtonHeight));
             if (connectButtonArea.contains(mousePosition)) {
-                m_ServerManager->connect(); // once connection completes, update signal to emit new app state
+                m_ServerManager->Connect(); // once connection completes, update signal to emit new app state
                 currentState = WhiteboardStateMachine::AppState::kWhiteboard; // for now, manually update app state
                 return;
             }

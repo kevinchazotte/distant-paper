@@ -14,22 +14,12 @@ public:
     virtual void eraseAt(sf::Vector2f position) = 0;
     virtual void clear() = 0;
 
-    const std::vector<WhiteboardStateMachine::Line>& getLines() const { return m_Lines; }
-    const std::vector<WhiteboardStateMachine::Rectangle>& getRectangles() const { return m_Rectangles; }
+    virtual std::vector<WhiteboardStateMachine::Line>& getLines() = 0;
+    virtual std::vector<WhiteboardStateMachine::Rectangle>& getRectangles() = 0;
 
-    const WhiteboardStateMachine::Line& getCurrentLine() const { return m_CurrentLine; }
-    const WhiteboardStateMachine::Rectangle& getCurrentRect() const { return m_CurrentRect; }
+    virtual WhiteboardStateMachine::Line& getCurrentLine() = 0;
+    virtual WhiteboardStateMachine::Rectangle& getCurrentRect() = 0;
 
-    bool isDrawing() const { return m_IsDrawing; }
-    bool isRectStarted() const { return m_IsRectStarted; }
-
-private:
-    std::vector<WhiteboardStateMachine::Line> m_Lines;
-    std::vector<WhiteboardStateMachine::Rectangle> m_Rectangles;
-
-    WhiteboardStateMachine::Line m_CurrentLine;
-    WhiteboardStateMachine::Rectangle m_CurrentRect;
-
-    bool m_IsDrawing;
-    bool m_IsRectStarted;
+    virtual bool isDrawing() = 0;
+    virtual bool isRectStarted() = 0;
 };

@@ -30,7 +30,7 @@ void WhiteboardPageEventHandler::handleMenuClick(sf::Vector2f mousePosition, Whi
 
     sf::FloatRect homeButtonArea = sf::FloatRect(sf::Vector2f(buttonX, buttonY), sf::Vector2f(kButtonWidth, kButtonHeight));
     if (homeButtonArea.contains(mousePosition)) {
-        m_ServerManager->disconnect(); // once connection completes, update signal to emit new app state
+        m_ServerManager->Disconnect(); // once connection completes, update signal to emit new app state
         currentState = WhiteboardStateMachine::AppState::kHome; // for now, manually update app state
         m_DrawingManager->clear();
         return;
