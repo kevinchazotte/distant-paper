@@ -4,6 +4,8 @@
 
 #include <memory>
 
+#include <grpcpp/server.h>
+
 #include "IServerManager.h"
 
 class HomePageEventHandler : public IEventHandler {
@@ -11,7 +13,7 @@ public:
 	HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager);
 	virtual ~HomePageEventHandler() = default;
 
-	void handleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) override;
+	int HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) override;
 private:
 	sf::RenderWindow& m_RenderWindow;
 	std::shared_ptr<IServerManager> m_ServerManager;

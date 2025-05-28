@@ -1,68 +1,59 @@
 #include "ServerManager.h"
 
-// gRPC headers
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
-// No security headers needed for insecure credentials
 
-// Generated protobuf and gRPC files
 #include "greeter.pb.h"
-#include "greeter.grpc.pb.h"
 
 // Server implementation
 class GreeterServiceImpl final : public helloworld::Greeter::Service {
+public:
+    explicit GreeterServiceImpl(ServerManager* manager) : serverManager_(manager) {}
+
     grpc::Status SayHello(grpc::ServerContext* context,
         const helloworld::HelloRequest* request,
         helloworld::HelloReply* reply) override {
-        std::string prefix("Hello (via insecure gRPC), ");
-        reply->set_message(prefix + request->name() + "!");
-        std::cout << "[Server Thread] Responded to: " << request->name() << std::endl;
+        int newConnectionId = serverManager_->AssignNewConnectionId(context->peer());
+        reply->set_connection(newConnectionId);
+        std::cout << "[Server Thread] Responded to request with input connection: " << request->connection() << std::endl;
         return grpc::Status::OK;
     }
+private:
+    ServerManager* serverManager_;
 };
 
 ServerManager::ServerManager(const std::string targetAddress) : m_TargetAddress(targetAddress) {
     
 }
 
-void ServerManager::Connect() {
+std::pair<grpc::Status, helloworld::HelloReply> ServerManager::Connect() {
     std::cout << "[Client] Opening a connection with id " << std::to_string(m_NumConnections) << " to " << m_TargetAddress << std::endl;
 
-    // Create an insecure channel
-    grpc::ChannelArguments channel_args; // Can be empty for simple cases
+    // client side code - will need to migrate out of this class soon
+    grpc::ChannelArguments channel_args;
     std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(m_TargetAddress, grpc::InsecureChannelCredentials(), channel_args);
-    m_OpenClients.insert(std::make_pair(m_NumConnections, channel));
 
     std::cout << "[Client] Testing connection with client stub..." << std::endl;
     std::unique_ptr<helloworld::Greeter::Stub> stub = helloworld::Greeter::NewStub(channel);
 
     helloworld::HelloRequest request;
-    request.set_name("Simpler gRPC Test");
+    request.set_connection(99); // hard-coded for testing
 
     helloworld::HelloReply reply;
     grpc::ClientContext context;
 
-    // Optional: Set a deadline for the RPC
     std::chrono::system_clock::time_point deadline =
         std::chrono::system_clock::now() + std::chrono::seconds(5);
     context.set_deadline(deadline);
 
     std::cout << "[Client] Sending SayHello RPC..." << std::endl;
     grpc::Status status = stub->SayHello(&context, request, &reply);
-
-    if (status.ok()) {
-        std::cout << "[Client] Received reply: '" << reply.message() << "'" << std::endl;
-        m_NumConnections++;
-    }
-    else {
-        std::cerr << "[Client] RPC failed with code " << status.error_code()
-            << ": " << status.error_message() << std::endl;
-    }
+    return std::make_pair(status, reply);
 }
 
-void ServerManager::Disconnect() {
-    
+bool ServerManager::Disconnect(int connectionId) {
+    return RemoveConnectionId(connectionId);
 }
 
 void ServerManager::SendLine(const WhiteboardStateMachine::Line& line) {
@@ -78,9 +69,9 @@ void ServerManager::SendErase(sf::Vector2f position) {
 }
 
 void ServerManager::Start() {
-    GreeterServiceImpl service_impl;
+    GreeterServiceImpl service_impl(this);
     grpc::ServerBuilder builder;
-
+    grpc::ServerContext context;
     // Listen on the given address using insecure credentials
     builder.AddListeningPort(m_TargetAddress, grpc::InsecureServerCredentials());
     builder.RegisterService(&service_impl);
@@ -104,4 +95,20 @@ void ServerManager::Stop() {
 
 void ServerManager::Update() {
 
+}
+
+int ServerManager::AssignNewConnectionId(std::string peerAddress) {
+    std::lock_guard<std::mutex> lock(m_ServerMutex);
+    m_OpenClients.insert(std::make_pair(m_NumConnections, peerAddress));
+    return m_NumConnections++;
+}
+
+bool ServerManager::RemoveConnectionId(int connectionId) {
+    std::lock_guard<std::mutex> lock(m_ServerMutex);
+    if (m_OpenClients.find(connectionId) != m_OpenClients.end()) {
+        m_OpenClients.erase(connectionId);
+        m_NumConnections--;
+        return true;
+    }
+    return false;
 }

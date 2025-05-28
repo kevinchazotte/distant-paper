@@ -8,18 +8,18 @@ class IDrawingManager {
 public:
     virtual ~IDrawingManager() = default;
 
-    virtual void startDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) = 0;
-    virtual void updateDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) = 0;
-    virtual void endDrawing(WhiteboardStateMachine::DrawTool tool) = 0;
-    virtual void eraseAt(sf::Vector2f position) = 0;
-    virtual void clear() = 0;
+    virtual void StartDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) = 0;
+    virtual void UpdateDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) = 0;
+    virtual void EndDrawing(WhiteboardStateMachine::DrawTool tool) = 0;
+    virtual void EraseAt(sf::Vector2f position) = 0;
+    virtual void Clear() = 0;
 
-    virtual std::vector<WhiteboardStateMachine::Line>& getLines() = 0;
-    virtual std::vector<WhiteboardStateMachine::Rectangle>& getRectangles() = 0;
+    virtual std::vector<WhiteboardStateMachine::Line>& GetLines() = 0;
+    virtual std::vector<WhiteboardStateMachine::Rectangle>& GetRectangles() = 0;
 
-    virtual WhiteboardStateMachine::Line& getCurrentLine() = 0;
-    virtual WhiteboardStateMachine::Rectangle& getCurrentRect() = 0;
+    virtual WhiteboardStateMachine::Line& GetCurrentLine() = 0;
+    virtual WhiteboardStateMachine::Rectangle& GetCurrentRectangle() = 0;
 
-    virtual bool isDrawing() = 0;
-    virtual bool isRectStarted() = 0;
+    virtual bool IsDrawing() = 0;
+    virtual bool IsRectangleStarted() = 0;
 };

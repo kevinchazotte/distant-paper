@@ -217,21 +217,16 @@ class HelloRequest final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNameFieldNumber = 1,
+    kConnectionFieldNumber = 1,
   };
-  // string name = 1;
-  void clear_name() ;
-  const std::string& name() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_name(Arg_&& arg, Args_... args);
-  std::string* PROTOBUF_NONNULL mutable_name();
-  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_name();
-  void set_allocated_name(std::string* PROTOBUF_NULLABLE value);
+  // int32 connection = 1;
+  void clear_connection() ;
+  ::int32_t connection() const;
+  void set_connection(::int32_t value);
 
   private:
-  const std::string& _internal_name() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
-  std::string* PROTOBUF_NONNULL _internal_mutable_name();
+  ::int32_t _internal_connection() const;
+  void _internal_set_connection(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:helloworld.HelloRequest)
@@ -239,7 +234,7 @@ class HelloRequest final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   0, 36,
+                                   0, 0,
                                    2>
       _table_;
 
@@ -260,7 +255,7 @@ class HelloRequest final : public ::google::protobuf::Message
         const HelloRequest& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::int32_t connection_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -413,21 +408,16 @@ class HelloReply final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kMessageFieldNumber = 1,
+    kConnectionFieldNumber = 1,
   };
-  // string message = 1;
-  void clear_message() ;
-  const std::string& message() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_message(Arg_&& arg, Args_... args);
-  std::string* PROTOBUF_NONNULL mutable_message();
-  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_message();
-  void set_allocated_message(std::string* PROTOBUF_NULLABLE value);
+  // int32 connection = 1;
+  void clear_connection() ;
+  ::int32_t connection() const;
+  void set_connection(::int32_t value);
 
   private:
-  const std::string& _internal_message() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_message(const std::string& value);
-  std::string* PROTOBUF_NONNULL _internal_mutable_message();
+  ::int32_t _internal_connection() const;
+  void _internal_set_connection(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:helloworld.HelloReply)
@@ -435,7 +425,7 @@ class HelloReply final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   0, 37,
+                                   0, 0,
                                    2>
       _table_;
 
@@ -456,7 +446,7 @@ class HelloReply final : public ::google::protobuf::Message
         const HelloReply& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr message_;
+    ::int32_t connection_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -481,138 +471,56 @@ extern const ::google::protobuf::internal::ClassDataFull HelloReply_class_data_;
 
 // HelloRequest
 
-// string name = 1;
-inline void HelloRequest::clear_name() {
+// int32 connection = 1;
+inline void HelloRequest::clear_connection() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.name_.ClearToEmpty();
+  _impl_.connection_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const std::string& HelloRequest::name() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:helloworld.HelloRequest.name)
-  return _internal_name();
+inline ::int32_t HelloRequest::connection() const {
+  // @@protoc_insertion_point(field_get:helloworld.HelloRequest.connection)
+  return _internal_connection();
 }
-template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void HelloRequest::set_name(Arg_&& arg, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
+inline void HelloRequest::set_connection(::int32_t value) {
+  _internal_set_connection(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:helloworld.HelloRequest.name)
+  // @@protoc_insertion_point(field_set:helloworld.HelloRequest.connection)
 }
-inline std::string* PROTOBUF_NONNULL HelloRequest::mutable_name()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:helloworld.HelloRequest.name)
-  return _s;
-}
-inline const std::string& HelloRequest::_internal_name() const {
+inline ::int32_t HelloRequest::_internal_connection() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.name_.Get();
+  return _impl_.connection_;
 }
-inline void HelloRequest::_internal_set_name(const std::string& value) {
+inline void HelloRequest::_internal_set_connection(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.name_.Set(value, GetArena());
-}
-inline std::string* PROTOBUF_NONNULL HelloRequest::_internal_mutable_name() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.name_.Mutable( GetArena());
-}
-inline std::string* PROTOBUF_NULLABLE HelloRequest::release_name() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:helloworld.HelloRequest.name)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.name_.Release();
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
-    _impl_.name_.Set("", GetArena());
-  }
-  return released;
-}
-inline void HelloRequest::set_allocated_name(std::string* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.name_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_.IsDefault()) {
-    _impl_.name_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:helloworld.HelloRequest.name)
+  _impl_.connection_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // HelloReply
 
-// string message = 1;
-inline void HelloReply::clear_message() {
+// int32 connection = 1;
+inline void HelloReply::clear_connection() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.message_.ClearToEmpty();
+  _impl_.connection_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const std::string& HelloReply::message() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:helloworld.HelloReply.message)
-  return _internal_message();
+inline ::int32_t HelloReply::connection() const {
+  // @@protoc_insertion_point(field_get:helloworld.HelloReply.connection)
+  return _internal_connection();
 }
-template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void HelloReply::set_message(Arg_&& arg, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
+inline void HelloReply::set_connection(::int32_t value) {
+  _internal_set_connection(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.message_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:helloworld.HelloReply.message)
+  // @@protoc_insertion_point(field_set:helloworld.HelloReply.connection)
 }
-inline std::string* PROTOBUF_NONNULL HelloReply::mutable_message()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_message();
-  // @@protoc_insertion_point(field_mutable:helloworld.HelloReply.message)
-  return _s;
-}
-inline const std::string& HelloReply::_internal_message() const {
+inline ::int32_t HelloReply::_internal_connection() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.message_.Get();
+  return _impl_.connection_;
 }
-inline void HelloReply::_internal_set_message(const std::string& value) {
+inline void HelloReply::_internal_set_connection(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.message_.Set(value, GetArena());
-}
-inline std::string* PROTOBUF_NONNULL HelloReply::_internal_mutable_message() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.message_.Mutable( GetArena());
-}
-inline std::string* PROTOBUF_NULLABLE HelloReply::release_message() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:helloworld.HelloReply.message)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.message_.Release();
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
-    _impl_.message_.Set("", GetArena());
-  }
-  return released;
-}
-inline void HelloReply::set_allocated_message(std::string* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.message_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.message_.IsDefault()) {
-    _impl_.message_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:helloworld.HelloReply.message)
+  _impl_.connection_ = value;
 }
 
 #ifdef __GNUC__

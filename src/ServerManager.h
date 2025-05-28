@@ -2,7 +2,8 @@
 
 #include "IServerManager.h"
 
-#include <grpcpp/server.h>
+#include <mutex>
+#include <string>
 
 #include "WhiteboardStateMachine.h"
 
@@ -11,17 +12,23 @@ public:
     ServerManager(const std::string targetAddress);
     virtual ~ServerManager() = default;
 
-    void Connect() override;
-    void Disconnect() override;
+    std::pair<grpc::Status, helloworld::HelloReply> Connect() override;
+    bool Disconnect(int connectionId) override;
+
     void SendLine(const WhiteboardStateMachine::Line& line) override;
     void SendRectangle(const WhiteboardStateMachine::Rectangle& rect) override;
     void SendErase(sf::Vector2f position) override;
+
     void Start() override;
     void Stop() override;
     void Update() override;
+
+    int AssignNewConnectionId(std::string peerAddress) override;
+    bool RemoveConnectionId(int connectionId) override;
 private:
     int m_NumConnections = 0;
     const std::string m_TargetAddress;
     std::unique_ptr<grpc::Server> m_ServerInstance;
-    std::unordered_map<int, std::shared_ptr<grpc::Channel>> m_OpenClients;
+    std::unordered_map<int, std::string> m_OpenClients;
+    std::mutex m_ServerMutex;
 };

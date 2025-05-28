@@ -5,22 +5,22 @@ DrawingManager::DrawingManager(std::shared_ptr<IServerManager> serverManager) : 
 	m_IsRectStarted = false;
 }
 
-void DrawingManager::startDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) {
+void DrawingManager::StartDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) {
 
 }
 
-void DrawingManager::updateDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) {
+void DrawingManager::UpdateDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) {
 
 }
 
-void DrawingManager::endDrawing(WhiteboardStateMachine::DrawTool tool) {
+void DrawingManager::EndDrawing(WhiteboardStateMachine::DrawTool tool) {
 
 }
 
-void DrawingManager::eraseAt(sf::Vector2f position) {
+void DrawingManager::EraseAt(sf::Vector2f position) {
 
 }
 
-void DrawingManager::clear() {
+void DrawingManager::Clear() {
 
 }

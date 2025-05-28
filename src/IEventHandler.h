@@ -7,5 +7,6 @@
 class IEventHandler {
 public:
 	virtual ~IEventHandler() = default;
-	virtual void handleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) = 0;
+	virtual int HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) = 0;
+	virtual void SetConnectionId(int connectionId) {};
 };

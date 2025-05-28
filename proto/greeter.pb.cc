@@ -29,9 +29,7 @@ namespace helloworld {
 inline constexpr HelloRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        name_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()) {}
+        connection_{0} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR HelloRequest::HelloRequest(::_pbi::ConstantInitialized)
@@ -56,9 +54,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr HelloReply::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        message_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()) {}
+        connection_{0} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR HelloReply::HelloReply(::_pbi::ConstantInitialized)
@@ -95,7 +91,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::helloworld::HelloRequest, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::helloworld::HelloRequest, _impl_.connection_),
         0,
         PROTOBUF_FIELD_OFFSET(::helloworld::HelloReply, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::helloworld::HelloReply, _internal_metadata_),
@@ -105,7 +101,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::helloworld::HelloReply, _impl_.message_),
+        PROTOBUF_FIELD_OFFSET(::helloworld::HelloReply, _impl_.connection_),
         0,
 };
 
@@ -120,17 +116,17 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
 };
 const char descriptor_table_protodef_greeter_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\rgreeter.proto\022\nhelloworld\"\034\n\014HelloRequ"
-    "est\022\014\n\004name\030\001 \001(\t\"\035\n\nHelloReply\022\017\n\007messa"
-    "ge\030\001 \001(\t2I\n\007Greeter\022>\n\010SayHello\022\030.hellow"
-    "orld.HelloRequest\032\026.helloworld.HelloRepl"
-    "y\"\000b\006proto3"
+    "\n\rgreeter.proto\022\nhelloworld\"\"\n\014HelloRequ"
+    "est\022\022\n\nconnection\030\001 \001(\005\" \n\nHelloReply\022\022\n"
+    "\nconnection\030\001 \001(\0052I\n\007Greeter\022>\n\010SayHello"
+    "\022\030.helloworld.HelloRequest\032\026.helloworld."
+    "HelloReply\"\000b\006proto3"
 };
 static ::absl::once_flag descriptor_table_greeter_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_greeter_2eproto = {
     false,
     false,
-    171,
+    180,
     descriptor_table_protodef_greeter_2eproto,
     "greeter.proto",
     &descriptor_table_greeter_2eproto_once,
@@ -163,38 +159,25 @@ HelloRequest::HelloRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:helloworld.HelloRequest)
 }
-PROTOBUF_NDEBUG_INLINE HelloRequest::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::helloworld::HelloRequest& from_msg)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0},
-        name_(arena, from.name_) {}
-
 HelloRequest::HelloRequest(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const HelloRequest& from)
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const HelloRequest& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, HelloRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, HelloRequest_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
+    : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  HelloRequest* const _this = this;
-  (void)_this;
+      _impl_(from._impl_) {
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-
-  // @@protoc_insertion_point(copy_constructor:helloworld.HelloRequest)
 }
 PROTOBUF_NDEBUG_INLINE HelloRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-      : _cached_size_{0},
-        name_(arena) {}
+      : _cached_size_{0} {}
 
 inline void HelloRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.connection_ = {};
 }
 HelloRequest::~HelloRequest() {
   // @@protoc_insertion_point(destructor:helloworld.HelloRequest)
@@ -204,7 +187,6 @@ inline void HelloRequest::SharedDtor(MessageLite& self) {
   HelloRequest& this_ = static_cast<HelloRequest&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.name_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -214,7 +196,7 @@ inline void* PROTOBUF_NONNULL HelloRequest::PlacementNew_(
   return ::new (mem) HelloRequest(arena);
 }
 constexpr auto HelloRequest::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(HelloRequest),
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(HelloRequest),
                                             alignof(HelloRequest));
 }
 constexpr auto HelloRequest::InternalGenerateClassData_() {
@@ -251,7 +233,7 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL HelloRequest::Ge
   return HelloRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 36, 2>
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
 HelloRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_._has_bits_),
@@ -270,21 +252,18 @@ HelloRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::helloworld::HelloRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // string name = 1;
-    {::_pbi::TcParser::FastUS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.name_)}},
+    // int32 connection = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(HelloRequest, _impl_.connection_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.connection_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // string name = 1;
-    {PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 connection = 1;
+    {PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.connection_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
   }},
   // no aux_entries
   {{
-    "\27\4\0\0\0\0\0\0"
-    "helloworld.HelloRequest"
-    "name"
   }},
 };
 PROTOBUF_NOINLINE void HelloRequest::Clear() {
@@ -294,10 +273,7 @@ PROTOBUF_NOINLINE void HelloRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if ((cached_has_bits & 0x00000001u) != 0) {
-    _impl_.name_.ClearNonDefaultToEmpty();
-  }
+  _impl_.connection_ = 0;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -317,13 +293,12 @@ PROTOBUF_NOINLINE void HelloRequest::Clear() {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // string name = 1;
+  // int32 connection = 1;
   if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    if (!this_._internal_name().empty()) {
-      const std::string& _s = this_._internal_name();
-      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "helloworld.HelloRequest.name");
-      target = stream->WriteStringMaybeAliased(1, _s, target);
+    if (this_._internal_connection() != 0) {
+      target =
+          ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
+              stream, this_._internal_connection(), target);
     }
   }
 
@@ -351,12 +326,12 @@ PROTOBUF_NOINLINE void HelloRequest::Clear() {
   (void)cached_has_bits;
 
    {
-    // string name = 1;
+    // int32 connection = 1;
     cached_has_bits = this_._impl_._has_bits_[0];
     if ((cached_has_bits & 0x00000001u) != 0) {
-      if (!this_._internal_name().empty()) {
-        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                        this_._internal_name());
+      if (this_._internal_connection() != 0) {
+        total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+            this_._internal_connection());
       }
     }
   }
@@ -374,12 +349,8 @@ void HelloRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
 
   cached_has_bits = from._impl_._has_bits_[0];
   if ((cached_has_bits & 0x00000001u) != 0) {
-    if (!from._internal_name().empty()) {
-      _this->_internal_set_name(from._internal_name());
-    } else {
-      if (_this->_impl_.name_.IsDefault()) {
-        _this->_internal_set_name("");
-      }
+    if (from._internal_connection() != 0) {
+      _this->_impl_.connection_ = from._impl_.connection_;
     }
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
@@ -396,11 +367,9 @@ void HelloRequest::CopyFrom(const HelloRequest& from) {
 
 void HelloRequest::InternalSwap(HelloRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  swap(_impl_.connection_, other->_impl_.connection_);
 }
 
 ::google::protobuf::Metadata HelloRequest::GetMetadata() const {
@@ -425,38 +394,25 @@ HelloReply::HelloReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:helloworld.HelloReply)
 }
-PROTOBUF_NDEBUG_INLINE HelloReply::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::helloworld::HelloReply& from_msg)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0},
-        message_(arena, from.message_) {}
-
 HelloReply::HelloReply(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const HelloReply& from)
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const HelloReply& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, HelloReply_class_data_.base()) {
+    : ::google::protobuf::Message(arena, HelloReply_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
+    : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  HelloReply* const _this = this;
-  (void)_this;
+      _impl_(from._impl_) {
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-
-  // @@protoc_insertion_point(copy_constructor:helloworld.HelloReply)
 }
 PROTOBUF_NDEBUG_INLINE HelloReply::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-      : _cached_size_{0},
-        message_(arena) {}
+      : _cached_size_{0} {}
 
 inline void HelloReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.connection_ = {};
 }
 HelloReply::~HelloReply() {
   // @@protoc_insertion_point(destructor:helloworld.HelloReply)
@@ -466,7 +422,6 @@ inline void HelloReply::SharedDtor(MessageLite& self) {
   HelloReply& this_ = static_cast<HelloReply&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.message_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -476,7 +431,7 @@ inline void* PROTOBUF_NONNULL HelloReply::PlacementNew_(
   return ::new (mem) HelloReply(arena);
 }
 constexpr auto HelloReply::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(HelloReply),
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(HelloReply),
                                             alignof(HelloReply));
 }
 constexpr auto HelloReply::InternalGenerateClassData_() {
@@ -513,7 +468,7 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL HelloReply::GetC
   return HelloReply_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 37, 2>
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
 HelloReply::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(HelloReply, _impl_._has_bits_),
@@ -532,21 +487,18 @@ HelloReply::_table_ = {
     ::_pbi::TcParser::GetTable<::helloworld::HelloReply>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // string message = 1;
-    {::_pbi::TcParser::FastUS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(HelloReply, _impl_.message_)}},
+    // int32 connection = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(HelloReply, _impl_.connection_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(HelloReply, _impl_.connection_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // string message = 1;
-    {PROTOBUF_FIELD_OFFSET(HelloReply, _impl_.message_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 connection = 1;
+    {PROTOBUF_FIELD_OFFSET(HelloReply, _impl_.connection_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
   }},
   // no aux_entries
   {{
-    "\25\7\0\0\0\0\0\0"
-    "helloworld.HelloReply"
-    "message"
   }},
 };
 PROTOBUF_NOINLINE void HelloReply::Clear() {
@@ -556,10 +508,7 @@ PROTOBUF_NOINLINE void HelloReply::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if ((cached_has_bits & 0x00000001u) != 0) {
-    _impl_.message_.ClearNonDefaultToEmpty();
-  }
+  _impl_.connection_ = 0;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -579,13 +528,12 @@ PROTOBUF_NOINLINE void HelloReply::Clear() {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // string message = 1;
+  // int32 connection = 1;
   if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    if (!this_._internal_message().empty()) {
-      const std::string& _s = this_._internal_message();
-      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "helloworld.HelloReply.message");
-      target = stream->WriteStringMaybeAliased(1, _s, target);
+    if (this_._internal_connection() != 0) {
+      target =
+          ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
+              stream, this_._internal_connection(), target);
     }
   }
 
@@ -613,12 +561,12 @@ PROTOBUF_NOINLINE void HelloReply::Clear() {
   (void)cached_has_bits;
 
    {
-    // string message = 1;
+    // int32 connection = 1;
     cached_has_bits = this_._impl_._has_bits_[0];
     if ((cached_has_bits & 0x00000001u) != 0) {
-      if (!this_._internal_message().empty()) {
-        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                        this_._internal_message());
+      if (this_._internal_connection() != 0) {
+        total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+            this_._internal_connection());
       }
     }
   }
@@ -636,12 +584,8 @@ void HelloReply::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
 
   cached_has_bits = from._impl_._has_bits_[0];
   if ((cached_has_bits & 0x00000001u) != 0) {
-    if (!from._internal_message().empty()) {
-      _this->_internal_set_message(from._internal_message());
-    } else {
-      if (_this->_impl_.message_.IsDefault()) {
-        _this->_internal_set_message("");
-      }
+    if (from._internal_connection() != 0) {
+      _this->_impl_.connection_ = from._impl_.connection_;
     }
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
@@ -658,11 +602,9 @@ void HelloReply::CopyFrom(const HelloReply& from) {
 
 void HelloReply::InternalSwap(HelloReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  swap(_impl_.connection_, other->_impl_.connection_);
 }
 
 ::google::protobuf::Metadata HelloReply::GetMetadata() const {

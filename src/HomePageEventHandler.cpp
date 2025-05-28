@@ -1,9 +1,11 @@
 #include "HomePageEventHandler.h"
 
+#include <grpcpp/server.h>
+
 HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager) :
 	m_RenderWindow(window), m_ServerManager(serverManager) {}
 	
-void HomePageEventHandler::handleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
+int HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
     if (event.is<sf::Event::Closed>()) {
         m_RenderWindow.close();
     }
@@ -15,16 +17,29 @@ void HomePageEventHandler::handleEvent(const sf::Event& event, WhiteboardStateMa
             sf::FloatRect connectButtonArea = sf::FloatRect(sf::Vector2f(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 2),
                 sf::Vector2f(kButtonWidth, kButtonHeight));
             if (connectButtonArea.contains(mousePosition)) {
-                m_ServerManager->Connect(); // once connection completes, update signal to emit new app state
-                currentState = WhiteboardStateMachine::AppState::kWhiteboard; // for now, manually update app state
-                return;
+                std::pair<grpc::Status, helloworld::HelloReply> pair = m_ServerManager->Connect();
+                if (pair.first.ok()) {
+                    int connectionId = pair.second.connection();
+                    if (connectionId < 0) {
+                        std::cerr << "[Client] RPC failed with connection Id " << std::to_string(connectionId) << std::endl;
+                        return connectionId;
+                    }
+                    currentState = WhiteboardStateMachine::AppState::kWhiteboard; // manually update app state
+                    return connectionId;
+                }
+                else {
+                    std::cerr << "[Client] RPC failed with code " << pair.first.error_code()
+                        << ": " << pair.first.error_message() << std::endl;
+                    return -1;
+                }
             }
             sf::FloatRect exitButtonArea = sf::FloatRect(sf::Vector2f(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 1.6),
                 sf::Vector2f(kButtonWidth, kButtonHeight));
             if (exitButtonArea.contains(mousePosition)) {
                 m_RenderWindow.close();
-                return;
+                return -2;
             }
         }
     }
+    return -2;
 }

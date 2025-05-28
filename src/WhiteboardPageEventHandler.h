@@ -12,9 +12,11 @@ public:
 	WhiteboardPageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager, std::shared_ptr<IDrawingManager> drawingManager);
 	virtual ~WhiteboardPageEventHandler() = default;
 
-	void handleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) override;
+	int HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) override;
+
+	void SetConnectionId(int connectionId) override;
 private:
-	void handleMenuClick(sf::Vector2f mousePosition, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool);
+	int HandleMenuClick(sf::Vector2f mousePosition, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool);
 
 	sf::RenderWindow& m_RenderWindow;
 	std::shared_ptr<IDrawingManager> m_DrawingManager;
@@ -23,4 +25,6 @@ private:
 	static const int kMenuBarHeight = 60;
 	static const int kButtonWidth = 120;
 	static const int kButtonHeight = 40;
+
+	int m_ConnectionId;
 };
