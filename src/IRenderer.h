@@ -4,6 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "drawing_types.grpc.pb.h"
+#include "drawing_types.pb.h"
+
 #include "WhiteboardStateMachine.h"
 
 class IRenderer {
@@ -12,7 +15,7 @@ public:
 	virtual void Clear() = 0;
 	virtual void Display() = 0;
 	virtual void RenderHomeScreen() = 0;
-	virtual void RenderWhiteboard(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
-								const WhiteboardStateMachine::Line& currentLine, const WhiteboardStateMachine::Rectangle& currentRect,
-								bool isDrawing, bool isRectStarted, WhiteboardStateMachine::DrawTool currentTool) = 0;
+	virtual void RenderWhiteboard(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
+								const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
+								bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) = 0;
 };

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package Whiteboard;
+
+message Point {
+  float x = 1;
+  float y = 2;
+  uint32 color = 3;
+}
+
+message Line {
+  Point start = 1;
+  Point end = 2;
+  string id = 3;
+}
+
+message Rectangle {
+  Point start = 1;
+  Point end = 2;
+  string id = 3;
+}
+

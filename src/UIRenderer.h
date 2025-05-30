@@ -10,9 +10,9 @@ public:
 	void Clear() override;
 	void Display() override;
 	void RenderHomeScreen() override;
-	void RenderWhiteboard(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
-						const WhiteboardStateMachine::Line& currentLine, const WhiteboardStateMachine::Rectangle& currentRect,
-						bool isDrawing, bool isRectStarted, WhiteboardStateMachine::DrawTool currentTool) override;
+	void RenderWhiteboard(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
+						const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
+						bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) override;
 
 private:
 	sf::RenderWindow& m_RenderWindow;
@@ -24,10 +24,12 @@ private:
 
 	void DrawTitle();
 	void DrawButton(float x, float y, float width, float height, const std::string& text, sf::Color color);
-	void DrawLine(sf::Vector2f start, sf::Vector2f end, sf::Color color);
-	void DrawRectangle(sf::Vector2f start, sf::Vector2f end, sf::Color color);
-	void RenderDrawings(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
-					  const WhiteboardStateMachine::Line& currentLine, const WhiteboardStateMachine::Rectangle& currentRect,
-					  bool isDrawing, bool isRectStarted, WhiteboardStateMachine::DrawTool currentTool);
+	void DrawLine(const std::array<sf::Vertex, 2>& vertexArray);
+	void DrawRectangle(const sf::RectangleShape& rectangleShape);
+	void DrawCircle(const sf::CircleShape& circleShape);
+	void RenderDrawings(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
+					  const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle,
+					  bool isDrawing, WhiteboardStateMachine::DrawTool currentTool);
+	void RenderCursor(const sf::CircleShape& cursorCircle, bool isDrawing, WhiteboardStateMachine::DrawTool currentTool);
 	void RenderMenuBar(WhiteboardStateMachine::DrawTool currentTool);
 };

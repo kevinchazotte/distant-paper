@@ -1,5 +1,7 @@
 #include "UIRenderer.h"
 
+#include "Utilities/DrawingTypeSerializationConverterUtil.h"
+
 UIRenderer::UIRenderer(sf::RenderWindow& window, sf::Font font) 
 	: m_RenderWindow(window), m_Font(font) {}
 
@@ -17,11 +19,46 @@ void UIRenderer::RenderHomeScreen() {
 	DrawButton(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 1.6, kButtonWidth, kButtonHeight, "EXIT", sf::Color::Black);
 }
 
-void UIRenderer::RenderWhiteboard(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
-								const WhiteboardStateMachine::Line& currentLine, const WhiteboardStateMachine::Rectangle& currentRect,
-								bool isDrawing, bool isRectStarted, WhiteboardStateMachine::DrawTool currentTool) {
+void UIRenderer::RenderWhiteboard(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
+								const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
+								bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
+	RenderDrawings(lines, rectangles, currentLine, currentRectangle, isDrawing, currentTool);
+	RenderCursor(cursorCircle, isDrawing, currentTool);
 	RenderMenuBar(currentTool);
-	RenderDrawings(lines, rectangles, currentLine, currentRect, isDrawing, isRectStarted, currentTool);
+}
+
+void UIRenderer::RenderDrawings(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
+							  const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle,
+							  bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
+	// Draw completed lines
+	for (const auto& line : lines) {
+		if (line.has_start() && line.has_end()) {
+			DrawLine(DrawingTypeSerializationConverterUtil::ToSFMLVertices(line));
+		}
+	}
+
+	// Draw current line being drawn
+	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::kMarker && currentLine.has_start() && currentLine.has_end()) {
+		DrawLine(DrawingTypeSerializationConverterUtil::ToSFMLVertices(currentLine));
+	}
+
+	// Draw completed rectangles
+	for (const auto& rectangle : rectangles) {
+		if (rectangle.has_start() && rectangle.has_end()) {
+			DrawRectangle(DrawingTypeSerializationConverterUtil::ToSFMLRectangleShape(rectangle));
+		}
+	}
+
+	// Draw current rectangle preview
+	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::kRectangle && currentRectangle.has_start() && currentRectangle.has_end()) {
+		DrawRectangle(DrawingTypeSerializationConverterUtil::ToSFMLRectangleShape(currentRectangle));
+	}
+}
+
+void UIRenderer::RenderCursor(const sf::CircleShape& cursorCircle, bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
+	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::kEraser) {
+		DrawCircle(cursorCircle);
+	}
 }
 
 void UIRenderer::RenderMenuBar(WhiteboardStateMachine::DrawTool currentTool) {
@@ -51,38 +88,6 @@ void UIRenderer::RenderMenuBar(WhiteboardStateMachine::DrawTool currentTool) {
 	DrawButton(buttonX, buttonY, kButtonWidth, kButtonHeight, "ERASER", eraserColor);
 }
 
-void UIRenderer::RenderDrawings(const std::vector<WhiteboardStateMachine::Line>& lines, const std::vector<WhiteboardStateMachine::Rectangle>& rectangles,
-							  const WhiteboardStateMachine::Line& currentLine, const WhiteboardStateMachine::Rectangle& currentRect,
-							  bool isDrawing, bool isRectStarted, WhiteboardStateMachine::DrawTool currentTool) {
-	// Draw completed lines
-	for (const auto& line : lines) {
-		if (line.points.size() < 2) continue;
-		for (size_t i = 1; i < line.points.size(); ++i) {
-			DrawLine(line.points[i-1].position, line.points[i].position, line.points[i].color);
-		}
-	}
-
-	// Draw current line being drawn
-	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::kMarker && currentLine.points.size() >= 2) {
-		for (size_t i = 1; i < currentLine.points.size(); ++i) {
-			DrawLine(currentLine.points[i-1].position, currentLine.points[i].position, currentLine.points[i].color);
-		}
-	}
-
-	// Draw completed rectangles
-	for (const auto& rect : rectangles) {
-		if (rect.isComplete) {
-			DrawRectangle(rect.start, rect.end, sf::Color::Black);
-		}
-	}
-
-	// Draw current rectangle preview
-	if (isRectStarted && currentTool == WhiteboardStateMachine::DrawTool::kRectangle) {
-		sf::Vector2i mousePos = sf::Mouse::getPosition(m_RenderWindow);
-		DrawRectangle(currentRect.start, sf::Vector2f(mousePos.x, mousePos.y), sf::Color(128, 128, 128));
-	}
-}
-
 void UIRenderer::DrawTitle() {
 	sf::Text title(m_Font, "WHITEBOARD");
 	title.setCharacterSize(48);
@@ -108,24 +113,17 @@ void UIRenderer::DrawButton(float x, float y, float width, float height, const s
 	m_RenderWindow.draw(buttonText);
 }
 
-void UIRenderer::DrawLine(sf::Vector2f start, sf::Vector2f end, sf::Color color) {
-	sf::Vertex startVertex;
-	startVertex.position = start;
-	startVertex.color = color;
-
-	sf::Vertex endVertex;
-	endVertex.position = start;
-	endVertex.color = color;
-	sf::Vertex line[2] = { startVertex, endVertex };
-	m_RenderWindow.draw(line, 2, sf::PrimitiveType::Lines);
+void UIRenderer::DrawLine(const std::array<sf::Vertex, 2>& vertexArray) {
+	sf::Vertex vertices[2];
+	vertices[0] = vertexArray.at(0);
+	vertices[1] = vertexArray.at(1);
+	m_RenderWindow.draw(vertices, 2, sf::PrimitiveType::Lines);
 }
 
-void UIRenderer::DrawRectangle(sf::Vector2f start, sf::Vector2f end, sf::Color color) {
-	sf::RectangleShape rect;
-	rect.setPosition(sf::Vector2f(std::min(start.x, end.x), std::min(start.y, end.y)));
-	rect.setSize(sf::Vector2f(std::abs(end.x - start.x), std::abs(end.y - start.y)));
-	rect.setFillColor(sf::Color::Transparent);
-	rect.setOutlineColor(color);
-	rect.setOutlineThickness(2);
-	m_RenderWindow.draw(rect);
+void UIRenderer::DrawRectangle(const sf::RectangleShape& rectangleShape) {
+	m_RenderWindow.draw(rectangleShape);
+}
+
+void UIRenderer::DrawCircle(const sf::CircleShape& circleShape) {
+	m_RenderWindow.draw(circleShape);
 }

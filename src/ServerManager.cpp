@@ -56,11 +56,11 @@ bool ServerManager::Disconnect(int connectionId) {
     return RemoveConnectionId(connectionId);
 }
 
-void ServerManager::SendLine(const WhiteboardStateMachine::Line& line) {
+void ServerManager::SendLine(const Whiteboard::Line& line) {
 
 }
 
-void ServerManager::SendRectangle(const WhiteboardStateMachine::Rectangle& rect) {
+void ServerManager::SendRectangle(const Whiteboard::Rectangle& rect) {
 
 }
 

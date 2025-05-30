@@ -56,13 +56,9 @@ void WhiteboardClientApp::Run() {
             m_Renderer->RenderHomeScreen();
         }
         else {
-            std::vector<WhiteboardStateMachine::Line> lines = std::vector<WhiteboardStateMachine::Line>();
-            std::vector<WhiteboardStateMachine::Rectangle> rectangles = std::vector<WhiteboardStateMachine::Rectangle>();
-            WhiteboardStateMachine::Line currentLine = WhiteboardStateMachine::Line();
-            WhiteboardStateMachine::Rectangle currentRect = WhiteboardStateMachine::Rectangle();
             m_Renderer->RenderWhiteboard(m_DrawingManager->GetLines(), m_DrawingManager->GetRectangles(),
-                m_DrawingManager->GetCurrentLine(), m_DrawingManager->GetCurrentRectangle(),
-                m_DrawingManager->IsDrawing(), m_DrawingManager->IsRectangleStarted(), m_CurrentTool);
+                m_DrawingManager->GetCurrentLine(), m_DrawingManager->GetCurrentRectangle(), m_DrawingManager->GetCursorCircle(),
+                m_DrawingManager->IsDrawing(), m_CurrentTool);
         }
         m_Renderer->Display();
     }

@@ -8,10 +8,13 @@ project(${proj})
 
 file(GLOB cpp_source_files "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file(GLOB h_source_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB cc_source_files "${CMAKE_CURRENT_SOURCE_DIR}/../proto/*.cc")
+
+add_subdirectory(Utilities)
 
 add_executable(${proj}
-  ${cpp_source_files} ${h_source_files} ../proto/greeter.grpc.pb.cc ../proto/greeter.pb.cc
+  ${cpp_source_files} ${h_source_files} ${cc_source_files}
 )
 
 target_include_directories(${proj} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../proto/")
-target_link_libraries(${proj} SuperBuild::abseil-cpp SuperBuild::protobuf SuperBuild::grpc SuperBuild::SFML)
+target_link_libraries(${proj} SuperBuild::abseil-cpp SuperBuild::protobuf SuperBuild::grpc SuperBuild::SFML Utilities)
