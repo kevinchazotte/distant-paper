@@ -5,11 +5,12 @@
 #include <memory>
 
 #include "IDrawingManager.h"
-#include "IServerManager.h"
+#include "IServerConnectionManager.h"
 
 class WhiteboardPageEventHandler : public IEventHandler {
 public:
-	WhiteboardPageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager, std::shared_ptr<IDrawingManager> drawingManager);
+	WhiteboardPageEventHandler(sf::RenderWindow& window,
+		std::shared_ptr<IServerConnectionManager> serverConnectionManager, std::shared_ptr<IDrawingManager> drawingManager);
 	virtual ~WhiteboardPageEventHandler() = default;
 
 	int HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) override;
@@ -20,7 +21,7 @@ private:
 
 	sf::RenderWindow& m_RenderWindow;
 	std::shared_ptr<IDrawingManager> m_DrawingManager;
-	std::shared_ptr<IServerManager> m_ServerManager;
+	std::shared_ptr<IServerConnectionManager> m_ServerConnectionManager;
 
 	static const int kMenuBarHeight = 60;
 	static const int kButtonWidth = 120;

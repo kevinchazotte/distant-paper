@@ -1,9 +1,9 @@
 #include "DrawingManager.h"
 
-#include "Utilities/DrawingTypeSerializationConverterUtil.h"
-#include "Utilities/GeometricIntersectionUtil.h"
+#include "../Utilities/DrawingTypeSerializationConverterUtil.h"
+#include "../Utilities/GeometricIntersectionUtil.h"
 
-DrawingManager::DrawingManager(std::shared_ptr<IServerManager> serverManager) : m_ServerManager(serverManager) {
+DrawingManager::DrawingManager(std::shared_ptr<IServerConnectionManager> serverConnectionManager) : m_ServerConnectionManager(serverConnectionManager) {
     m_IsDrawing = false;
     m_CurrentLine = Whiteboard::Line();
     m_CurrentRectangle = Whiteboard::Rectangle();

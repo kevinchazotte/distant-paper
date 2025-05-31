@@ -6,17 +6,17 @@
 
 #include <grpcpp/server.h>
 
-#include "IServerManager.h"
+#include "IServerConnectionManager.h"
 
 class HomePageEventHandler : public IEventHandler {
 public:
-	HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager);
+	HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerConnectionManager> serverConnectionManager);
 	virtual ~HomePageEventHandler() = default;
 
 	int HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) override;
 private:
 	sf::RenderWindow& m_RenderWindow;
-	std::shared_ptr<IServerManager> m_ServerManager;
+	std::shared_ptr<IServerConnectionManager> m_ServerConnectionManager;
 
 	static const int kButtonWidth = 120;
 	static const int kButtonHeight = 40;

@@ -4,11 +4,11 @@
 
 #include <memory>
 
-#include "IServerManager.h"
+#include "IServerConnectionManager.h"
 
 class DrawingManager : public IDrawingManager {
 public:
-    DrawingManager(std::shared_ptr<IServerManager> serverManager);
+    DrawingManager(std::shared_ptr<IServerConnectionManager> serverConnectionManager);
     ~DrawingManager();
 
     void StartDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) override;
@@ -28,7 +28,7 @@ public:
     bool IsDrawing() override { return m_IsDrawing; }
 
 private:
-    std::shared_ptr<IServerManager> m_ServerManager;
+    std::shared_ptr<IServerConnectionManager> m_ServerConnectionManager;
 
     std::vector<Whiteboard::Line> m_Lines;
     std::vector<Whiteboard::Rectangle> m_Rectangles;

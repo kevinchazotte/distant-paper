@@ -2,8 +2,8 @@
 
 #include <grpcpp/server.h>
 
-HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager) :
-	m_RenderWindow(window), m_ServerManager(serverManager) {}
+HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerConnectionManager> serverConnectionManager) :
+	m_RenderWindow(window), m_ServerConnectionManager(serverConnectionManager) {}
 	
 int HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
     if (event.is<sf::Event::Closed>()) {
@@ -17,19 +17,11 @@ int HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMac
             sf::FloatRect connectButtonArea = sf::FloatRect(sf::Vector2f(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 2),
                 sf::Vector2f(kButtonWidth, kButtonHeight));
             if (connectButtonArea.contains(mousePosition)) {
-                std::pair<grpc::Status, helloworld::HelloReply> pair = m_ServerManager->Connect();
-                if (pair.first.ok()) {
-                    int connectionId = pair.second.connection();
-                    if (connectionId < 0) {
-                        std::cerr << "[Client] RPC failed with connection Id " << std::to_string(connectionId) << std::endl;
-                        return connectionId;
-                    }
+                if (m_ServerConnectionManager->Connect()) {
                     currentState = WhiteboardStateMachine::AppState::kWhiteboard; // manually update app state
-                    return connectionId;
+                    return m_ServerConnectionManager->GetConnectionId();
                 }
                 else {
-                    std::cerr << "[Client] RPC failed with code " << pair.first.error_code()
-                        << ": " << pair.first.error_message() << std::endl;
                     return -1;
                 }
             }

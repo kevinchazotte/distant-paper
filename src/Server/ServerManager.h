@@ -5,14 +5,13 @@
 #include <mutex>
 #include <string>
 
-#include "WhiteboardStateMachine.h"
+#include <grpcpp/server.h>
 
 class ServerManager : public IServerManager {
 public:
     ServerManager(const std::string targetAddress);
     virtual ~ServerManager() = default;
 
-    std::pair<grpc::Status, helloworld::HelloReply> Connect() override;
     bool Disconnect(int connectionId) override;
 
     void SendLine(const Whiteboard::Line& line) override;

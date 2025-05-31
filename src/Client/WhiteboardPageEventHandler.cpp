@@ -1,7 +1,9 @@
 #include "WhiteboardPageEventHandler.h"
 
-WhiteboardPageEventHandler::WhiteboardPageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerManager> serverManager, std::shared_ptr<IDrawingManager> drawingManager) :
-    m_RenderWindow(window), m_ServerManager(serverManager), m_DrawingManager(drawingManager) {
+WhiteboardPageEventHandler::WhiteboardPageEventHandler(sf::RenderWindow& window,
+    std::shared_ptr<IServerConnectionManager> serverConnectionManager, std::shared_ptr<IDrawingManager> drawingManager) :
+    m_RenderWindow(window), m_ServerConnectionManager(serverConnectionManager), m_DrawingManager(drawingManager) {
+    m_ConnectionId = -1;
 }
 
 int WhiteboardPageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
@@ -66,7 +68,7 @@ int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, Whit
 
     sf::FloatRect homeButtonArea = sf::FloatRect(sf::Vector2f(buttonX, buttonY), sf::Vector2f(kButtonWidth, kButtonHeight));
     if (homeButtonArea.contains(mousePosition)) {
-        bool success = m_ServerManager->Disconnect(m_ConnectionId); // once connection completes, update signal to emit new app state
+        bool success = m_ServerConnectionManager->Disconnect(); // once connection completes, update signal to emit new app state
         if (success) {
             m_DrawingManager->Clear();
             currentState = WhiteboardStateMachine::AppState::kHome; // for now, manually update app state

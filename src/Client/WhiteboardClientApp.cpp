@@ -2,28 +2,30 @@
 
 #include "DrawingManager.h"
 #include "HomePageEventHandler.h"
-#include "ServerManager.h"
+#include "ServerConnectionManager.h"
 #include "UIRenderer.h"
 #include "WhiteboardPageEventHandler.h"
 
-WhiteboardClientApp::WhiteboardClientApp(std::shared_ptr<IServerManager> serverManager) {
-	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	m_RenderWindow.create(sf::VideoMode(sf::Vector2u(1024, 768), desktop.bitsPerPixel), "SFML window");
+WhiteboardClientApp::WhiteboardClientApp(std::shared_ptr<IServerConnectionManager> serverConnectionManager) {
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    m_RenderWindow.create(sf::VideoMode(sf::Vector2u(1024, 768), desktop.bitsPerPixel), "SFML window");
 
-	sf::Font font;
-	if (!font.openFromFile("../assets/fonts/KodeMono-VariableFont_wght.ttf")) {
-		std::cerr << "Error loading font\n";
-		return;
-	}
+    sf::Font font;
+    if (!font.openFromFile("../../assets/fonts/KodeMono-VariableFont_wght.ttf") && 
+        !font.openFromFile("../../../assets/fonts/KodeMono-VariableFont_wght.ttf")) {
+        std::cerr << "Error loading font\n";
+        return;
+    }
 
-	m_ServerManager = serverManager;
-	m_DrawingManager = std::make_shared<DrawingManager>(m_ServerManager);
-	m_HomePageEventHandler = std::make_shared<HomePageEventHandler>(m_RenderWindow, m_ServerManager);
-	m_Renderer = std::make_unique<UIRenderer>(m_RenderWindow, font);
-	m_WhiteboardPageEventHandler = std::make_shared<WhiteboardPageEventHandler>(m_RenderWindow, m_ServerManager, m_DrawingManager);
+    m_ServerConnectionManager = serverConnectionManager;
+    m_DrawingManager = std::make_shared<DrawingManager>(m_ServerConnectionManager);
+    m_HomePageEventHandler = std::make_shared<HomePageEventHandler>(m_RenderWindow, m_ServerConnectionManager);
+    m_Renderer = std::make_unique<UIRenderer>(m_RenderWindow, font);
+    m_WhiteboardPageEventHandler = std::make_shared<WhiteboardPageEventHandler>(m_RenderWindow, m_ServerConnectionManager, m_DrawingManager);
 
-	m_CurrentState = WhiteboardStateMachine::AppState::kHome;
-	m_CurrentTool = WhiteboardStateMachine::DrawTool::kMarker;
+    m_CurrentState = WhiteboardStateMachine::AppState::kHome;
+    m_CurrentTool = WhiteboardStateMachine::DrawTool::kMarker;
+    m_ServerConnectionId = -1;
 }
 
 WhiteboardClientApp::~WhiteboardClientApp() {

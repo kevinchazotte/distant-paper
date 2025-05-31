@@ -4,6 +4,7 @@
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
 
+#include "greeter.grpc.pb.h"
 #include "greeter.pb.h"
 
 // Server implementation
@@ -25,31 +26,6 @@ private:
 
 ServerManager::ServerManager(const std::string targetAddress) : m_TargetAddress(targetAddress) {
     
-}
-
-std::pair<grpc::Status, helloworld::HelloReply> ServerManager::Connect() {
-    std::cout << "[Client] Opening a connection with id " << std::to_string(m_NumConnections) << " to " << m_TargetAddress << std::endl;
-
-    // client side code - will need to migrate out of this class soon
-    grpc::ChannelArguments channel_args;
-    std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(m_TargetAddress, grpc::InsecureChannelCredentials(), channel_args);
-
-    std::cout << "[Client] Testing connection with client stub..." << std::endl;
-    std::unique_ptr<helloworld::Greeter::Stub> stub = helloworld::Greeter::NewStub(channel);
-
-    helloworld::HelloRequest request;
-    request.set_connection(99); // hard-coded for testing
-
-    helloworld::HelloReply reply;
-    grpc::ClientContext context;
-
-    std::chrono::system_clock::time_point deadline =
-        std::chrono::system_clock::now() + std::chrono::seconds(5);
-    context.set_deadline(deadline);
-
-    std::cout << "[Client] Sending SayHello RPC..." << std::endl;
-    grpc::Status status = stub->SayHello(&context, request, &reply);
-    return std::make_pair(status, reply);
 }
 
 bool ServerManager::Disconnect(int connectionId) {

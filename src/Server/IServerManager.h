@@ -1,18 +1,14 @@
 #pragma once
 
-#include <grpcpp/server.h>
+#include "SFML/Graphics.hpp"
 
 #include "drawing_types.grpc.pb.h"
 #include "drawing_types.pb.h"
-#include "greeter.grpc.pb.h"
-
-#include "WhiteboardStateMachine.h"
 
 class IServerManager {
 public:
     virtual ~IServerManager() = default;
 
-    virtual std::pair<grpc::Status, helloworld::HelloReply> Connect() = 0;
     virtual bool Disconnect(int connectionId) = 0;
 
     virtual void SendLine(const Whiteboard::Line& line) = 0;
