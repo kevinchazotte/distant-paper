@@ -27,7 +27,9 @@
 #include <grpcpp/ports_def.inc>
 
 namespace Whiteboard {
+namespace Types {
 
+}  // namespace Types
 }  // namespace Whiteboard
 
 

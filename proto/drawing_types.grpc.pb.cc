@@ -20,6 +20,8 @@
 #include <grpcpp/impl/service_type.h>
 #include <grpcpp/support/sync_stream.h>
 namespace Whiteboard {
+namespace Types {
 
 }  // namespace Whiteboard
+}  // namespace Types
 

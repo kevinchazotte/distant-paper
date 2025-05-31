@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package Whiteboard.Server;
+
+service ServerConnectionService {
+  rpc Connect (ServerConnectionRequest) returns (ServerConnectionConfirmation);
+}
+
+message ServerConnectionRequest {
+  int32 connection = 1;
+}
+
+message ServerConnectionConfirmation {
+  int32 connection = 1;
+}

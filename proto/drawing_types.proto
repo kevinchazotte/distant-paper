@@ -1,6 +1,13 @@
 syntax = "proto3";
 
-package Whiteboard;
+package Whiteboard.Types;
+
+message Drawable {
+  oneof Shape {
+    Line line = 1;
+    Rectangle rectangle = 2;
+  }
+}
 
 message Point {
   float x = 1;

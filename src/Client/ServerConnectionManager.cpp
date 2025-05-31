@@ -4,7 +4,8 @@
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
 
-#include "greeter.pb.h"
+#include "server_connection.grpc.pb.h"
+#include "server_connection.pb.h"
 
 ServerConnectionManager::ServerConnectionManager(const std::string& targetAddress) : m_TargetAddress(targetAddress) {
     m_ConnectionId = -1;
@@ -17,20 +18,20 @@ bool ServerConnectionManager::Connect() {
     std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(m_TargetAddress, grpc::InsecureChannelCredentials(), channel_args);
 
     std::cout << "[Client] Testing connection with client stub..." << std::endl;
-    std::unique_ptr<helloworld::Greeter::Stub> stub = helloworld::Greeter::NewStub(channel);
+    std::unique_ptr<Whiteboard::Server::ServerConnectionService::Stub> stub = Whiteboard::Server::ServerConnectionService::NewStub(channel);
 
-    helloworld::HelloRequest request;
+    Whiteboard::Server::ServerConnectionRequest request;
     request.set_connection(99); // hard-coded for testing
 
-    helloworld::HelloReply reply;
+    Whiteboard::Server::ServerConnectionConfirmation reply;
     grpc::ClientContext context;
 
     std::chrono::system_clock::time_point deadline =
         std::chrono::system_clock::now() + std::chrono::seconds(5);
     context.set_deadline(deadline);
 
-    std::cout << "[Client] Sending SayHello RPC..." << std::endl;
-    grpc::Status status = stub->SayHello(&context, request, &reply);
+    std::cout << "[Client] Sending Connect RPC..." << std::endl;
+    grpc::Status status = stub->Connect(&context, request, &reply);
     if (status.ok()) {
         m_ConnectionId = reply.connection();
         if (m_ConnectionId < 0) {

@@ -11,9 +11,8 @@ public:
 
     virtual bool Disconnect(int connectionId) = 0;
 
-    virtual void SendLine(const Whiteboard::Line& line) = 0;
-    virtual void SendRectangle(const Whiteboard::Rectangle& rect) = 0;
-    virtual void SendErase(sf::Vector2f position) = 0;
+    virtual void BroadcastDrawable(const Whiteboard::Types::Drawable& drawable) = 0;
+    virtual void BroadcastErase(sf::Vector2f position) = 0;
 
     virtual void Start() = 0;
     virtual void Stop() = 0;
@@ -21,4 +20,6 @@ public:
 
     virtual int AssignNewConnectionId(std::string peerAddress) = 0;
     virtual bool RemoveConnectionId(int connectionId) = 0;
+
+    virtual std::string ReserveObjectId() = 0;
 };

@@ -25,6 +25,7 @@ namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace Whiteboard {
+namespace Types {
 
 inline constexpr Point::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -110,6 +111,33 @@ struct LineDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LineDefaultTypeInternal _Line_default_instance_;
+
+inline constexpr Drawable::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : Shape_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Drawable::Drawable(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(Drawable_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct DrawableDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DrawableDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DrawableDefaultTypeInternal() {}
+  union {
+    Drawable _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DrawableDefaultTypeInternal _Drawable_default_instance_;
+}  // namespace Types
 }  // namespace Whiteboard
 static constexpr const ::_pb::EnumDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
     file_level_enum_descriptors_drawing_5ftypes_2eproto = nullptr;
@@ -118,45 +146,56 @@ static constexpr const ::_pb::ServiceDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULL
 const ::uint32_t
     TableStruct_drawing_5ftypes_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Point, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Point, _internal_metadata_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Drawable, _internal_metadata_),
+        ~0u,  // no _extensions_
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Drawable, _impl_._oneof_case_[0]),
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Drawable, _impl_.Shape_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Point, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Point, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Point, _impl_.x_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Point, _impl_.y_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Point, _impl_.color_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Point, _impl_.x_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Point, _impl_.y_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Point, _impl_.color_),
         0,
         1,
         2,
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Line, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Line, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Line, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Line, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Line, _impl_.start_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Line, _impl_.end_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Line, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Line, _impl_.start_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Line, _impl_.end_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Line, _impl_.id_),
         1,
         2,
         0,
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Rectangle, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Rectangle, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Rectangle, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Rectangle, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Rectangle, _impl_.start_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Rectangle, _impl_.end_),
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Rectangle, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Rectangle, _impl_.start_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Rectangle, _impl_.end_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Rectangle, _impl_.id_),
         1,
         2,
         0,
@@ -164,36 +203,42 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 11, -1, sizeof(::Whiteboard::Point)},
-        {14, 25, -1, sizeof(::Whiteboard::Line)},
-        {28, 39, -1, sizeof(::Whiteboard::Rectangle)},
+        {0, -1, -1, sizeof(::Whiteboard::Types::Drawable)},
+        {11, 22, -1, sizeof(::Whiteboard::Types::Point)},
+        {25, 36, -1, sizeof(::Whiteboard::Types::Line)},
+        {39, 50, -1, sizeof(::Whiteboard::Types::Rectangle)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::Whiteboard::_Point_default_instance_._instance,
-    &::Whiteboard::_Line_default_instance_._instance,
-    &::Whiteboard::_Rectangle_default_instance_._instance,
+    &::Whiteboard::Types::_Drawable_default_instance_._instance,
+    &::Whiteboard::Types::_Point_default_instance_._instance,
+    &::Whiteboard::Types::_Line_default_instance_._instance,
+    &::Whiteboard::Types::_Rectangle_default_instance_._instance,
 };
 const char descriptor_table_protodef_drawing_5ftypes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\023drawing_types.proto\022\nWhiteboard\",\n\005Poi"
-    "nt\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\r\n\005color\030\003 \001(\r\""
-    "T\n\004Line\022 \n\005start\030\001 \001(\0132\021.Whiteboard.Poin"
-    "t\022\036\n\003end\030\002 \001(\0132\021.Whiteboard.Point\022\n\n\002id\030"
-    "\003 \001(\t\"Y\n\tRectangle\022 \n\005start\030\001 \001(\0132\021.Whit"
-    "eboard.Point\022\036\n\003end\030\002 \001(\0132\021.Whiteboard.P"
-    "oint\022\n\n\002id\030\003 \001(\tb\006proto3"
+    "\n\023drawing_types.proto\022\020Whiteboard.Types\""
+    "m\n\010Drawable\022&\n\004line\030\001 \001(\0132\026.Whiteboard.T"
+    "ypes.LineH\000\0220\n\trectangle\030\002 \001(\0132\033.Whitebo"
+    "ard.Types.RectangleH\000B\007\n\005Shape\",\n\005Point\022"
+    "\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\r\n\005color\030\003 \001(\r\"`\n\004"
+    "Line\022&\n\005start\030\001 \001(\0132\027.Whiteboard.Types.P"
+    "oint\022$\n\003end\030\002 \001(\0132\027.Whiteboard.Types.Poi"
+    "nt\022\n\n\002id\030\003 \001(\t\"e\n\tRectangle\022&\n\005start\030\001 \001"
+    "(\0132\027.Whiteboard.Types.Point\022$\n\003end\030\002 \001(\013"
+    "2\027.Whiteboard.Types.Point\022\n\n\002id\030\003 \001(\tb\006p"
+    "roto3"
 };
 static ::absl::once_flag descriptor_table_drawing_5ftypes_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_drawing_5ftypes_2eproto = {
     false,
     false,
-    264,
+    405,
     descriptor_table_protodef_drawing_5ftypes_2eproto,
     "drawing_types.proto",
     &descriptor_table_drawing_5ftypes_2eproto_once,
     nullptr,
     0,
-    3,
+    4,
     schemas,
     file_default_instances,
     TableStruct_drawing_5ftypes_2eproto::offsets,
@@ -201,6 +246,363 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_drawing_5ftype
     file_level_service_descriptors_drawing_5ftypes_2eproto,
 };
 namespace Whiteboard {
+namespace Types {
+// ===================================================================
+
+class Drawable::_Internal {
+ public:
+  static constexpr ::int32_t kOneofCaseOffset =
+      PROTOBUF_FIELD_OFFSET(::Whiteboard::Types::Drawable, _impl_._oneof_case_);
+};
+
+void Drawable::set_allocated_line(::Whiteboard::Types::Line* PROTOBUF_NULLABLE line) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_Shape();
+  if (line) {
+    ::google::protobuf::Arena* submessage_arena = line->GetArena();
+    if (message_arena != submessage_arena) {
+      line = ::google::protobuf::internal::GetOwnedMessage(message_arena, line, submessage_arena);
+    }
+    set_has_line();
+    _impl_.Shape_.line_ = line;
+  }
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Drawable.line)
+}
+void Drawable::set_allocated_rectangle(::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE rectangle) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_Shape();
+  if (rectangle) {
+    ::google::protobuf::Arena* submessage_arena = rectangle->GetArena();
+    if (message_arena != submessage_arena) {
+      rectangle = ::google::protobuf::internal::GetOwnedMessage(message_arena, rectangle, submessage_arena);
+    }
+    set_has_rectangle();
+    _impl_.Shape_.rectangle_ = rectangle;
+  }
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Drawable.rectangle)
+}
+Drawable::Drawable(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, Drawable_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:Whiteboard.Types.Drawable)
+}
+PROTOBUF_NDEBUG_INLINE Drawable::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::Whiteboard::Types::Drawable& from_msg)
+      : Shape_{},
+        _cached_size_{0},
+        _oneof_case_{from._oneof_case_[0]} {}
+
+Drawable::Drawable(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const Drawable& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, Drawable_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Drawable* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  switch (Shape_case()) {
+    case SHAPE_NOT_SET:
+      break;
+      case kLine:
+        _impl_.Shape_.line_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.Shape_.line_);
+        break;
+      case kRectangle:
+        _impl_.Shape_.rectangle_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.Shape_.rectangle_);
+        break;
+  }
+
+  // @@protoc_insertion_point(copy_constructor:Whiteboard.Types.Drawable)
+}
+PROTOBUF_NDEBUG_INLINE Drawable::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : Shape_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
+inline void Drawable::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+Drawable::~Drawable() {
+  // @@protoc_insertion_point(destructor:Whiteboard.Types.Drawable)
+  SharedDtor(*this);
+}
+inline void Drawable::SharedDtor(MessageLite& self) {
+  Drawable& this_ = static_cast<Drawable&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  if (this_.has_Shape()) {
+    this_.clear_Shape();
+  }
+  this_._impl_.~Impl_();
+}
+
+void Drawable::clear_Shape() {
+// @@protoc_insertion_point(one_of_clear_start:Whiteboard.Types.Drawable)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  switch (Shape_case()) {
+    case kLine: {
+      if (GetArena() == nullptr) {
+        delete _impl_.Shape_.line_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.Shape_.line_);
+      }
+      break;
+    }
+    case kRectangle: {
+      if (GetArena() == nullptr) {
+        delete _impl_.Shape_.rectangle_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.Shape_.rectangle_);
+      }
+      break;
+    }
+    case SHAPE_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = SHAPE_NOT_SET;
+}
+
+
+inline void* PROTOBUF_NONNULL Drawable::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) Drawable(arena);
+}
+constexpr auto Drawable::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Drawable),
+                                            alignof(Drawable));
+}
+constexpr auto Drawable::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_Drawable_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &Drawable::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<Drawable>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &Drawable::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<Drawable>(), &Drawable::ByteSizeLong,
+              &Drawable::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(Drawable, _impl_._cached_size_),
+          false,
+      },
+      &Drawable::kDescriptorMethods,
+      &descriptor_table_drawing_5ftypes_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
+        Drawable_class_data_ =
+            Drawable::InternalGenerateClassData_();
+
+const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL Drawable::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&Drawable_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(Drawable_class_data_.tc_table);
+  return Drawable_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 2, 2, 0, 2>
+Drawable::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    Drawable_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Whiteboard::Types::Drawable>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .Whiteboard.Types.Line line = 1;
+    {PROTOBUF_FIELD_OFFSET(Drawable, _impl_.Shape_.line_), _Internal::kOneofCaseOffset + 0, 0,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .Whiteboard.Types.Rectangle rectangle = 2;
+    {PROTOBUF_FIELD_OFFSET(Drawable, _impl_.Shape_.rectangle_), _Internal::kOneofCaseOffset + 0, 1,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::Whiteboard::Types::Line>()},
+      {::_pbi::TcParser::GetTable<::Whiteboard::Types::Rectangle>()},
+  }},
+  {{
+  }},
+};
+PROTOBUF_NOINLINE void Drawable::Clear() {
+// @@protoc_insertion_point(message_clear_start:Whiteboard.Types.Drawable)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  clear_Shape();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL Drawable::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const Drawable& this_ = static_cast<const Drawable&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL Drawable::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const Drawable& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Types.Drawable)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  switch (this_.Shape_case()) {
+    case kLine: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          1, *this_._impl_.Shape_.line_, this_._impl_.Shape_.line_->GetCachedSize(), target,
+          stream);
+      break;
+    }
+    case kRectangle: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          2, *this_._impl_.Shape_.rectangle_, this_._impl_.Shape_.rectangle_->GetCachedSize(), target,
+          stream);
+      break;
+    }
+    default:
+      break;
+  }
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Types.Drawable)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t Drawable::ByteSizeLong(const MessageLite& base) {
+  const Drawable& this_ = static_cast<const Drawable&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t Drawable::ByteSizeLong() const {
+  const Drawable& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Types.Drawable)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  switch (this_.Shape_case()) {
+    // .Whiteboard.Types.Line line = 1;
+    case kLine: {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.Shape_.line_);
+      break;
+    }
+    // .Whiteboard.Types.Rectangle rectangle = 2;
+    case kRectangle: {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.Shape_.rectangle_);
+      break;
+    }
+    case SHAPE_NOT_SET: {
+      break;
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void Drawable::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<Drawable*>(&to_msg);
+  auto& from = static_cast<const Drawable&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Types.Drawable)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (const uint32_t oneof_from_case = from._impl_._oneof_case_[0]) {
+    const uint32_t oneof_to_case = _this->_impl_._oneof_case_[0];
+    const bool oneof_needs_init = oneof_to_case != oneof_from_case;
+    if (oneof_needs_init) {
+      if (oneof_to_case != 0) {
+        _this->clear_Shape();
+      }
+      _this->_impl_._oneof_case_[0] = oneof_from_case;
+    }
+
+    switch (oneof_from_case) {
+      case kLine: {
+        if (oneof_needs_init) {
+          _this->_impl_.Shape_.line_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.Shape_.line_);
+        } else {
+          _this->_impl_.Shape_.line_->MergeFrom(*from._impl_.Shape_.line_);
+        }
+        break;
+      }
+      case kRectangle: {
+        if (oneof_needs_init) {
+          _this->_impl_.Shape_.rectangle_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.Shape_.rectangle_);
+        } else {
+          _this->_impl_.Shape_.rectangle_->MergeFrom(*from._impl_.Shape_.rectangle_);
+        }
+        break;
+      }
+      case SHAPE_NOT_SET:
+        break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Drawable::CopyFrom(const Drawable& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Types.Drawable)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void Drawable::InternalSwap(Drawable* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.Shape_, other->_impl_.Shape_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::google::protobuf::Metadata Drawable::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
 // ===================================================================
 
 class Point::_Internal {
@@ -218,7 +620,7 @@ Point::Point(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Whiteboard.Point)
+  // @@protoc_insertion_point(arena_constructor:Whiteboard.Types.Point)
 }
 Point::Point(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Point& from)
@@ -246,7 +648,7 @@ inline void Point::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
                sizeof(Impl_::color_));
 }
 Point::~Point() {
-  // @@protoc_insertion_point(destructor:Whiteboard.Point)
+  // @@protoc_insertion_point(destructor:Whiteboard.Types.Point)
   SharedDtor(*this);
 }
 inline void Point::SharedDtor(MessageLite& self) {
@@ -315,7 +717,7 @@ Point::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Whiteboard::Point>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Whiteboard::Types::Point>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
@@ -346,7 +748,7 @@ Point::_table_ = {
   }},
 };
 PROTOBUF_NOINLINE void Point::Clear() {
-// @@protoc_insertion_point(message_clear_start:Whiteboard.Point)
+// @@protoc_insertion_point(message_clear_start:Whiteboard.Types.Point)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -373,7 +775,7 @@ PROTOBUF_NOINLINE void Point::Clear() {
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
   const Point& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Point)
+  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Types.Point)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -409,7 +811,7 @@ PROTOBUF_NOINLINE void Point::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Point)
+  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Types.Point)
   return target;
 }
 
@@ -420,7 +822,7 @@ PROTOBUF_NOINLINE void Point::Clear() {
 ::size_t Point::ByteSizeLong() const {
   const Point& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Point)
+  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Types.Point)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -457,7 +859,7 @@ PROTOBUF_NOINLINE void Point::Clear() {
 void Point::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
   auto* const _this = static_cast<Point*>(&to_msg);
   auto& from = static_cast<const Point&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Point)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Types.Point)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -485,7 +887,7 @@ void Point::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::p
 }
 
 void Point::CopyFrom(const Point& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Point)
+// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Types.Point)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -524,12 +926,12 @@ Line::Line(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Whiteboard.Line)
+  // @@protoc_insertion_point(arena_constructor:Whiteboard.Types.Line)
 }
 PROTOBUF_NDEBUG_INLINE Line::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::Whiteboard::Line& from_msg)
+    const ::Whiteboard::Types::Line& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         id_(arena, from.id_) {}
@@ -555,7 +957,7 @@ Line::Line(
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.end_)
                 : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:Whiteboard.Line)
+  // @@protoc_insertion_point(copy_constructor:Whiteboard.Types.Line)
 }
 PROTOBUF_NDEBUG_INLINE Line::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -573,7 +975,7 @@ inline void Line::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
                sizeof(Impl_::end_));
 }
 Line::~Line() {
-  // @@protoc_insertion_point(destructor:Whiteboard.Line)
+  // @@protoc_insertion_point(destructor:Whiteboard.Types.Line)
   SharedDtor(*this);
 }
 inline void Line::SharedDtor(MessageLite& self) {
@@ -629,7 +1031,7 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL Line::GetClassDa
   return Line_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 2, 26, 2>
+const ::_pbi::TcParseTable<2, 3, 2, 32, 2>
 Line::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(Line, _impl_._has_bits_),
@@ -645,14 +1047,14 @@ Line::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Whiteboard::Line>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Whiteboard::Types::Line>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .Whiteboard.Point start = 1;
+    // .Whiteboard.Types.Point start = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 1, 0, PROTOBUF_FIELD_OFFSET(Line, _impl_.start_)}},
-    // .Whiteboard.Point end = 2;
+    // .Whiteboard.Types.Point end = 2;
     {::_pbi::TcParser::FastMtS1,
      {18, 2, 1, PROTOBUF_FIELD_OFFSET(Line, _impl_.end_)}},
     // string id = 3;
@@ -661,10 +1063,10 @@ Line::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .Whiteboard.Point start = 1;
+    // .Whiteboard.Types.Point start = 1;
     {PROTOBUF_FIELD_OFFSET(Line, _impl_.start_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .Whiteboard.Point end = 2;
+    // .Whiteboard.Types.Point end = 2;
     {PROTOBUF_FIELD_OFFSET(Line, _impl_.end_), _Internal::kHasBitsOffset + 2, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // string id = 3;
@@ -672,17 +1074,17 @@ Line::_table_ = {
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::Whiteboard::Point>()},
-      {::_pbi::TcParser::GetTable<::Whiteboard::Point>()},
+      {::_pbi::TcParser::GetTable<::Whiteboard::Types::Point>()},
+      {::_pbi::TcParser::GetTable<::Whiteboard::Types::Point>()},
   }},
   {{
-    "\17\0\0\2\0\0\0\0"
-    "Whiteboard.Line"
+    "\25\0\0\2\0\0\0\0"
+    "Whiteboard.Types.Line"
     "id"
   }},
 };
 PROTOBUF_NOINLINE void Line::Clear() {
-// @@protoc_insertion_point(message_clear_start:Whiteboard.Line)
+// @@protoc_insertion_point(message_clear_start:Whiteboard.Types.Line)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -717,19 +1119,19 @@ PROTOBUF_NOINLINE void Line::Clear() {
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
   const Line& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Line)
+  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Types.Line)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = this_._impl_._has_bits_[0];
-  // .Whiteboard.Point start = 1;
+  // .Whiteboard.Types.Point start = 1;
   if ((cached_has_bits & 0x00000002u) != 0) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
         1, *this_._impl_.start_, this_._impl_.start_->GetCachedSize(), target,
         stream);
   }
 
-  // .Whiteboard.Point end = 2;
+  // .Whiteboard.Types.Point end = 2;
   if ((cached_has_bits & 0x00000004u) != 0) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
         2, *this_._impl_.end_, this_._impl_.end_->GetCachedSize(), target,
@@ -741,7 +1143,7 @@ PROTOBUF_NOINLINE void Line::Clear() {
     if (!this_._internal_id().empty()) {
       const std::string& _s = this_._internal_id();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Whiteboard.Line.id");
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Whiteboard.Types.Line.id");
       target = stream->WriteStringMaybeAliased(3, _s, target);
     }
   }
@@ -751,7 +1153,7 @@ PROTOBUF_NOINLINE void Line::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Line)
+  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Types.Line)
   return target;
 }
 
@@ -762,7 +1164,7 @@ PROTOBUF_NOINLINE void Line::Clear() {
 ::size_t Line::ByteSizeLong() const {
   const Line& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Line)
+  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Types.Line)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -779,12 +1181,12 @@ PROTOBUF_NOINLINE void Line::Clear() {
                                         this_._internal_id());
       }
     }
-    // .Whiteboard.Point start = 1;
+    // .Whiteboard.Types.Point start = 1;
     if ((cached_has_bits & 0x00000002u) != 0) {
       total_size += 1 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.start_);
     }
-    // .Whiteboard.Point end = 2;
+    // .Whiteboard.Types.Point end = 2;
     if ((cached_has_bits & 0x00000004u) != 0) {
       total_size += 1 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.end_);
@@ -798,7 +1200,7 @@ void Line::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
   auto* const _this = static_cast<Line*>(&to_msg);
   auto& from = static_cast<const Line&>(from_msg);
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Line)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Types.Line)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -836,7 +1238,7 @@ void Line::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
 }
 
 void Line::CopyFrom(const Line& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Line)
+// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Types.Line)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -878,12 +1280,12 @@ Rectangle::Rectangle(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(arena_constructor:Whiteboard.Types.Rectangle)
 }
 PROTOBUF_NDEBUG_INLINE Rectangle::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::Whiteboard::Rectangle& from_msg)
+    const ::Whiteboard::Types::Rectangle& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         id_(arena, from.id_) {}
@@ -909,7 +1311,7 @@ Rectangle::Rectangle(
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.end_)
                 : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(copy_constructor:Whiteboard.Types.Rectangle)
 }
 PROTOBUF_NDEBUG_INLINE Rectangle::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -927,7 +1329,7 @@ inline void Rectangle::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
                sizeof(Impl_::end_));
 }
 Rectangle::~Rectangle() {
-  // @@protoc_insertion_point(destructor:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(destructor:Whiteboard.Types.Rectangle)
   SharedDtor(*this);
 }
 inline void Rectangle::SharedDtor(MessageLite& self) {
@@ -983,7 +1385,7 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL Rectangle::GetCl
   return Rectangle_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 2, 31, 2>
+const ::_pbi::TcParseTable<2, 3, 2, 37, 2>
 Rectangle::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(Rectangle, _impl_._has_bits_),
@@ -999,14 +1401,14 @@ Rectangle::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Whiteboard::Rectangle>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Whiteboard::Types::Rectangle>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .Whiteboard.Point start = 1;
+    // .Whiteboard.Types.Point start = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 1, 0, PROTOBUF_FIELD_OFFSET(Rectangle, _impl_.start_)}},
-    // .Whiteboard.Point end = 2;
+    // .Whiteboard.Types.Point end = 2;
     {::_pbi::TcParser::FastMtS1,
      {18, 2, 1, PROTOBUF_FIELD_OFFSET(Rectangle, _impl_.end_)}},
     // string id = 3;
@@ -1015,10 +1417,10 @@ Rectangle::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .Whiteboard.Point start = 1;
+    // .Whiteboard.Types.Point start = 1;
     {PROTOBUF_FIELD_OFFSET(Rectangle, _impl_.start_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .Whiteboard.Point end = 2;
+    // .Whiteboard.Types.Point end = 2;
     {PROTOBUF_FIELD_OFFSET(Rectangle, _impl_.end_), _Internal::kHasBitsOffset + 2, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // string id = 3;
@@ -1026,17 +1428,17 @@ Rectangle::_table_ = {
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::Whiteboard::Point>()},
-      {::_pbi::TcParser::GetTable<::Whiteboard::Point>()},
+      {::_pbi::TcParser::GetTable<::Whiteboard::Types::Point>()},
+      {::_pbi::TcParser::GetTable<::Whiteboard::Types::Point>()},
   }},
   {{
-    "\24\0\0\2\0\0\0\0"
-    "Whiteboard.Rectangle"
+    "\32\0\0\2\0\0\0\0"
+    "Whiteboard.Types.Rectangle"
     "id"
   }},
 };
 PROTOBUF_NOINLINE void Rectangle::Clear() {
-// @@protoc_insertion_point(message_clear_start:Whiteboard.Rectangle)
+// @@protoc_insertion_point(message_clear_start:Whiteboard.Types.Rectangle)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1071,19 +1473,19 @@ PROTOBUF_NOINLINE void Rectangle::Clear() {
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
   const Rectangle& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(serialize_to_array_start:Whiteboard.Types.Rectangle)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = this_._impl_._has_bits_[0];
-  // .Whiteboard.Point start = 1;
+  // .Whiteboard.Types.Point start = 1;
   if ((cached_has_bits & 0x00000002u) != 0) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
         1, *this_._impl_.start_, this_._impl_.start_->GetCachedSize(), target,
         stream);
   }
 
-  // .Whiteboard.Point end = 2;
+  // .Whiteboard.Types.Point end = 2;
   if ((cached_has_bits & 0x00000004u) != 0) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
         2, *this_._impl_.end_, this_._impl_.end_->GetCachedSize(), target,
@@ -1095,7 +1497,7 @@ PROTOBUF_NOINLINE void Rectangle::Clear() {
     if (!this_._internal_id().empty()) {
       const std::string& _s = this_._internal_id();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Whiteboard.Rectangle.id");
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Whiteboard.Types.Rectangle.id");
       target = stream->WriteStringMaybeAliased(3, _s, target);
     }
   }
@@ -1105,7 +1507,7 @@ PROTOBUF_NOINLINE void Rectangle::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(serialize_to_array_end:Whiteboard.Types.Rectangle)
   return target;
 }
 
@@ -1116,7 +1518,7 @@ PROTOBUF_NOINLINE void Rectangle::Clear() {
 ::size_t Rectangle::ByteSizeLong() const {
   const Rectangle& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(message_byte_size_start:Whiteboard.Types.Rectangle)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -1133,12 +1535,12 @@ PROTOBUF_NOINLINE void Rectangle::Clear() {
                                         this_._internal_id());
       }
     }
-    // .Whiteboard.Point start = 1;
+    // .Whiteboard.Types.Point start = 1;
     if ((cached_has_bits & 0x00000002u) != 0) {
       total_size += 1 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.start_);
     }
-    // .Whiteboard.Point end = 2;
+    // .Whiteboard.Types.Point end = 2;
     if ((cached_has_bits & 0x00000004u) != 0) {
       total_size += 1 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.end_);
@@ -1152,7 +1554,7 @@ void Rectangle::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
   auto* const _this = static_cast<Rectangle*>(&to_msg);
   auto& from = static_cast<const Rectangle&>(from_msg);
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Whiteboard.Types.Rectangle)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1190,7 +1592,7 @@ void Rectangle::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
 }
 
 void Rectangle::CopyFrom(const Rectangle& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Rectangle)
+// @@protoc_insertion_point(class_specific_copy_from_start:Whiteboard.Types.Rectangle)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1216,6 +1618,7 @@ void Rectangle::InternalSwap(Rectangle* PROTOBUF_RESTRICT PROTOBUF_NONNULL other
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace Types
 }  // namespace Whiteboard
 namespace google {
 namespace protobuf {

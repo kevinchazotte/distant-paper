@@ -53,6 +53,11 @@ extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_drawing_5ftypes_2eproto;
 }  // extern "C"
 namespace Whiteboard {
+namespace Types {
+class Drawable;
+struct DrawableDefaultTypeInternal;
+extern DrawableDefaultTypeInternal _Drawable_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull Drawable_class_data_;
 class Line;
 struct LineDefaultTypeInternal;
 extern LineDefaultTypeInternal _Line_default_instance_;
@@ -65,6 +70,7 @@ class Rectangle;
 struct RectangleDefaultTypeInternal;
 extern RectangleDefaultTypeInternal _Rectangle_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull Rectangle_class_data_;
+}  // namespace Types
 }  // namespace Whiteboard
 namespace google {
 namespace protobuf {
@@ -72,6 +78,7 @@ namespace protobuf {
 }  // namespace google
 
 namespace Whiteboard {
+namespace Types {
 
 // ===================================================================
 
@@ -79,7 +86,7 @@ namespace Whiteboard {
 // -------------------------------------------------------------------
 
 class Point final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Whiteboard.Point) */ {
+/* @@protoc_insertion_point(class_definition:Whiteboard.Types.Point) */ {
  public:
   inline Point() : Point(nullptr) {}
   ~Point() PROTOBUF_FINAL;
@@ -133,7 +140,7 @@ class Point final : public ::google::protobuf::Message
     return *reinterpret_cast<const Point*>(
         &_Point_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 0;
+  static constexpr int kIndexInFileMessages = 1;
   friend void swap(Point& a, Point& b) { a.Swap(&b); }
   inline void Swap(Point* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -197,7 +204,7 @@ class Point final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Whiteboard.Point"; }
+  static ::absl::string_view FullMessageName() { return "Whiteboard.Types.Point"; }
 
  protected:
   explicit Point(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
@@ -255,7 +262,7 @@ class Point final : public ::google::protobuf::Message
   void _internal_set_color(::uint32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:Whiteboard.Point)
+  // @@protoc_insertion_point(class_scope:Whiteboard.Types.Point)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -294,7 +301,7 @@ extern const ::google::protobuf::internal::ClassDataFull Point_class_data_;
 // -------------------------------------------------------------------
 
 class Rectangle final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Whiteboard.Rectangle) */ {
+/* @@protoc_insertion_point(class_definition:Whiteboard.Types.Rectangle) */ {
  public:
   inline Rectangle() : Rectangle(nullptr) {}
   ~Rectangle() PROTOBUF_FINAL;
@@ -348,7 +355,7 @@ class Rectangle final : public ::google::protobuf::Message
     return *reinterpret_cast<const Rectangle*>(
         &_Rectangle_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(Rectangle& a, Rectangle& b) { a.Swap(&b); }
   inline void Swap(Rectangle* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -412,7 +419,7 @@ class Rectangle final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Whiteboard.Rectangle"; }
+  static ::absl::string_view FullMessageName() { return "Whiteboard.Types.Rectangle"; }
 
  protected:
   explicit Rectangle(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
@@ -455,42 +462,42 @@ class Rectangle final : public ::google::protobuf::Message
   std::string* PROTOBUF_NONNULL _internal_mutable_id();
 
   public:
-  // .Whiteboard.Point start = 1;
+  // .Whiteboard.Types.Point start = 1;
   bool has_start() const;
   void clear_start() ;
-  const ::Whiteboard::Point& start() const;
-  [[nodiscard]] ::Whiteboard::Point* PROTOBUF_NULLABLE release_start();
-  ::Whiteboard::Point* PROTOBUF_NONNULL mutable_start();
-  void set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  ::Whiteboard::Point* PROTOBUF_NULLABLE unsafe_arena_release_start();
+  const ::Whiteboard::Types::Point& start() const;
+  [[nodiscard]] ::Whiteboard::Types::Point* PROTOBUF_NULLABLE release_start();
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL mutable_start();
+  void set_allocated_start(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_start(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  ::Whiteboard::Types::Point* PROTOBUF_NULLABLE unsafe_arena_release_start();
 
   private:
-  const ::Whiteboard::Point& _internal_start() const;
-  ::Whiteboard::Point* PROTOBUF_NONNULL _internal_mutable_start();
+  const ::Whiteboard::Types::Point& _internal_start() const;
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL _internal_mutable_start();
 
   public:
-  // .Whiteboard.Point end = 2;
+  // .Whiteboard.Types.Point end = 2;
   bool has_end() const;
   void clear_end() ;
-  const ::Whiteboard::Point& end() const;
-  [[nodiscard]] ::Whiteboard::Point* PROTOBUF_NULLABLE release_end();
-  ::Whiteboard::Point* PROTOBUF_NONNULL mutable_end();
-  void set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  ::Whiteboard::Point* PROTOBUF_NULLABLE unsafe_arena_release_end();
+  const ::Whiteboard::Types::Point& end() const;
+  [[nodiscard]] ::Whiteboard::Types::Point* PROTOBUF_NULLABLE release_end();
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL mutable_end();
+  void set_allocated_end(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_end(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  ::Whiteboard::Types::Point* PROTOBUF_NULLABLE unsafe_arena_release_end();
 
   private:
-  const ::Whiteboard::Point& _internal_end() const;
-  ::Whiteboard::Point* PROTOBUF_NONNULL _internal_mutable_end();
+  const ::Whiteboard::Types::Point& _internal_end() const;
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL _internal_mutable_end();
 
   public:
-  // @@protoc_insertion_point(class_scope:Whiteboard.Rectangle)
+  // @@protoc_insertion_point(class_scope:Whiteboard.Types.Rectangle)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<2, 3,
-                                   2, 31,
+                                   2, 37,
                                    2>
       _table_;
 
@@ -512,8 +519,8 @@ class Rectangle final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr id_;
-    ::Whiteboard::Point* PROTOBUF_NULLABLE start_;
-    ::Whiteboard::Point* PROTOBUF_NULLABLE end_;
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE start_;
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE end_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -524,7 +531,7 @@ extern const ::google::protobuf::internal::ClassDataFull Rectangle_class_data_;
 // -------------------------------------------------------------------
 
 class Line final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Whiteboard.Line) */ {
+/* @@protoc_insertion_point(class_definition:Whiteboard.Types.Line) */ {
  public:
   inline Line() : Line(nullptr) {}
   ~Line() PROTOBUF_FINAL;
@@ -578,7 +585,7 @@ class Line final : public ::google::protobuf::Message
     return *reinterpret_cast<const Line*>(
         &_Line_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
+  static constexpr int kIndexInFileMessages = 2;
   friend void swap(Line& a, Line& b) { a.Swap(&b); }
   inline void Swap(Line* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -642,7 +649,7 @@ class Line final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Whiteboard.Line"; }
+  static ::absl::string_view FullMessageName() { return "Whiteboard.Types.Line"; }
 
  protected:
   explicit Line(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
@@ -685,42 +692,42 @@ class Line final : public ::google::protobuf::Message
   std::string* PROTOBUF_NONNULL _internal_mutable_id();
 
   public:
-  // .Whiteboard.Point start = 1;
+  // .Whiteboard.Types.Point start = 1;
   bool has_start() const;
   void clear_start() ;
-  const ::Whiteboard::Point& start() const;
-  [[nodiscard]] ::Whiteboard::Point* PROTOBUF_NULLABLE release_start();
-  ::Whiteboard::Point* PROTOBUF_NONNULL mutable_start();
-  void set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  ::Whiteboard::Point* PROTOBUF_NULLABLE unsafe_arena_release_start();
+  const ::Whiteboard::Types::Point& start() const;
+  [[nodiscard]] ::Whiteboard::Types::Point* PROTOBUF_NULLABLE release_start();
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL mutable_start();
+  void set_allocated_start(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_start(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  ::Whiteboard::Types::Point* PROTOBUF_NULLABLE unsafe_arena_release_start();
 
   private:
-  const ::Whiteboard::Point& _internal_start() const;
-  ::Whiteboard::Point* PROTOBUF_NONNULL _internal_mutable_start();
+  const ::Whiteboard::Types::Point& _internal_start() const;
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL _internal_mutable_start();
 
   public:
-  // .Whiteboard.Point end = 2;
+  // .Whiteboard.Types.Point end = 2;
   bool has_end() const;
   void clear_end() ;
-  const ::Whiteboard::Point& end() const;
-  [[nodiscard]] ::Whiteboard::Point* PROTOBUF_NULLABLE release_end();
-  ::Whiteboard::Point* PROTOBUF_NONNULL mutable_end();
-  void set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value);
-  ::Whiteboard::Point* PROTOBUF_NULLABLE unsafe_arena_release_end();
+  const ::Whiteboard::Types::Point& end() const;
+  [[nodiscard]] ::Whiteboard::Types::Point* PROTOBUF_NULLABLE release_end();
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL mutable_end();
+  void set_allocated_end(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_end(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value);
+  ::Whiteboard::Types::Point* PROTOBUF_NULLABLE unsafe_arena_release_end();
 
   private:
-  const ::Whiteboard::Point& _internal_end() const;
-  ::Whiteboard::Point* PROTOBUF_NONNULL _internal_mutable_end();
+  const ::Whiteboard::Types::Point& _internal_end() const;
+  ::Whiteboard::Types::Point* PROTOBUF_NONNULL _internal_mutable_end();
 
   public:
-  // @@protoc_insertion_point(class_scope:Whiteboard.Line)
+  // @@protoc_insertion_point(class_scope:Whiteboard.Types.Line)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<2, 3,
-                                   2, 26,
+                                   2, 32,
                                    2>
       _table_;
 
@@ -742,8 +749,8 @@ class Line final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr id_;
-    ::Whiteboard::Point* PROTOBUF_NULLABLE start_;
-    ::Whiteboard::Point* PROTOBUF_NULLABLE end_;
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE start_;
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE end_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -751,6 +758,242 @@ class Line final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull Line_class_data_;
+// -------------------------------------------------------------------
+
+class Drawable final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:Whiteboard.Types.Drawable) */ {
+ public:
+  inline Drawable() : Drawable(nullptr) {}
+  ~Drawable() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(Drawable* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Drawable));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Drawable(::google::protobuf::internal::ConstantInitialized);
+
+  inline Drawable(const Drawable& from) : Drawable(nullptr, from) {}
+  inline Drawable(Drawable&& from) noexcept
+      : Drawable(nullptr, std::move(from)) {}
+  inline Drawable& operator=(const Drawable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Drawable& operator=(Drawable&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Drawable& default_instance() {
+    return *reinterpret_cast<const Drawable*>(
+        &_Drawable_default_instance_);
+  }
+  enum ShapeCase {
+    kLine = 1,
+    kRectangle = 2,
+    SHAPE_NOT_SET = 0,
+  };
+  static constexpr int kIndexInFileMessages = 0;
+  friend void swap(Drawable& a, Drawable& b) { a.Swap(&b); }
+  inline void Swap(Drawable* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Drawable* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Drawable* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<Drawable>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Drawable& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Drawable& from) { Drawable::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(Drawable* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "Whiteboard.Types.Drawable"; }
+
+ protected:
+  explicit Drawable(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  Drawable(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Drawable& from);
+  Drawable(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, Drawable&& from) noexcept
+      : Drawable(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kLineFieldNumber = 1,
+    kRectangleFieldNumber = 2,
+  };
+  // .Whiteboard.Types.Line line = 1;
+  bool has_line() const;
+  private:
+  bool _internal_has_line() const;
+
+  public:
+  void clear_line() ;
+  const ::Whiteboard::Types::Line& line() const;
+  [[nodiscard]] ::Whiteboard::Types::Line* PROTOBUF_NULLABLE release_line();
+  ::Whiteboard::Types::Line* PROTOBUF_NONNULL mutable_line();
+  void set_allocated_line(::Whiteboard::Types::Line* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_line(::Whiteboard::Types::Line* PROTOBUF_NULLABLE value);
+  ::Whiteboard::Types::Line* PROTOBUF_NULLABLE unsafe_arena_release_line();
+
+  private:
+  const ::Whiteboard::Types::Line& _internal_line() const;
+  ::Whiteboard::Types::Line* PROTOBUF_NONNULL _internal_mutable_line();
+
+  public:
+  // .Whiteboard.Types.Rectangle rectangle = 2;
+  bool has_rectangle() const;
+  private:
+  bool _internal_has_rectangle() const;
+
+  public:
+  void clear_rectangle() ;
+  const ::Whiteboard::Types::Rectangle& rectangle() const;
+  [[nodiscard]] ::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE release_rectangle();
+  ::Whiteboard::Types::Rectangle* PROTOBUF_NONNULL mutable_rectangle();
+  void set_allocated_rectangle(::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_rectangle(::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE value);
+  ::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE unsafe_arena_release_rectangle();
+
+  private:
+  const ::Whiteboard::Types::Rectangle& _internal_rectangle() const;
+  ::Whiteboard::Types::Rectangle* PROTOBUF_NONNULL _internal_mutable_rectangle();
+
+  public:
+  void clear_Shape();
+  ShapeCase Shape_case() const;
+  // @@protoc_insertion_point(class_scope:Whiteboard.Types.Drawable)
+ private:
+  class _Internal;
+  void set_has_line();
+  void set_has_rectangle();
+  inline bool has_Shape() const;
+  inline void clear_has_Shape();
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 2,
+                                   2, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const Drawable& from_msg);
+    union ShapeUnion {
+      constexpr ShapeUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::Whiteboard::Types::Line* PROTOBUF_NULLABLE line_;
+      ::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE rectangle_;
+    } Shape_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::uint32_t _oneof_case_[1];
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_drawing_5ftypes_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull Drawable_class_data_;
 
 // ===================================================================
 
@@ -766,6 +1009,181 @@ extern const ::google::protobuf::internal::ClassDataFull Line_class_data_;
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
+// Drawable
+
+// .Whiteboard.Types.Line line = 1;
+inline bool Drawable::has_line() const {
+  return Shape_case() == kLine;
+}
+inline bool Drawable::_internal_has_line() const {
+  return Shape_case() == kLine;
+}
+inline void Drawable::set_has_line() {
+  _impl_._oneof_case_[0] = kLine;
+}
+inline void Drawable::clear_line() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (Shape_case() == kLine) {
+    if (GetArena() == nullptr) {
+      delete _impl_.Shape_.line_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.Shape_.line_);
+    }
+    clear_has_Shape();
+  }
+}
+inline ::Whiteboard::Types::Line* PROTOBUF_NULLABLE Drawable::release_line() {
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Drawable.line)
+  if (Shape_case() == kLine) {
+    clear_has_Shape();
+    auto* temp = _impl_.Shape_.line_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.Shape_.line_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::Whiteboard::Types::Line& Drawable::_internal_line() const {
+  return Shape_case() == kLine ? *_impl_.Shape_.line_ : reinterpret_cast<::Whiteboard::Types::Line&>(::Whiteboard::Types::_Line_default_instance_);
+}
+inline const ::Whiteboard::Types::Line& Drawable::line() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Drawable.line)
+  return _internal_line();
+}
+inline ::Whiteboard::Types::Line* PROTOBUF_NULLABLE Drawable::unsafe_arena_release_line() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:Whiteboard.Types.Drawable.line)
+  if (Shape_case() == kLine) {
+    clear_has_Shape();
+    auto* temp = _impl_.Shape_.line_;
+    _impl_.Shape_.line_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Drawable::unsafe_arena_set_allocated_line(
+    ::Whiteboard::Types::Line* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_Shape();
+  if (value) {
+    set_has_line();
+    _impl_.Shape_.line_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Types.Drawable.line)
+}
+inline ::Whiteboard::Types::Line* PROTOBUF_NONNULL Drawable::_internal_mutable_line() {
+  if (Shape_case() != kLine) {
+    clear_Shape();
+    set_has_line();
+    _impl_.Shape_.line_ = 
+        ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Types::Line>(GetArena());
+  }
+  return _impl_.Shape_.line_;
+}
+inline ::Whiteboard::Types::Line* PROTOBUF_NONNULL Drawable::mutable_line()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::Whiteboard::Types::Line* _msg = _internal_mutable_line();
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Drawable.line)
+  return _msg;
+}
+
+// .Whiteboard.Types.Rectangle rectangle = 2;
+inline bool Drawable::has_rectangle() const {
+  return Shape_case() == kRectangle;
+}
+inline bool Drawable::_internal_has_rectangle() const {
+  return Shape_case() == kRectangle;
+}
+inline void Drawable::set_has_rectangle() {
+  _impl_._oneof_case_[0] = kRectangle;
+}
+inline void Drawable::clear_rectangle() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (Shape_case() == kRectangle) {
+    if (GetArena() == nullptr) {
+      delete _impl_.Shape_.rectangle_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.Shape_.rectangle_);
+    }
+    clear_has_Shape();
+  }
+}
+inline ::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE Drawable::release_rectangle() {
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Drawable.rectangle)
+  if (Shape_case() == kRectangle) {
+    clear_has_Shape();
+    auto* temp = _impl_.Shape_.rectangle_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.Shape_.rectangle_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::Whiteboard::Types::Rectangle& Drawable::_internal_rectangle() const {
+  return Shape_case() == kRectangle ? *_impl_.Shape_.rectangle_ : reinterpret_cast<::Whiteboard::Types::Rectangle&>(::Whiteboard::Types::_Rectangle_default_instance_);
+}
+inline const ::Whiteboard::Types::Rectangle& Drawable::rectangle() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Drawable.rectangle)
+  return _internal_rectangle();
+}
+inline ::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE Drawable::unsafe_arena_release_rectangle() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:Whiteboard.Types.Drawable.rectangle)
+  if (Shape_case() == kRectangle) {
+    clear_has_Shape();
+    auto* temp = _impl_.Shape_.rectangle_;
+    _impl_.Shape_.rectangle_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Drawable::unsafe_arena_set_allocated_rectangle(
+    ::Whiteboard::Types::Rectangle* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_Shape();
+  if (value) {
+    set_has_rectangle();
+    _impl_.Shape_.rectangle_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Types.Drawable.rectangle)
+}
+inline ::Whiteboard::Types::Rectangle* PROTOBUF_NONNULL Drawable::_internal_mutable_rectangle() {
+  if (Shape_case() != kRectangle) {
+    clear_Shape();
+    set_has_rectangle();
+    _impl_.Shape_.rectangle_ = 
+        ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Types::Rectangle>(GetArena());
+  }
+  return _impl_.Shape_.rectangle_;
+}
+inline ::Whiteboard::Types::Rectangle* PROTOBUF_NONNULL Drawable::mutable_rectangle()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::Whiteboard::Types::Rectangle* _msg = _internal_mutable_rectangle();
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Drawable.rectangle)
+  return _msg;
+}
+
+inline bool Drawable::has_Shape() const {
+  return Shape_case() != SHAPE_NOT_SET;
+}
+inline void Drawable::clear_has_Shape() {
+  _impl_._oneof_case_[0] = SHAPE_NOT_SET;
+}
+inline Drawable::ShapeCase Drawable::Shape_case() const {
+  return Drawable::ShapeCase(_impl_._oneof_case_[0]);
+}
+// -------------------------------------------------------------------
+
 // Point
 
 // float x = 1;
@@ -775,13 +1193,13 @@ inline void Point::clear_x() {
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline float Point::x() const {
-  // @@protoc_insertion_point(field_get:Whiteboard.Point.x)
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Point.x)
   return _internal_x();
 }
 inline void Point::set_x(float value) {
   _internal_set_x(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:Whiteboard.Point.x)
+  // @@protoc_insertion_point(field_set:Whiteboard.Types.Point.x)
 }
 inline float Point::_internal_x() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
@@ -799,13 +1217,13 @@ inline void Point::clear_y() {
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline float Point::y() const {
-  // @@protoc_insertion_point(field_get:Whiteboard.Point.y)
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Point.y)
   return _internal_y();
 }
 inline void Point::set_y(float value) {
   _internal_set_y(value);
   _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:Whiteboard.Point.y)
+  // @@protoc_insertion_point(field_set:Whiteboard.Types.Point.y)
 }
 inline float Point::_internal_y() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
@@ -823,13 +1241,13 @@ inline void Point::clear_color() {
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
 inline ::uint32_t Point::color() const {
-  // @@protoc_insertion_point(field_get:Whiteboard.Point.color)
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Point.color)
   return _internal_color();
 }
 inline void Point::set_color(::uint32_t value) {
   _internal_set_color(value);
   _impl_._has_bits_[0] |= 0x00000004u;
-  // @@protoc_insertion_point(field_set:Whiteboard.Point.color)
+  // @@protoc_insertion_point(field_set:Whiteboard.Types.Point.color)
 }
 inline ::uint32_t Point::_internal_color() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
@@ -844,7 +1262,7 @@ inline void Point::_internal_set_color(::uint32_t value) {
 
 // Line
 
-// .Whiteboard.Point start = 1;
+// .Whiteboard.Types.Point start = 1;
 inline bool Line::has_start() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.start_ != nullptr);
@@ -855,34 +1273,34 @@ inline void Line::clear_start() {
   if (_impl_.start_ != nullptr) _impl_.start_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::Whiteboard::Point& Line::_internal_start() const {
+inline const ::Whiteboard::Types::Point& Line::_internal_start() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Whiteboard::Point* p = _impl_.start_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Point&>(::Whiteboard::_Point_default_instance_);
+  const ::Whiteboard::Types::Point* p = _impl_.start_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Types::Point&>(::Whiteboard::Types::_Point_default_instance_);
 }
-inline const ::Whiteboard::Point& Line::start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Line.start)
+inline const ::Whiteboard::Types::Point& Line::start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Line.start)
   return _internal_start();
 }
 inline void Line::unsafe_arena_set_allocated_start(
-    ::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.start_);
   }
-  _impl_.start_ = reinterpret_cast<::Whiteboard::Point*>(value);
+  _impl_.start_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Line.start)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Types.Line.start)
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Line::release_start() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Line::release_start() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::Whiteboard::Point* released = _impl_.start_;
+  ::Whiteboard::Types::Point* released = _impl_.start_;
   _impl_.start_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -897,31 +1315,31 @@ inline ::Whiteboard::Point* PROTOBUF_NULLABLE Line::release_start() {
   }
   return released;
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Line::unsafe_arena_release_start() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Line::unsafe_arena_release_start() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Line.start)
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Line.start)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::Whiteboard::Point* temp = _impl_.start_;
+  ::Whiteboard::Types::Point* temp = _impl_.start_;
   _impl_.start_ = nullptr;
   return temp;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Line::_internal_mutable_start() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Line::_internal_mutable_start() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.start_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Point>(GetArena());
-    _impl_.start_ = reinterpret_cast<::Whiteboard::Point*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Types::Point>(GetArena());
+    _impl_.start_ = reinterpret_cast<::Whiteboard::Types::Point*>(p);
   }
   return _impl_.start_;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Line::mutable_start()
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Line::mutable_start()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
-  ::Whiteboard::Point* _msg = _internal_mutable_start();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Line.start)
+  ::Whiteboard::Types::Point* _msg = _internal_mutable_start();
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Line.start)
   return _msg;
 }
-inline void Line::set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+inline void Line::set_allocated_start(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -938,11 +1356,11 @@ inline void Line::set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE val
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
 
-  _impl_.start_ = reinterpret_cast<::Whiteboard::Point*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Line.start)
+  _impl_.start_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Line.start)
 }
 
-// .Whiteboard.Point end = 2;
+// .Whiteboard.Types.Point end = 2;
 inline bool Line::has_end() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.end_ != nullptr);
@@ -953,34 +1371,34 @@ inline void Line::clear_end() {
   if (_impl_.end_ != nullptr) _impl_.end_->Clear();
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline const ::Whiteboard::Point& Line::_internal_end() const {
+inline const ::Whiteboard::Types::Point& Line::_internal_end() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Whiteboard::Point* p = _impl_.end_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Point&>(::Whiteboard::_Point_default_instance_);
+  const ::Whiteboard::Types::Point* p = _impl_.end_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Types::Point&>(::Whiteboard::Types::_Point_default_instance_);
 }
-inline const ::Whiteboard::Point& Line::end() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Line.end)
+inline const ::Whiteboard::Types::Point& Line::end() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Line.end)
   return _internal_end();
 }
 inline void Line::unsafe_arena_set_allocated_end(
-    ::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.end_);
   }
-  _impl_.end_ = reinterpret_cast<::Whiteboard::Point*>(value);
+  _impl_.end_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000004u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000004u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Line.end)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Types.Line.end)
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Line::release_end() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Line::release_end() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000004u;
-  ::Whiteboard::Point* released = _impl_.end_;
+  ::Whiteboard::Types::Point* released = _impl_.end_;
   _impl_.end_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -995,31 +1413,31 @@ inline ::Whiteboard::Point* PROTOBUF_NULLABLE Line::release_end() {
   }
   return released;
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Line::unsafe_arena_release_end() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Line::unsafe_arena_release_end() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Line.end)
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Line.end)
 
   _impl_._has_bits_[0] &= ~0x00000004u;
-  ::Whiteboard::Point* temp = _impl_.end_;
+  ::Whiteboard::Types::Point* temp = _impl_.end_;
   _impl_.end_ = nullptr;
   return temp;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Line::_internal_mutable_end() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Line::_internal_mutable_end() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.end_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Point>(GetArena());
-    _impl_.end_ = reinterpret_cast<::Whiteboard::Point*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Types::Point>(GetArena());
+    _impl_.end_ = reinterpret_cast<::Whiteboard::Types::Point*>(p);
   }
   return _impl_.end_;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Line::mutable_end()
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Line::mutable_end()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000004u;
-  ::Whiteboard::Point* _msg = _internal_mutable_end();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Line.end)
+  ::Whiteboard::Types::Point* _msg = _internal_mutable_end();
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Line.end)
   return _msg;
 }
-inline void Line::set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+inline void Line::set_allocated_end(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1036,8 +1454,8 @@ inline void Line::set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value
     _impl_._has_bits_[0] &= ~0x00000004u;
   }
 
-  _impl_.end_ = reinterpret_cast<::Whiteboard::Point*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Line.end)
+  _impl_.end_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Line.end)
 }
 
 // string id = 3;
@@ -1048,7 +1466,7 @@ inline void Line::clear_id() {
 }
 inline const std::string& Line::id() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Line.id)
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Line.id)
   return _internal_id();
 }
 template <typename Arg_, typename... Args_>
@@ -1056,12 +1474,12 @@ PROTOBUF_ALWAYS_INLINE void Line::set_id(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Whiteboard.Line.id)
+  // @@protoc_insertion_point(field_set:Whiteboard.Types.Line.id)
 }
 inline std::string* PROTOBUF_NONNULL Line::mutable_id()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_id();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Line.id)
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Line.id)
   return _s;
 }
 inline const std::string& Line::_internal_id() const {
@@ -1080,7 +1498,7 @@ inline std::string* PROTOBUF_NONNULL Line::_internal_mutable_id() {
 }
 inline std::string* PROTOBUF_NULLABLE Line::release_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Line.id)
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Line.id)
   if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
     return nullptr;
   }
@@ -1102,14 +1520,14 @@ inline void Line::set_allocated_id(std::string* PROTOBUF_NULLABLE value) {
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.id_.IsDefault()) {
     _impl_.id_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Line.id)
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Line.id)
 }
 
 // -------------------------------------------------------------------
 
 // Rectangle
 
-// .Whiteboard.Point start = 1;
+// .Whiteboard.Types.Point start = 1;
 inline bool Rectangle::has_start() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.start_ != nullptr);
@@ -1120,34 +1538,34 @@ inline void Rectangle::clear_start() {
   if (_impl_.start_ != nullptr) _impl_.start_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::Whiteboard::Point& Rectangle::_internal_start() const {
+inline const ::Whiteboard::Types::Point& Rectangle::_internal_start() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Whiteboard::Point* p = _impl_.start_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Point&>(::Whiteboard::_Point_default_instance_);
+  const ::Whiteboard::Types::Point* p = _impl_.start_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Types::Point&>(::Whiteboard::Types::_Point_default_instance_);
 }
-inline const ::Whiteboard::Point& Rectangle::start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Rectangle.start)
+inline const ::Whiteboard::Types::Point& Rectangle::start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Rectangle.start)
   return _internal_start();
 }
 inline void Rectangle::unsafe_arena_set_allocated_start(
-    ::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.start_);
   }
-  _impl_.start_ = reinterpret_cast<::Whiteboard::Point*>(value);
+  _impl_.start_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Rectangle.start)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Types.Rectangle.start)
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Rectangle::release_start() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Rectangle::release_start() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::Whiteboard::Point* released = _impl_.start_;
+  ::Whiteboard::Types::Point* released = _impl_.start_;
   _impl_.start_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -1162,31 +1580,31 @@ inline ::Whiteboard::Point* PROTOBUF_NULLABLE Rectangle::release_start() {
   }
   return released;
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Rectangle::unsafe_arena_release_start() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Rectangle::unsafe_arena_release_start() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Rectangle.start)
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Rectangle.start)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::Whiteboard::Point* temp = _impl_.start_;
+  ::Whiteboard::Types::Point* temp = _impl_.start_;
   _impl_.start_ = nullptr;
   return temp;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Rectangle::_internal_mutable_start() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Rectangle::_internal_mutable_start() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.start_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Point>(GetArena());
-    _impl_.start_ = reinterpret_cast<::Whiteboard::Point*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Types::Point>(GetArena());
+    _impl_.start_ = reinterpret_cast<::Whiteboard::Types::Point*>(p);
   }
   return _impl_.start_;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Rectangle::mutable_start()
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Rectangle::mutable_start()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
-  ::Whiteboard::Point* _msg = _internal_mutable_start();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Rectangle.start)
+  ::Whiteboard::Types::Point* _msg = _internal_mutable_start();
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Rectangle.start)
   return _msg;
 }
-inline void Rectangle::set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+inline void Rectangle::set_allocated_start(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1203,11 +1621,11 @@ inline void Rectangle::set_allocated_start(::Whiteboard::Point* PROTOBUF_NULLABL
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
 
-  _impl_.start_ = reinterpret_cast<::Whiteboard::Point*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Rectangle.start)
+  _impl_.start_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Rectangle.start)
 }
 
-// .Whiteboard.Point end = 2;
+// .Whiteboard.Types.Point end = 2;
 inline bool Rectangle::has_end() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.end_ != nullptr);
@@ -1218,34 +1636,34 @@ inline void Rectangle::clear_end() {
   if (_impl_.end_ != nullptr) _impl_.end_->Clear();
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline const ::Whiteboard::Point& Rectangle::_internal_end() const {
+inline const ::Whiteboard::Types::Point& Rectangle::_internal_end() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Whiteboard::Point* p = _impl_.end_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Point&>(::Whiteboard::_Point_default_instance_);
+  const ::Whiteboard::Types::Point* p = _impl_.end_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Whiteboard::Types::Point&>(::Whiteboard::Types::_Point_default_instance_);
 }
-inline const ::Whiteboard::Point& Rectangle::end() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Rectangle.end)
+inline const ::Whiteboard::Types::Point& Rectangle::end() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Rectangle.end)
   return _internal_end();
 }
 inline void Rectangle::unsafe_arena_set_allocated_end(
-    ::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+    ::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.end_);
   }
-  _impl_.end_ = reinterpret_cast<::Whiteboard::Point*>(value);
+  _impl_.end_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000004u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000004u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Rectangle.end)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Whiteboard.Types.Rectangle.end)
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Rectangle::release_end() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Rectangle::release_end() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000004u;
-  ::Whiteboard::Point* released = _impl_.end_;
+  ::Whiteboard::Types::Point* released = _impl_.end_;
   _impl_.end_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -1260,31 +1678,31 @@ inline ::Whiteboard::Point* PROTOBUF_NULLABLE Rectangle::release_end() {
   }
   return released;
 }
-inline ::Whiteboard::Point* PROTOBUF_NULLABLE Rectangle::unsafe_arena_release_end() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NULLABLE Rectangle::unsafe_arena_release_end() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Rectangle.end)
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Rectangle.end)
 
   _impl_._has_bits_[0] &= ~0x00000004u;
-  ::Whiteboard::Point* temp = _impl_.end_;
+  ::Whiteboard::Types::Point* temp = _impl_.end_;
   _impl_.end_ = nullptr;
   return temp;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Rectangle::_internal_mutable_end() {
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Rectangle::_internal_mutable_end() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.end_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Point>(GetArena());
-    _impl_.end_ = reinterpret_cast<::Whiteboard::Point*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::Whiteboard::Types::Point>(GetArena());
+    _impl_.end_ = reinterpret_cast<::Whiteboard::Types::Point*>(p);
   }
   return _impl_.end_;
 }
-inline ::Whiteboard::Point* PROTOBUF_NONNULL Rectangle::mutable_end()
+inline ::Whiteboard::Types::Point* PROTOBUF_NONNULL Rectangle::mutable_end()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000004u;
-  ::Whiteboard::Point* _msg = _internal_mutable_end();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Rectangle.end)
+  ::Whiteboard::Types::Point* _msg = _internal_mutable_end();
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Rectangle.end)
   return _msg;
 }
-inline void Rectangle::set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE value) {
+inline void Rectangle::set_allocated_end(::Whiteboard::Types::Point* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1301,8 +1719,8 @@ inline void Rectangle::set_allocated_end(::Whiteboard::Point* PROTOBUF_NULLABLE 
     _impl_._has_bits_[0] &= ~0x00000004u;
   }
 
-  _impl_.end_ = reinterpret_cast<::Whiteboard::Point*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Rectangle.end)
+  _impl_.end_ = reinterpret_cast<::Whiteboard::Types::Point*>(value);
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Rectangle.end)
 }
 
 // string id = 3;
@@ -1313,7 +1731,7 @@ inline void Rectangle::clear_id() {
 }
 inline const std::string& Rectangle::id() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Rectangle.id)
+  // @@protoc_insertion_point(field_get:Whiteboard.Types.Rectangle.id)
   return _internal_id();
 }
 template <typename Arg_, typename... Args_>
@@ -1321,12 +1739,12 @@ PROTOBUF_ALWAYS_INLINE void Rectangle::set_id(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Whiteboard.Rectangle.id)
+  // @@protoc_insertion_point(field_set:Whiteboard.Types.Rectangle.id)
 }
 inline std::string* PROTOBUF_NONNULL Rectangle::mutable_id()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_id();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Rectangle.id)
+  // @@protoc_insertion_point(field_mutable:Whiteboard.Types.Rectangle.id)
   return _s;
 }
 inline const std::string& Rectangle::_internal_id() const {
@@ -1345,7 +1763,7 @@ inline std::string* PROTOBUF_NONNULL Rectangle::_internal_mutable_id() {
 }
 inline std::string* PROTOBUF_NULLABLE Rectangle::release_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Rectangle.id)
+  // @@protoc_insertion_point(field_release:Whiteboard.Types.Rectangle.id)
   if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
     return nullptr;
   }
@@ -1367,7 +1785,7 @@ inline void Rectangle::set_allocated_id(std::string* PROTOBUF_NULLABLE value) {
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.id_.IsDefault()) {
     _impl_.id_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Rectangle.id)
+  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Types.Rectangle.id)
 }
 
 #ifdef __GNUC__
@@ -1375,6 +1793,7 @@ inline void Rectangle::set_allocated_id(std::string* PROTOBUF_NULLABLE value) {
 #endif  // __GNUC__
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace Types
 }  // namespace Whiteboard
 
 

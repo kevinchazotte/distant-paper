@@ -24,5 +24,4 @@ public:
 private:
     int m_ConnectionId;
     const std::string m_TargetAddress;
-
 };

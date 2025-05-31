@@ -1,20 +1,23 @@
 #include "ServerManager.h"
 
+#include <random>
+#include <sstream>
+
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
 
-#include "greeter.grpc.pb.h"
-#include "greeter.pb.h"
+#include "server_connection.grpc.pb.h"
+#include "server_connection.pb.h"
 
 // Server implementation
-class GreeterServiceImpl final : public helloworld::Greeter::Service {
+class ServerConnectionServiceImpl final : public Whiteboard::Server::ServerConnectionService::Service {
 public:
-    explicit GreeterServiceImpl(ServerManager* manager) : serverManager_(manager) {}
+    explicit ServerConnectionServiceImpl(ServerManager* manager) : serverManager_(manager) {}
 
-    grpc::Status SayHello(grpc::ServerContext* context,
-        const helloworld::HelloRequest* request,
-        helloworld::HelloReply* reply) override {
+    grpc::Status Connect(grpc::ServerContext* context,
+        const Whiteboard::Server::ServerConnectionRequest* request,
+        Whiteboard::Server::ServerConnectionConfirmation* reply) override {
         int newConnectionId = serverManager_->AssignNewConnectionId(context->peer());
         reply->set_connection(newConnectionId);
         std::cout << "[Server Thread] Responded to request with input connection: " << request->connection() << std::endl;
@@ -32,25 +35,21 @@ bool ServerManager::Disconnect(int connectionId) {
     return RemoveConnectionId(connectionId);
 }
 
-void ServerManager::SendLine(const Whiteboard::Line& line) {
+void ServerManager::BroadcastDrawable(const Whiteboard::Types::Drawable& drawable) {
 
 }
 
-void ServerManager::SendRectangle(const Whiteboard::Rectangle& rect) {
-
-}
-
-void ServerManager::SendErase(sf::Vector2f position) {
+void ServerManager::BroadcastErase(sf::Vector2f position) {
 
 }
 
 void ServerManager::Start() {
-    GreeterServiceImpl service_impl(this);
+    ServerConnectionServiceImpl service_implementation(this);
     grpc::ServerBuilder builder;
     grpc::ServerContext context;
     // Listen on the given address using insecure credentials
     builder.AddListeningPort(m_TargetAddress, grpc::InsecureServerCredentials());
-    builder.RegisterService(&service_impl);
+    builder.RegisterService(&service_implementation);
 
     // Assemble and start the server
     m_ServerInstance = builder.BuildAndStart();
@@ -87,4 +86,38 @@ bool ServerManager::RemoveConnectionId(int connectionId) {
         return true;
     }
     return false;
+}
+
+std::string ServerManager::ReserveObjectId() {
+    std::lock_guard<std::mutex> lock(m_ServerMutex);
+    // generate a random object id
+    static std::random_device              rd;
+    static std::mt19937                    gen(rd());
+    static std::uniform_int_distribution<> dis(0, 15);
+    static std::uniform_int_distribution<> dis2(8, 11);
+
+    std::stringstream ss;
+    int i;
+    ss << std::hex;
+    for (i = 0; i < 8; i++) {
+        ss << dis(gen);
+    }
+    ss << "-";
+    for (i = 0; i < 4; i++) {
+        ss << dis(gen);
+    }
+    ss << "-4";
+    for (i = 0; i < 3; i++) {
+        ss << dis(gen);
+    }
+    ss << "-";
+    ss << dis2(gen);
+    for (i = 0; i < 3; i++) {
+        ss << dis(gen);
+    }
+    ss << "-";
+    for (i = 0; i < 12; i++) {
+        ss << dis(gen);
+    };
+    return ss.str();
 }

@@ -14,9 +14,8 @@ public:
 
     bool Disconnect(int connectionId) override;
 
-    void SendLine(const Whiteboard::Line& line) override;
-    void SendRectangle(const Whiteboard::Rectangle& rect) override;
-    void SendErase(sf::Vector2f position) override;
+    void BroadcastDrawable(const Whiteboard::Types::Drawable& drawable) override;
+    void BroadcastErase(sf::Vector2f position) override;
 
     void Start() override;
     void Stop() override;
@@ -24,6 +23,8 @@ public:
 
     int AssignNewConnectionId(std::string peerAddress) override;
     bool RemoveConnectionId(int connectionId) override;
+
+    std::string ReserveObjectId() override;
 private:
     int m_NumConnections = 0;
     const std::string m_TargetAddress;

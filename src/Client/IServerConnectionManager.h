@@ -4,7 +4,6 @@
 
 #include "drawing_types.grpc.pb.h"
 #include "drawing_types.pb.h"
-#include "greeter.grpc.pb.h"
 
 #include "WhiteboardStateMachine.h"
 
