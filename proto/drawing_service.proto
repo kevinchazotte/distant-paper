@@ -5,11 +5,11 @@ package Whiteboard.Drawing;
 import "drawing_types.proto";
 
 service DrawingService {
-  rpc DrawingStream (stream DrawingEvent) returns (stream DrawingEvent);
+  rpc OpenDrawingStream (stream StreamEvent) returns (stream StreamEvent);
 }
 
 message StreamEvent {
-  string client_id = 1;
+  int32 connectionId = 1;
   oneof EventType {
     DrawingEvent drawingEvent = 2;
     EraseEvent eraseEvent = 3;

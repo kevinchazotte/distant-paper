@@ -24,6 +24,7 @@ namespace Server {
 
 static const char* ServerConnectionService_method_names[] = {
   "/Whiteboard.Server.ServerConnectionService/Connect",
+  "/Whiteboard.Server.ServerConnectionService/Disconnect",
 };
 
 std::unique_ptr< ServerConnectionService::Stub> ServerConnectionService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -34,6 +35,7 @@ std::unique_ptr< ServerConnectionService::Stub> ServerConnectionService::NewStub
 
 ServerConnectionService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_Connect_(ServerConnectionService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Disconnect_(ServerConnectionService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ServerConnectionService::Stub::Connect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::Whiteboard::Server::ServerConnectionConfirmation* response) {
@@ -59,6 +61,29 @@ void ServerConnectionService::Stub::async::Connect(::grpc::ClientContext* contex
   return result;
 }
 
+::grpc::Status ServerConnectionService::Stub::Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::Whiteboard::Server::ServerConnectionConfirmation* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Disconnect_, context, request, response);
+}
+
+void ServerConnectionService::Stub::async::Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Disconnect_, context, request, response, std::move(f));
+}
+
+void ServerConnectionService::Stub::async::Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Disconnect_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>* ServerConnectionService::Stub::PrepareAsyncDisconnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::Whiteboard::Server::ServerConnectionConfirmation, ::Whiteboard::Server::ServerConnectionRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Disconnect_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>* ServerConnectionService::Stub::AsyncDisconnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncDisconnectRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ServerConnectionService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ServerConnectionService_method_names[0],
@@ -70,12 +95,29 @@ ServerConnectionService::Service::Service() {
              ::Whiteboard::Server::ServerConnectionConfirmation* resp) {
                return service->Connect(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ServerConnectionService_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ServerConnectionService::Service, ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ServerConnectionService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::Whiteboard::Server::ServerConnectionRequest* req,
+             ::Whiteboard::Server::ServerConnectionConfirmation* resp) {
+               return service->Disconnect(ctx, req, resp);
+             }, this)));
 }
 
 ServerConnectionService::Service::~Service() {
 }
 
 ::grpc::Status ServerConnectionService::Service::Connect(::grpc::ServerContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ServerConnectionService::Service::Disconnect(::grpc::ServerContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response) {
   (void) context;
   (void) request;
   (void) response;

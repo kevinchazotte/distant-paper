@@ -622,23 +622,18 @@ class StreamEvent final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kClientIdFieldNumber = 1,
+    kConnectionIdFieldNumber = 1,
     kDrawingEventFieldNumber = 2,
     kEraseEventFieldNumber = 3,
   };
-  // string client_id = 1;
-  void clear_client_id() ;
-  const std::string& client_id() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_client_id(Arg_&& arg, Args_... args);
-  std::string* PROTOBUF_NONNULL mutable_client_id();
-  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_client_id();
-  void set_allocated_client_id(std::string* PROTOBUF_NULLABLE value);
+  // int32 connectionId = 1;
+  void clear_connectionid() ;
+  ::int32_t connectionid() const;
+  void set_connectionid(::int32_t value);
 
   private:
-  const std::string& _internal_client_id() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_client_id(const std::string& value);
-  std::string* PROTOBUF_NONNULL _internal_mutable_client_id();
+  ::int32_t _internal_connectionid() const;
+  void _internal_set_connectionid(::int32_t value);
 
   public:
   // .Whiteboard.Drawing.DrawingEvent drawingEvent = 2;
@@ -690,7 +685,7 @@ class StreamEvent final : public ::google::protobuf::Message
   inline void clear_has_EventType();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<0, 3,
-                                   2, 48,
+                                   2, 0,
                                    2>
       _table_;
 
@@ -711,7 +706,7 @@ class StreamEvent final : public ::google::protobuf::Message
         const StreamEvent& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr client_id_;
+    ::int32_t connectionid_;
     union EventTypeUnion {
       constexpr EventTypeUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
@@ -743,69 +738,28 @@ extern const ::google::protobuf::internal::ClassDataFull StreamEvent_class_data_
 
 // StreamEvent
 
-// string client_id = 1;
-inline void StreamEvent::clear_client_id() {
+// int32 connectionId = 1;
+inline void StreamEvent::clear_connectionid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.client_id_.ClearToEmpty();
+  _impl_.connectionid_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const std::string& StreamEvent::client_id() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Whiteboard.Drawing.StreamEvent.client_id)
-  return _internal_client_id();
+inline ::int32_t StreamEvent::connectionid() const {
+  // @@protoc_insertion_point(field_get:Whiteboard.Drawing.StreamEvent.connectionId)
+  return _internal_connectionid();
 }
-template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void StreamEvent::set_client_id(Arg_&& arg, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
+inline void StreamEvent::set_connectionid(::int32_t value) {
+  _internal_set_connectionid(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.client_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Whiteboard.Drawing.StreamEvent.client_id)
+  // @@protoc_insertion_point(field_set:Whiteboard.Drawing.StreamEvent.connectionId)
 }
-inline std::string* PROTOBUF_NONNULL StreamEvent::mutable_client_id()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_client_id();
-  // @@protoc_insertion_point(field_mutable:Whiteboard.Drawing.StreamEvent.client_id)
-  return _s;
-}
-inline const std::string& StreamEvent::_internal_client_id() const {
+inline ::int32_t StreamEvent::_internal_connectionid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.client_id_.Get();
+  return _impl_.connectionid_;
 }
-inline void StreamEvent::_internal_set_client_id(const std::string& value) {
+inline void StreamEvent::_internal_set_connectionid(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.client_id_.Set(value, GetArena());
-}
-inline std::string* PROTOBUF_NONNULL StreamEvent::_internal_mutable_client_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.client_id_.Mutable( GetArena());
-}
-inline std::string* PROTOBUF_NULLABLE StreamEvent::release_client_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Whiteboard.Drawing.StreamEvent.client_id)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.client_id_.Release();
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
-    _impl_.client_id_.Set("", GetArena());
-  }
-  return released;
-}
-inline void StreamEvent::set_allocated_client_id(std::string* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.client_id_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.client_id_.IsDefault()) {
-    _impl_.client_id_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:Whiteboard.Drawing.StreamEvent.client_id)
+  _impl_.connectionid_ = value;
 }
 
 // .Whiteboard.Drawing.DrawingEvent drawingEvent = 2;

@@ -23,7 +23,7 @@ namespace Whiteboard {
 namespace Drawing {
 
 static const char* DrawingService_method_names[] = {
-  "/Whiteboard.Drawing.DrawingService/DrawingStream",
+  "/Whiteboard.Drawing.DrawingService/OpenDrawingStream",
 };
 
 std::unique_ptr< DrawingService::Stub> DrawingService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,42 +33,42 @@ std::unique_ptr< DrawingService::Stub> DrawingService::NewStub(const std::shared
 }
 
 DrawingService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_DrawingStream_(DrawingService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
+  : channel_(channel), rpcmethod_OpenDrawingStream_(DrawingService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
   {}
 
-::grpc::ClientReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* DrawingService::Stub::DrawingStreamRaw(::grpc::ClientContext* context) {
-  return ::grpc::internal::ClientReaderWriterFactory< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>::Create(channel_.get(), rpcmethod_DrawingStream_, context);
+::grpc::ClientReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* DrawingService::Stub::OpenDrawingStreamRaw(::grpc::ClientContext* context) {
+  return ::grpc::internal::ClientReaderWriterFactory< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>::Create(channel_.get(), rpcmethod_OpenDrawingStream_, context);
 }
 
-void DrawingService::Stub::async::DrawingStream(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::Whiteboard::Drawing::DrawingEvent,::Whiteboard::Drawing::DrawingEvent>* reactor) {
-  ::grpc::internal::ClientCallbackReaderWriterFactory< ::Whiteboard::Drawing::DrawingEvent,::Whiteboard::Drawing::DrawingEvent>::Create(stub_->channel_.get(), stub_->rpcmethod_DrawingStream_, context, reactor);
+void DrawingService::Stub::async::OpenDrawingStream(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::Whiteboard::Drawing::StreamEvent,::Whiteboard::Drawing::StreamEvent>* reactor) {
+  ::grpc::internal::ClientCallbackReaderWriterFactory< ::Whiteboard::Drawing::StreamEvent,::Whiteboard::Drawing::StreamEvent>::Create(stub_->channel_.get(), stub_->rpcmethod_OpenDrawingStream_, context, reactor);
 }
 
-::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* DrawingService::Stub::AsyncDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
-  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>::Create(channel_.get(), cq, rpcmethod_DrawingStream_, context, true, tag);
+::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* DrawingService::Stub::AsyncOpenDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>::Create(channel_.get(), cq, rpcmethod_OpenDrawingStream_, context, true, tag);
 }
 
-::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* DrawingService::Stub::PrepareAsyncDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>::Create(channel_.get(), cq, rpcmethod_DrawingStream_, context, false, nullptr);
+::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* DrawingService::Stub::PrepareAsyncOpenDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>::Create(channel_.get(), cq, rpcmethod_OpenDrawingStream_, context, false, nullptr);
 }
 
 DrawingService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       DrawingService_method_names[0],
       ::grpc::internal::RpcMethod::BIDI_STREAMING,
-      new ::grpc::internal::BidiStreamingHandler< DrawingService::Service, ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>(
+      new ::grpc::internal::BidiStreamingHandler< DrawingService::Service, ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>(
           [](DrawingService::Service* service,
              ::grpc::ServerContext* ctx,
-             ::grpc::ServerReaderWriter<::Whiteboard::Drawing::DrawingEvent,
-             ::Whiteboard::Drawing::DrawingEvent>* stream) {
-               return service->DrawingStream(ctx, stream);
+             ::grpc::ServerReaderWriter<::Whiteboard::Drawing::StreamEvent,
+             ::Whiteboard::Drawing::StreamEvent>* stream) {
+               return service->OpenDrawingStream(ctx, stream);
              }, this)));
 }
 
 DrawingService::Service::~Service() {
 }
 
-::grpc::Status DrawingService::Service::DrawingStream(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* stream) {
+::grpc::Status DrawingService::Service::OpenDrawingStream(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* stream) {
   (void) context;
   (void) stream;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");

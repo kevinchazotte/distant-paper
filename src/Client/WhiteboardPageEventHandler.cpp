@@ -1,9 +1,8 @@
 #include "WhiteboardPageEventHandler.h"
 
 WhiteboardPageEventHandler::WhiteboardPageEventHandler(sf::RenderWindow& window,
-    std::shared_ptr<IServerConnectionManager> serverConnectionManager, std::shared_ptr<IDrawingManager> drawingManager) :
+    std::shared_ptr<ServerConnectionManager> serverConnectionManager, std::shared_ptr<IDrawingManager> drawingManager) :
     m_RenderWindow(window), m_ServerConnectionManager(serverConnectionManager), m_DrawingManager(drawingManager) {
-    m_ConnectionId = -1;
 }
 
 int WhiteboardPageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
@@ -106,8 +105,4 @@ int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, Whit
         return -1;
     }
     return -1;
-}
-
-void WhiteboardPageEventHandler::SetConnectionId(int connectionId) {
-    m_ConnectionId = connectionId;
 }

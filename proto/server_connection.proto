@@ -4,6 +4,7 @@ package Whiteboard.Server;
 
 service ServerConnectionService {
   rpc Connect (ServerConnectionRequest) returns (ServerConnectionConfirmation);
+  rpc Disconnect (ServerConnectionRequest) returns (ServerConnectionConfirmation);
 }
 
 message ServerConnectionRequest {

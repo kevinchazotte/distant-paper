@@ -2,7 +2,7 @@
 
 #include <grpcpp/server.h>
 
-HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<IServerConnectionManager> serverConnectionManager) :
+HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<ServerConnectionManager> serverConnectionManager) :
 	m_RenderWindow(window), m_ServerConnectionManager(serverConnectionManager) {}
 	
 int HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {

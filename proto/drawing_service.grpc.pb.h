@@ -37,44 +37,44 @@ class DrawingService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>> DrawingStream(::grpc::ClientContext* context) {
-      return std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>>(DrawingStreamRaw(context));
+    std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>> OpenDrawingStream(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>>(OpenDrawingStreamRaw(context));
     }
-    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>> AsyncDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>>(AsyncDrawingStreamRaw(context, cq, tag));
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>> AsyncOpenDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>>(AsyncOpenDrawingStreamRaw(context, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>> PrepareAsyncDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>>(PrepareAsyncDrawingStreamRaw(context, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>> PrepareAsyncOpenDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>>(PrepareAsyncOpenDrawingStreamRaw(context, cq));
     }
     class async_interface {
      public:
       virtual ~async_interface() {}
-      virtual void DrawingStream(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::Whiteboard::Drawing::DrawingEvent,::Whiteboard::Drawing::DrawingEvent>* reactor) = 0;
+      virtual void OpenDrawingStream(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::Whiteboard::Drawing::StreamEvent,::Whiteboard::Drawing::StreamEvent>* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
     class async_interface* experimental_async() { return async(); }
    private:
-    virtual ::grpc::ClientReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* DrawingStreamRaw(::grpc::ClientContext* context) = 0;
-    virtual ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* AsyncDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
-    virtual ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* PrepareAsyncDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* OpenDrawingStreamRaw(::grpc::ClientContext* context) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* AsyncOpenDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* PrepareAsyncOpenDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-    std::unique_ptr< ::grpc::ClientReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>> DrawingStream(::grpc::ClientContext* context) {
-      return std::unique_ptr< ::grpc::ClientReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>>(DrawingStreamRaw(context));
+    std::unique_ptr< ::grpc::ClientReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>> OpenDrawingStream(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>>(OpenDrawingStreamRaw(context));
     }
-    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>> AsyncDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>>(AsyncDrawingStreamRaw(context, cq, tag));
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>> AsyncOpenDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>>(AsyncOpenDrawingStreamRaw(context, cq, tag));
     }
-    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>> PrepareAsyncDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>>(PrepareAsyncDrawingStreamRaw(context, cq));
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>> PrepareAsyncOpenDrawingStream(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>>(PrepareAsyncOpenDrawingStreamRaw(context, cq));
     }
     class async final :
       public StubInterface::async_interface {
      public:
-      void DrawingStream(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::Whiteboard::Drawing::DrawingEvent,::Whiteboard::Drawing::DrawingEvent>* reactor) override;
+      void OpenDrawingStream(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::Whiteboard::Drawing::StreamEvent,::Whiteboard::Drawing::StreamEvent>* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -86,10 +86,10 @@ class DrawingService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class async async_stub_{this};
-    ::grpc::ClientReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* DrawingStreamRaw(::grpc::ClientContext* context) override;
-    ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* AsyncDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
-    ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* PrepareAsyncDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_DrawingStream_;
+    ::grpc::ClientReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* OpenDrawingStreamRaw(::grpc::ClientContext* context) override;
+    ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* AsyncOpenDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* PrepareAsyncOpenDrawingStreamRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_OpenDrawingStream_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -97,111 +97,111 @@ class DrawingService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status DrawingStream(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* stream);
+    virtual ::grpc::Status OpenDrawingStream(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* stream);
   };
   template <class BaseClass>
-  class WithAsyncMethod_DrawingStream : public BaseClass {
+  class WithAsyncMethod_OpenDrawingStream : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_DrawingStream() {
+    WithAsyncMethod_OpenDrawingStream() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_DrawingStream() override {
+    ~WithAsyncMethod_OpenDrawingStream() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status DrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* /*stream*/)  override {
+    ::grpc::Status OpenDrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* /*stream*/)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestDrawingStream(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestOpenDrawingStream(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncBidiStreaming(0, context, stream, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_DrawingStream<Service > AsyncService;
+  typedef WithAsyncMethod_OpenDrawingStream<Service > AsyncService;
   template <class BaseClass>
-  class WithCallbackMethod_DrawingStream : public BaseClass {
+  class WithCallbackMethod_OpenDrawingStream : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithCallbackMethod_DrawingStream() {
+    WithCallbackMethod_OpenDrawingStream() {
       ::grpc::Service::MarkMethodCallback(0,
-          new ::grpc::internal::CallbackBidiHandler< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>(
+          new ::grpc::internal::CallbackBidiHandler< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>(
             [this](
-                   ::grpc::CallbackServerContext* context) { return this->DrawingStream(context); }));
+                   ::grpc::CallbackServerContext* context) { return this->OpenDrawingStream(context); }));
     }
-    ~WithCallbackMethod_DrawingStream() override {
+    ~WithCallbackMethod_OpenDrawingStream() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status DrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* /*stream*/)  override {
+    ::grpc::Status OpenDrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* /*stream*/)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerBidiReactor< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* DrawingStream(
+    virtual ::grpc::ServerBidiReactor< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* OpenDrawingStream(
       ::grpc::CallbackServerContext* /*context*/)
       { return nullptr; }
   };
-  typedef WithCallbackMethod_DrawingStream<Service > CallbackService;
+  typedef WithCallbackMethod_OpenDrawingStream<Service > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_DrawingStream : public BaseClass {
+  class WithGenericMethod_OpenDrawingStream : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_DrawingStream() {
+    WithGenericMethod_OpenDrawingStream() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_DrawingStream() override {
+    ~WithGenericMethod_OpenDrawingStream() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status DrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* /*stream*/)  override {
+    ::grpc::Status OpenDrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* /*stream*/)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithRawMethod_DrawingStream : public BaseClass {
+  class WithRawMethod_OpenDrawingStream : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_DrawingStream() {
+    WithRawMethod_OpenDrawingStream() {
       ::grpc::Service::MarkMethodRaw(0);
     }
-    ~WithRawMethod_DrawingStream() override {
+    ~WithRawMethod_OpenDrawingStream() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status DrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* /*stream*/)  override {
+    ::grpc::Status OpenDrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* /*stream*/)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestDrawingStream(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestOpenDrawingStream(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncBidiStreaming(0, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_DrawingStream : public BaseClass {
+  class WithRawCallbackMethod_OpenDrawingStream : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawCallbackMethod_DrawingStream() {
+    WithRawCallbackMethod_OpenDrawingStream() {
       ::grpc::Service::MarkMethodRawCallback(0,
           new ::grpc::internal::CallbackBidiHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-                   ::grpc::CallbackServerContext* context) { return this->DrawingStream(context); }));
+                   ::grpc::CallbackServerContext* context) { return this->OpenDrawingStream(context); }));
     }
-    ~WithRawCallbackMethod_DrawingStream() override {
+    ~WithRawCallbackMethod_OpenDrawingStream() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status DrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::DrawingEvent, ::Whiteboard::Drawing::DrawingEvent>* /*stream*/)  override {
+    ::grpc::Status OpenDrawingStream(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::Whiteboard::Drawing::StreamEvent, ::Whiteboard::Drawing::StreamEvent>* /*stream*/)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerBidiReactor< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* DrawingStream(
+    virtual ::grpc::ServerBidiReactor< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* OpenDrawingStream(
       ::grpc::CallbackServerContext* /*context*/)
       { return nullptr; }
   };

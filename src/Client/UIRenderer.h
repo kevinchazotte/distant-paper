@@ -10,9 +10,9 @@ public:
 	void Clear() override;
 	void Display() override;
 	void RenderHomeScreen() override;
-	void RenderWhiteboard(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
-						const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
-						bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) override;
+	void RenderWhiteboard(const std::unordered_map<std::string, Whiteboard::Types::Drawable>& drawables,
+		const Whiteboard::Types::Line& currentLine, const Whiteboard::Types::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
+		bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) override;
 
 private:
 	sf::RenderWindow& m_RenderWindow;
@@ -27,9 +27,9 @@ private:
 	void DrawLine(const std::array<sf::Vertex, 2>& vertexArray);
 	void DrawRectangle(const sf::RectangleShape& rectangleShape);
 	void DrawCircle(const sf::CircleShape& circleShape);
-	void RenderDrawings(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
-					  const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle,
-					  bool isDrawing, WhiteboardStateMachine::DrawTool currentTool);
+	void RenderDrawings(const std::unordered_map<std::string, Whiteboard::Types::Drawable>& drawables,
+		const Whiteboard::Types::Line& currentLine, const Whiteboard::Types::Rectangle& currentRectangle,
+		bool isDrawing, WhiteboardStateMachine::DrawTool currentTool);
 	void RenderCursor(const sf::CircleShape& cursorCircle, bool isDrawing, WhiteboardStateMachine::DrawTool currentTool);
 	void RenderMenuBar(WhiteboardStateMachine::DrawTool currentTool);
 };

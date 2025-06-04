@@ -18,8 +18,22 @@ public:
     grpc::Status Connect(grpc::ServerContext* context,
         const Whiteboard::Server::ServerConnectionRequest* request,
         Whiteboard::Server::ServerConnectionConfirmation* reply) override {
-        int newConnectionId = serverManager_->AssignNewConnectionId(context->peer());
+        int newConnectionId = serverManager_->Connect(context->peer());
         reply->set_connection(newConnectionId);
+        std::cout << "[Server Thread] Responded to request with input connection: " << request->connection() << std::endl;
+        return grpc::Status::OK;
+    }
+
+    grpc::Status Disconnect(grpc::ServerContext* context,
+        const Whiteboard::Server::ServerConnectionRequest* request,
+        Whiteboard::Server::ServerConnectionConfirmation* reply) override {
+        bool disconnected = serverManager_->Disconnect(request->connection());
+        if (disconnected) {
+            reply->set_connection(99); // hard-coded for testing
+        }
+        else {
+            reply->set_connection(98); // hard-coded for testing
+        }
         std::cout << "[Server Thread] Responded to request with input connection: " << request->connection() << std::endl;
         return grpc::Status::OK;
     }
@@ -27,29 +41,40 @@ private:
     ServerManager* serverManager_;
 };
 
-ServerManager::ServerManager(const std::string targetAddress) : m_TargetAddress(targetAddress) {
-    
+ServerManager::ServerManager(const std::string& targetAddress) : m_TargetAddress(targetAddress) {
+    drawingService_ = std::make_unique<DrawingServiceImpl>(this);
+}
+
+ServerManager::~ServerManager() {
+    drawingService_.reset();
+}
+
+int ServerManager::Connect(const std::string& peerAddress) {
+    std::lock_guard<std::mutex> lock(m_ServerConnectionMutex);
+    int connectionId = AssignNewConnectionId(peerAddress);
+    if (connectionId >= 0) {
+        m_OpenClients.insert(std::make_pair(connectionId, peerAddress));
+        return connectionId;
+    }
+    return -1;
 }
 
 bool ServerManager::Disconnect(int connectionId) {
-    return RemoveConnectionId(connectionId);
-}
-
-void ServerManager::BroadcastDrawable(const Whiteboard::Types::Drawable& drawable) {
-
-}
-
-void ServerManager::BroadcastErase(sf::Vector2f position) {
-
+    bool closedDrawingStream = false;
+    if (drawingService_) {
+        closedDrawingStream = drawingService_->CloseDrawingStream(connectionId);
+    }
+    return closedDrawingStream && RemoveConnectionId(connectionId); // return true only if the stream AND connection are both closed
 }
 
 void ServerManager::Start() {
-    ServerConnectionServiceImpl service_implementation(this);
+    ServerConnectionServiceImpl connectionServiceImplementation(this);
     grpc::ServerBuilder builder;
     grpc::ServerContext context;
     // Listen on the given address using insecure credentials
     builder.AddListeningPort(m_TargetAddress, grpc::InsecureServerCredentials());
-    builder.RegisterService(&service_implementation);
+    builder.RegisterService(&connectionServiceImplementation);
+    builder.RegisterService(drawingService_.get());
 
     // Assemble and start the server
     m_ServerInstance = builder.BuildAndStart();
@@ -65,31 +90,36 @@ void ServerManager::Start() {
 }
 
 void ServerManager::Stop() {
-    m_ServerInstance->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds(1));
+    if (m_ServerInstance) {
+        m_ServerInstance->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds(1));
+    }
 }
 
 void ServerManager::Update() {
 
 }
 
-int ServerManager::AssignNewConnectionId(std::string peerAddress) {
-    std::lock_guard<std::mutex> lock(m_ServerMutex);
-    m_OpenClients.insert(std::make_pair(m_NumConnections, peerAddress));
-    return m_NumConnections++;
+int ServerManager::AssignNewConnectionId(const std::string& peerAddress) {
+    int newConnection = m_NumConnections;
+    m_NumConnections++;
+    return newConnection;
+}
+
+bool ServerManager::IsValidConnectionId(int connectionId) {
+    std::lock_guard<std::mutex> lock(m_ServerConnectionMutex);
+    return m_OpenClients.find(connectionId) != m_OpenClients.end();
 }
 
 bool ServerManager::RemoveConnectionId(int connectionId) {
-    std::lock_guard<std::mutex> lock(m_ServerMutex);
+    std::lock_guard<std::mutex> lock(m_ServerConnectionMutex);
     if (m_OpenClients.find(connectionId) != m_OpenClients.end()) {
         m_OpenClients.erase(connectionId);
-        m_NumConnections--;
         return true;
     }
     return false;
 }
 
 std::string ServerManager::ReserveObjectId() {
-    std::lock_guard<std::mutex> lock(m_ServerMutex);
     // generate a random object id
     static std::random_device              rd;
     static std::mt19937                    gen(rd());

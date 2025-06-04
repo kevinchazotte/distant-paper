@@ -3,10 +3,10 @@
 #include "../Utilities/DrawingTypeSerializationConverterUtil.h"
 #include "../Utilities/GeometricIntersectionUtil.h"
 
-DrawingManager::DrawingManager(std::shared_ptr<IServerConnectionManager> serverConnectionManager) : m_ServerConnectionManager(serverConnectionManager) {
+DrawingManager::DrawingManager(std::shared_ptr<ServerConnectionManager> serverConnectionManager) : m_ServerConnectionManager(serverConnectionManager) {
     m_IsDrawing = false;
-    m_CurrentLine = Whiteboard::Line();
-    m_CurrentRectangle = Whiteboard::Rectangle();
+    m_CurrentLine = Whiteboard::Types::Line();
+    m_CurrentRectangle = Whiteboard::Types::Rectangle();
     m_CursorCircle = sf::CircleShape(kEraserSize);
     m_CursorCircle.setOutlineColor(sf::Color::Black);
     m_CursorCircle.setOutlineThickness(1);
@@ -16,6 +16,43 @@ DrawingManager::~DrawingManager() {
     this->Clear();
 }
 
+void DrawingManager::OnDrawableAdded(const Whiteboard::Types::Drawable& drawable) {
+    std::lock_guard<std::mutex> lock(m_DrawablesMutex);
+    std::string id = "";
+    if (drawable.has_line()) {
+        id = drawable.line().id();
+    }
+    else if (drawable.has_rectangle()) {
+        id = drawable.rectangle().id();
+    }
+
+    if (id == "") {
+        return;
+    }
+    m_Drawables[id] = drawable;
+}
+
+void DrawingManager::OnDrawableErased(const Whiteboard::Types::Drawable& drawable) {
+    std::lock_guard<std::mutex> lock(m_DrawablesMutex);
+    std::string id = "";
+    if (drawable.has_line()) {
+        id = drawable.line().id();
+    }
+    else if (drawable.has_rectangle()) {
+        id = drawable.rectangle().id();
+    }
+
+    if (id == "") {
+        return;
+    }
+    m_Drawables.erase(id);
+}
+
+void DrawingManager::OnListenerDisconnected(const grpc::Status& status) {
+    std::cerr << "[Client] Listener disconnected with error code " << status.error_code() << ": " << status.error_message() << std::endl;
+    return;
+}
+
 void DrawingManager::StartDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) {
     if (m_IsDrawing) {
         return;
@@ -23,11 +60,11 @@ void DrawingManager::StartDrawing(sf::Vector2f position, WhiteboardStateMachine:
 
     m_IsDrawing = true;
     if (tool == WhiteboardStateMachine::DrawTool::kMarker) {
-        Whiteboard::Point* start = m_CurrentLine.mutable_start();
+        Whiteboard::Types::Point* start = m_CurrentLine.mutable_start();
         *start = DrawingTypeSerializationConverterUtil::ToPoint(position, sf::Color::Black);
     }
     else if (tool == WhiteboardStateMachine::DrawTool::kRectangle) {
-        Whiteboard::Point* start = m_CurrentRectangle.mutable_start();
+        Whiteboard::Types::Point* start = m_CurrentRectangle.mutable_start();
         *start = DrawingTypeSerializationConverterUtil::ToPoint(position, sf::Color::Black);
     }
     else if (tool == WhiteboardStateMachine::DrawTool::kEraser) {
@@ -39,23 +76,23 @@ void DrawingManager::StartDrawing(sf::Vector2f position, WhiteboardStateMachine:
 void DrawingManager::UpdateDrawing(sf::Vector2f position, WhiteboardStateMachine::DrawTool tool) {
     if (tool == WhiteboardStateMachine::DrawTool::kMarker) {
         if (m_CurrentLine.has_end()) {
-            Whiteboard::Point* end = m_CurrentLine.mutable_end();
+            Whiteboard::Types::Point* end = m_CurrentLine.mutable_end();
             end->set_x(position.x);
             end->set_y(position.y);
         }
         else {
-            Whiteboard::Point* end = m_CurrentLine.mutable_end();
+            Whiteboard::Types::Point* end = m_CurrentLine.mutable_end();
             *end = DrawingTypeSerializationConverterUtil::ToPoint(position, sf::Color::Black);
         }
     }
     else if (tool == WhiteboardStateMachine::DrawTool::kRectangle) {
         if (m_CurrentRectangle.has_end()) {
-            Whiteboard::Point* end = m_CurrentRectangle.mutable_end();
+            Whiteboard::Types::Point* end = m_CurrentRectangle.mutable_end();
             end->set_x(position.x);
             end->set_y(position.y);
         }
         else {
-            Whiteboard::Point* end = m_CurrentRectangle.mutable_end();
+            Whiteboard::Types::Point* end = m_CurrentRectangle.mutable_end();
             *end = DrawingTypeSerializationConverterUtil::ToPoint(position, sf::Color::Black);
         }
     }
@@ -71,12 +108,23 @@ void DrawingManager::EndDrawingAndUpdate(WhiteboardStateMachine::DrawTool tool) 
     }
 
     m_IsDrawing = false;
+    static int id_counter = 0;
     if (tool == WhiteboardStateMachine::DrawTool::kMarker) {
-        m_Lines.push_back(m_CurrentLine); // for now, local only updates. eventually, send to server
+        m_CurrentLine.set_id(std::to_string(id_counter++));
+        Whiteboard::Types::Drawable drawable;
+        *drawable.mutable_line() = m_CurrentLine;
+        if (!m_ServerConnectionManager->SendDrawable(drawable)) {
+            std::cerr << "[Client] Failed to send drawable with id " << m_CurrentLine.id() << std::endl;
+        }
         m_CurrentLine.Clear();
     }
     else if (tool == WhiteboardStateMachine::DrawTool::kRectangle) {
-        m_Rectangles.push_back(m_CurrentRectangle); // for now, local only updates. eventually, send to server
+        m_CurrentRectangle.set_id(std::to_string(id_counter++));
+        Whiteboard::Types::Drawable drawable;
+        *drawable.mutable_rectangle() = m_CurrentRectangle;
+        if (!m_ServerConnectionManager->SendDrawable(drawable)) {
+            std::cerr << "[Client] Failed to send drawable with id " << m_CurrentRectangle.id() << std::endl;
+        }
         m_CurrentRectangle.Clear();
     }
     else if (tool == WhiteboardStateMachine::DrawTool::kEraser) {
@@ -102,39 +150,40 @@ void DrawingManager::StopDrawing(WhiteboardStateMachine::DrawTool tool) {
 }
 
 void DrawingManager::EraseAt(sf::Vector2f position) {
-    // erase any intersecting lines
-    for (std::vector<Whiteboard::Line>::iterator it = m_Lines.begin(); it < m_Lines.end();) {
-        std::array<sf::Vertex, 2> vertices = DrawingTypeSerializationConverterUtil::ToSFMLVertices(*it);
-        if (GeometricIntersectionUtil::CircleIntersectsLineSegment(vertices, position, kEraserSize)) {
-            it = m_Lines.erase(it);
+    std::lock_guard<std::mutex> lock(m_DrawablesMutex);
+    // erase intersected drawable objects
+    for (std::unordered_map<std::string, Whiteboard::Types::Drawable>::iterator it = m_Drawables.begin(); it != m_Drawables.end(); it++) {
+        if (it->second.has_line()) {
+            std::array<sf::Vertex, 2> vertices = DrawingTypeSerializationConverterUtil::ToSFMLVertices(it->second.line());
+            if (GeometricIntersectionUtil::CircleIntersectsLineSegment(vertices, position, kEraserSize)) {
+                if (!m_ServerConnectionManager->SendErase(it->second)) {
+                    std::cerr << "[Client] Failed to send drawable with id " << m_CurrentLine.id() << std::endl;
+                }
+            }
         }
-        else {
-            it++;
-        }
-    }
-
-    // erase any intersecting rectangles
-    for (std::vector<Whiteboard::Rectangle>::iterator it = m_Rectangles.begin(); it < m_Rectangles.end();) {
-        sf::RectangleShape rectangleShape = DrawingTypeSerializationConverterUtil::ToSFMLRectangleShape(*it);
-        if (GeometricIntersectionUtil::CircleIntersectsRectangle(rectangleShape, position, kEraserSize)) {
-            it = m_Rectangles.erase(it);
-        }
-        else {
-            it++;
+        else if (it->second.has_rectangle()) {
+            sf::RectangleShape rectangleShape = DrawingTypeSerializationConverterUtil::ToSFMLRectangleShape(it->second.rectangle());
+            if (GeometricIntersectionUtil::CircleIntersectsRectangle(rectangleShape, position, kEraserSize)) {
+                if (!m_ServerConnectionManager->SendErase(it->second)) {
+                    std::cerr << "[Client] Failed to send drawable with id " << m_CurrentRectangle.id() << std::endl;
+                }
+            }
         }
     }
 }
 
 void DrawingManager::Clear() {
+    std::lock_guard<std::mutex> lock(m_DrawablesMutex);
     m_IsDrawing = false;
     m_CurrentLine.Clear();
     m_CurrentRectangle.Clear();
-    for (Whiteboard::Line line : m_Lines) {
-        line.Clear();
+    for (std::pair<std::string, Whiteboard::Types::Drawable> pair : m_Drawables) {
+        pair.second.Clear();
     }
-    m_Lines.clear();
-    for (Whiteboard::Rectangle rectangle : m_Rectangles) {
-        rectangle.Clear();
-    }
-    m_Rectangles.clear();
+    m_Drawables.clear();
+}
+
+std::unordered_map<std::string, Whiteboard::Types::Drawable> DrawingManager::GetDrawables() {
+    std::lock_guard<std::mutex> lock(m_DrawablesMutex);
+    return m_Drawables;
 }

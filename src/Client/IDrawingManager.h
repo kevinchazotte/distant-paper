@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <unordered_map>
+
 #include "drawing_types.grpc.pb.h"
 #include "drawing_types.pb.h"
 
@@ -18,11 +20,10 @@ public:
     virtual void EraseAt(sf::Vector2f position) = 0;
     virtual void Clear() = 0;
 
-    virtual std::vector<Whiteboard::Line> GetLines() = 0;
-    virtual std::vector<Whiteboard::Rectangle> GetRectangles() = 0;
+    virtual std::unordered_map<std::string, Whiteboard::Types::Drawable> GetDrawables() = 0;
 
-    virtual Whiteboard::Line GetCurrentLine() = 0;
-    virtual Whiteboard::Rectangle GetCurrentRectangle() = 0;
+    virtual Whiteboard::Types::Line GetCurrentLine() = 0;
+    virtual Whiteboard::Types::Rectangle GetCurrentRectangle() = 0;
 
     virtual sf::CircleShape GetCursorCircle() = 0;
     virtual bool IsDrawing() = 0;

@@ -44,11 +44,20 @@ class ServerConnectionService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>> PrepareAsyncConnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>>(PrepareAsyncConnectRaw(context, request, cq));
     }
+    virtual ::grpc::Status Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::Whiteboard::Server::ServerConnectionConfirmation* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>> AsyncDisconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>>(AsyncDisconnectRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>> PrepareAsyncDisconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>>(PrepareAsyncDisconnectRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
       virtual void Connect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, std::function<void(::grpc::Status)>) = 0;
       virtual void Connect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -56,6 +65,8 @@ class ServerConnectionService final {
    private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>* AsyncConnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>* PrepareAsyncConnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>* AsyncDisconnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::Whiteboard::Server::ServerConnectionConfirmation>* PrepareAsyncDisconnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -67,11 +78,20 @@ class ServerConnectionService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>> PrepareAsyncConnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>>(PrepareAsyncConnectRaw(context, request, cq));
     }
+    ::grpc::Status Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::Whiteboard::Server::ServerConnectionConfirmation* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>> AsyncDisconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>>(AsyncDisconnectRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>> PrepareAsyncDisconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>>(PrepareAsyncDisconnectRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
       void Connect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, std::function<void(::grpc::Status)>) override;
       void Connect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, std::function<void(::grpc::Status)>) override;
+      void Disconnect(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -85,7 +105,10 @@ class ServerConnectionService final {
     class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>* AsyncConnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>* PrepareAsyncConnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>* AsyncDisconnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::Whiteboard::Server::ServerConnectionConfirmation>* PrepareAsyncDisconnectRaw(::grpc::ClientContext* context, const ::Whiteboard::Server::ServerConnectionRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_Connect_;
+    const ::grpc::internal::RpcMethod rpcmethod_Disconnect_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -94,6 +117,7 @@ class ServerConnectionService final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status Connect(::grpc::ServerContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response);
+    virtual ::grpc::Status Disconnect(::grpc::ServerContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_Connect : public BaseClass {
@@ -115,7 +139,27 @@ class ServerConnectionService final {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Connect<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_Disconnect : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_Disconnect() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_Disconnect() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Disconnect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDisconnect(::grpc::ServerContext* context, ::Whiteboard::Server::ServerConnectionRequest* request, ::grpc::ServerAsyncResponseWriter< ::Whiteboard::Server::ServerConnectionConfirmation>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_Connect<WithAsyncMethod_Disconnect<Service > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_Connect : public BaseClass {
    private:
@@ -143,7 +187,34 @@ class ServerConnectionService final {
     virtual ::grpc::ServerUnaryReactor* Connect(
       ::grpc::CallbackServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_Connect<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_Disconnect : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_Disconnect() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::Whiteboard::Server::ServerConnectionRequest* request, ::Whiteboard::Server::ServerConnectionConfirmation* response) { return this->Disconnect(context, request, response); }));}
+    void SetMessageAllocatorFor_Disconnect(
+        ::grpc::MessageAllocator< ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_Disconnect() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Disconnect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Disconnect(
+      ::grpc::CallbackServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_Connect<WithCallbackMethod_Disconnect<Service > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_Connect : public BaseClass {
@@ -158,6 +229,23 @@ class ServerConnectionService final {
     }
     // disable synchronous version of this method
     ::grpc::Status Connect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_Disconnect : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_Disconnect() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_Disconnect() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Disconnect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -183,6 +271,26 @@ class ServerConnectionService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_Disconnect : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_Disconnect() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_Disconnect() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Disconnect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDisconnect(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_Connect : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -202,6 +310,28 @@ class ServerConnectionService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* Connect(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_Disconnect : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_Disconnect() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Disconnect(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_Disconnect() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Disconnect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Disconnect(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -231,9 +361,36 @@ class ServerConnectionService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedConnect(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::Whiteboard::Server::ServerConnectionRequest,::Whiteboard::Server::ServerConnectionConfirmation>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_Connect<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_Disconnect : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_Disconnect() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::Whiteboard::Server::ServerConnectionRequest, ::Whiteboard::Server::ServerConnectionConfirmation>* streamer) {
+                       return this->StreamedDisconnect(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_Disconnect() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status Disconnect(::grpc::ServerContext* /*context*/, const ::Whiteboard::Server::ServerConnectionRequest* /*request*/, ::Whiteboard::Server::ServerConnectionConfirmation* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedDisconnect(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::Whiteboard::Server::ServerConnectionRequest,::Whiteboard::Server::ServerConnectionConfirmation>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_Connect<WithStreamedUnaryMethod_Disconnect<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Connect<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_Connect<WithStreamedUnaryMethod_Disconnect<Service > > StreamedService;
 };
 
 }  // namespace Server

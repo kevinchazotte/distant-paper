@@ -80,9 +80,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr StreamEvent::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        client_id_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
+        connectionid_{0},
         EventType_{},
         _oneof_case_{} {}
 
@@ -122,7 +120,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Whiteboard::Drawing::StreamEvent, _impl_.client_id_),
+        PROTOBUF_FIELD_OFFSET(::Whiteboard::Drawing::StreamEvent, _impl_.connectionid_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::Whiteboard::Drawing::StreamEvent, _impl_.EventType_),
@@ -165,17 +163,17 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
 const char descriptor_table_protodef_drawing_5fservice_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\025drawing_service.proto\022\022Whiteboard.Draw"
-    "ing\032\023drawing_types.proto\"\235\001\n\013StreamEvent"
-    "\022\021\n\tclient_id\030\001 \001(\t\0228\n\014drawingEvent\030\002 \001("
-    "\0132 .Whiteboard.Drawing.DrawingEventH\000\0224\n"
-    "\neraseEvent\030\003 \001(\0132\036.Whiteboard.Drawing.E"
-    "raseEventH\000B\013\n\tEventType\"<\n\014DrawingEvent"
-    "\022,\n\010drawable\030\001 \001(\0132\032.Whiteboard.Types.Dr"
-    "awable\":\n\nEraseEvent\022,\n\010drawable\030\001 \001(\0132\032"
-    ".Whiteboard.Types.Drawable2i\n\016DrawingSer"
-    "vice\022W\n\rDrawingStream\022 .Whiteboard.Drawi"
-    "ng.DrawingEvent\032 .Whiteboard.Drawing.Dra"
-    "wingEvent(\0010\001b\006proto3"
+    "ing\032\023drawing_types.proto\"\240\001\n\013StreamEvent"
+    "\022\024\n\014connectionId\030\001 \001(\005\0228\n\014drawingEvent\030\002"
+    " \001(\0132 .Whiteboard.Drawing.DrawingEventH\000"
+    "\0224\n\neraseEvent\030\003 \001(\0132\036.Whiteboard.Drawin"
+    "g.EraseEventH\000B\013\n\tEventType\"<\n\014DrawingEv"
+    "ent\022,\n\010drawable\030\001 \001(\0132\032.Whiteboard.Types"
+    ".Drawable\":\n\nEraseEvent\022,\n\010drawable\030\001 \001("
+    "\0132\032.Whiteboard.Types.Drawable2k\n\016Drawing"
+    "Service\022Y\n\021OpenDrawingStream\022\037.Whiteboar"
+    "d.Drawing.StreamEvent\032\037.Whiteboard.Drawi"
+    "ng.StreamEvent(\0010\001b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_drawing_5fservice_2eproto_deps[1] = {
@@ -185,7 +183,7 @@ static ::absl::once_flag descriptor_table_drawing_5fservice_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_drawing_5fservice_2eproto = {
     false,
     false,
-    461,
+    466,
     descriptor_table_protodef_drawing_5fservice_2eproto,
     "drawing_service.proto",
     &descriptor_table_drawing_5fservice_2eproto_once,
@@ -253,7 +251,6 @@ PROTOBUF_NDEBUG_INLINE StreamEvent::Impl_::Impl_(
     const ::Whiteboard::Drawing::StreamEvent& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
-        client_id_(arena, from.client_id_),
         EventType_{},
         _oneof_case_{from._oneof_case_[0]} {}
 
@@ -270,6 +267,7 @@ StreamEvent::StreamEvent(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.connectionid_ = from._impl_.connectionid_;
   switch (EventType_case()) {
     case EVENTTYPE_NOT_SET:
       break;
@@ -287,12 +285,12 @@ PROTOBUF_NDEBUG_INLINE StreamEvent::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
-        client_id_(arena),
         EventType_{},
         _oneof_case_{} {}
 
 inline void StreamEvent::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.connectionid_ = {};
 }
 StreamEvent::~StreamEvent() {
   // @@protoc_insertion_point(destructor:Whiteboard.Drawing.StreamEvent)
@@ -302,7 +300,6 @@ inline void StreamEvent::SharedDtor(MessageLite& self) {
   StreamEvent& this_ = static_cast<StreamEvent&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.client_id_.Destroy();
   if (this_.has_EventType()) {
     this_.clear_EventType();
   }
@@ -343,7 +340,7 @@ inline void* PROTOBUF_NONNULL StreamEvent::PlacementNew_(
   return ::new (mem) StreamEvent(arena);
 }
 constexpr auto StreamEvent::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(StreamEvent),
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StreamEvent),
                                             alignof(StreamEvent));
 }
 constexpr auto StreamEvent::InternalGenerateClassData_() {
@@ -380,7 +377,7 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL StreamEvent::Get
   return StreamEvent_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 3, 2, 48, 2>
+const ::_pbi::TcParseTable<0, 3, 2, 0, 2>
 StreamEvent::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(StreamEvent, _impl_._has_bits_),
@@ -399,15 +396,15 @@ StreamEvent::_table_ = {
     ::_pbi::TcParser::GetTable<::Whiteboard::Drawing::StreamEvent>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // string client_id = 1;
-    {::_pbi::TcParser::FastUS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(StreamEvent, _impl_.client_id_)}},
+    // int32 connectionId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StreamEvent, _impl_.connectionid_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(StreamEvent, _impl_.connectionid_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // string client_id = 1;
-    {PROTOBUF_FIELD_OFFSET(StreamEvent, _impl_.client_id_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 connectionId = 1;
+    {PROTOBUF_FIELD_OFFSET(StreamEvent, _impl_.connectionid_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
     // .Whiteboard.Drawing.DrawingEvent drawingEvent = 2;
     {PROTOBUF_FIELD_OFFSET(StreamEvent, _impl_.EventType_.drawingevent_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -420,9 +417,6 @@ StreamEvent::_table_ = {
       {::_pbi::TcParser::GetTable<::Whiteboard::Drawing::EraseEvent>()},
   }},
   {{
-    "\36\11\0\0\0\0\0\0"
-    "Whiteboard.Drawing.StreamEvent"
-    "client_id"
   }},
 };
 PROTOBUF_NOINLINE void StreamEvent::Clear() {
@@ -432,10 +426,7 @@ PROTOBUF_NOINLINE void StreamEvent::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if ((cached_has_bits & 0x00000001u) != 0) {
-    _impl_.client_id_.ClearNonDefaultToEmpty();
-  }
+  _impl_.connectionid_ = 0;
   clear_EventType();
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
@@ -456,13 +447,12 @@ PROTOBUF_NOINLINE void StreamEvent::Clear() {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // string client_id = 1;
+  // int32 connectionId = 1;
   if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    if (!this_._internal_client_id().empty()) {
-      const std::string& _s = this_._internal_client_id();
-      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Whiteboard.Drawing.StreamEvent.client_id");
-      target = stream->WriteStringMaybeAliased(1, _s, target);
+    if (this_._internal_connectionid() != 0) {
+      target =
+          ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
+              stream, this_._internal_connectionid(), target);
     }
   }
 
@@ -506,12 +496,12 @@ PROTOBUF_NOINLINE void StreamEvent::Clear() {
   (void)cached_has_bits;
 
    {
-    // string client_id = 1;
+    // int32 connectionId = 1;
     cached_has_bits = this_._impl_._has_bits_[0];
     if ((cached_has_bits & 0x00000001u) != 0) {
-      if (!this_._internal_client_id().empty()) {
-        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                        this_._internal_client_id());
+      if (this_._internal_connectionid() != 0) {
+        total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+            this_._internal_connectionid());
       }
     }
   }
@@ -547,12 +537,8 @@ void StreamEvent::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
 
   cached_has_bits = from._impl_._has_bits_[0];
   if ((cached_has_bits & 0x00000001u) != 0) {
-    if (!from._internal_client_id().empty()) {
-      _this->_internal_set_client_id(from._internal_client_id());
-    } else {
-      if (_this->_impl_.client_id_.IsDefault()) {
-        _this->_internal_set_client_id("");
-      }
+    if (from._internal_connectionid() != 0) {
+      _this->_impl_.connectionid_ = from._impl_.connectionid_;
     }
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
@@ -600,11 +586,9 @@ void StreamEvent::CopyFrom(const StreamEvent& from) {
 
 void StreamEvent::InternalSwap(StreamEvent* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.client_id_, &other->_impl_.client_id_, arena);
+  swap(_impl_.connectionid_, other->_impl_.connectionid_);
   swap(_impl_.EventType_, other->_impl_.EventType_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }

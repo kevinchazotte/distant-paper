@@ -19,34 +19,30 @@ void UIRenderer::RenderHomeScreen() {
 	DrawButton(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 1.6, kButtonWidth, kButtonHeight, "EXIT", sf::Color::Black);
 }
 
-void UIRenderer::RenderWhiteboard(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
-								const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
-								bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
-	RenderDrawings(lines, rectangles, currentLine, currentRectangle, isDrawing, currentTool);
+void UIRenderer::RenderWhiteboard(const std::unordered_map<std::string, Whiteboard::Types::Drawable>& drawables,
+	const Whiteboard::Types::Line& currentLine, const Whiteboard::Types::Rectangle& currentRectangle, const sf::CircleShape& cursorCircle,
+	bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
+	RenderDrawings(drawables, currentLine, currentRectangle, isDrawing, currentTool);
 	RenderCursor(cursorCircle, isDrawing, currentTool);
 	RenderMenuBar(currentTool);
 }
 
-void UIRenderer::RenderDrawings(const std::vector<Whiteboard::Line>& lines, const std::vector<Whiteboard::Rectangle>& rectangles,
-							  const Whiteboard::Line& currentLine, const Whiteboard::Rectangle& currentRectangle,
-							  bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
-	// Draw completed lines
-	for (const auto& line : lines) {
-		if (line.has_start() && line.has_end()) {
-			DrawLine(DrawingTypeSerializationConverterUtil::ToSFMLVertices(line));
+void UIRenderer::RenderDrawings(const std::unordered_map<std::string, Whiteboard::Types::Drawable>& drawables,
+	const Whiteboard::Types::Line& currentLine, const Whiteboard::Types::Rectangle& currentRectangle,
+	bool isDrawing, WhiteboardStateMachine::DrawTool currentTool) {
+	// Draw completed drawable types
+	for (const std::pair<std::string, Whiteboard::Types::Drawable>& pair : drawables) {
+		if (pair.second.has_line() && pair.second.line().has_start() && pair.second.line().has_end()) {
+			DrawLine(DrawingTypeSerializationConverterUtil::ToSFMLVertices(pair.second.line()));
+		}
+		else if (pair.second.has_rectangle() && pair.second.rectangle().has_start() && pair.second.rectangle().has_end()) {
+			DrawRectangle(DrawingTypeSerializationConverterUtil::ToSFMLRectangleShape(pair.second.rectangle()));
 		}
 	}
 
 	// Draw current line being drawn
 	if (isDrawing && currentTool == WhiteboardStateMachine::DrawTool::kMarker && currentLine.has_start() && currentLine.has_end()) {
 		DrawLine(DrawingTypeSerializationConverterUtil::ToSFMLVertices(currentLine));
-	}
-
-	// Draw completed rectangles
-	for (const auto& rectangle : rectangles) {
-		if (rectangle.has_start() && rectangle.has_end()) {
-			DrawRectangle(DrawingTypeSerializationConverterUtil::ToSFMLRectangleShape(rectangle));
-		}
 	}
 
 	// Draw current rectangle preview

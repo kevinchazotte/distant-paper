@@ -121,17 +121,19 @@ const char descriptor_table_protodef_server_5fconnection_2eproto[] ABSL_ATTRIBUT
     "\n\027server_connection.proto\022\021Whiteboard.Se"
     "rver\"-\n\027ServerConnectionRequest\022\022\n\nconne"
     "ction\030\001 \001(\005\"2\n\034ServerConnectionConfirmat"
-    "ion\022\022\n\nconnection\030\001 \001(\0052\201\001\n\027ServerConnec"
+    "ion\022\022\n\nconnection\030\001 \001(\0052\354\001\n\027ServerConnec"
     "tionService\022f\n\007Connect\022*.Whiteboard.Serv"
     "er.ServerConnectionRequest\032/.Whiteboard."
-    "Server.ServerConnectionConfirmationb\006pro"
-    "to3"
+    "Server.ServerConnectionConfirmation\022i\n\nD"
+    "isconnect\022*.Whiteboard.Server.ServerConn"
+    "ectionRequest\032/.Whiteboard.Server.Server"
+    "ConnectionConfirmationb\006proto3"
 };
 static ::absl::once_flag descriptor_table_server_5fconnection_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_server_5fconnection_2eproto = {
     false,
     false,
-    283,
+    390,
     descriptor_table_protodef_server_5fconnection_2eproto,
     "server_connection.proto",
     &descriptor_table_server_5fconnection_2eproto_once,
