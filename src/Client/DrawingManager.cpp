@@ -5,6 +5,7 @@
 
 DrawingManager::DrawingManager(std::shared_ptr<ServerConnectionManager> serverConnectionManager) : m_ServerConnectionManager(serverConnectionManager) {
     m_IsDrawing = false;
+    m_IdCounter = 0;
     m_CurrentLine = Whiteboard::Types::Line();
     m_CurrentRectangle = Whiteboard::Types::Rectangle();
     m_CursorCircle = sf::CircleShape(kEraserSize);
@@ -30,6 +31,7 @@ void DrawingManager::OnDrawableAdded(const Whiteboard::Types::Drawable& drawable
         return;
     }
     m_Drawables[id] = drawable;
+    m_IdCounter = std::stoi(id) + 1; // m_IdCounter should always be greater than the id of the last drawable
 }
 
 void DrawingManager::OnDrawableErased(const Whiteboard::Types::Drawable& drawable) {
@@ -108,9 +110,8 @@ void DrawingManager::EndDrawingAndUpdate(WhiteboardStateMachine::DrawTool tool) 
     }
 
     m_IsDrawing = false;
-    static int id_counter = 0;
     if (tool == WhiteboardStateMachine::DrawTool::kMarker) {
-        m_CurrentLine.set_id(std::to_string(id_counter++));
+        m_CurrentLine.set_id(std::to_string(m_IdCounter++));
         Whiteboard::Types::Drawable drawable;
         *drawable.mutable_line() = m_CurrentLine;
         if (!m_ServerConnectionManager->SendDrawable(drawable)) {
@@ -119,7 +120,7 @@ void DrawingManager::EndDrawingAndUpdate(WhiteboardStateMachine::DrawTool tool) 
         m_CurrentLine.Clear();
     }
     else if (tool == WhiteboardStateMachine::DrawTool::kRectangle) {
-        m_CurrentRectangle.set_id(std::to_string(id_counter++));
+        m_CurrentRectangle.set_id(std::to_string(m_IdCounter++));
         Whiteboard::Types::Drawable drawable;
         *drawable.mutable_rectangle() = m_CurrentRectangle;
         if (!m_ServerConnectionManager->SendDrawable(drawable)) {

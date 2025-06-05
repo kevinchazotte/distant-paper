@@ -47,6 +47,7 @@ private:
     bool m_IsDrawing;
 
     static const int kEraserSize = 20;
+    int m_IdCounter;
 
     std::shared_ptr<ServerConnectionManager> m_ServerConnectionManager;
 };
