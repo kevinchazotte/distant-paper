@@ -23,6 +23,7 @@ grpc::Status DrawingServiceImpl::OpenDrawingStream(grpc::ServerContext* context,
 	Whiteboard::Drawing::StreamEvent event;
 	while (stream->Read(&event)) {
 		if (event.connectionid() != clientConnection->GetConnectionId()) {
+			std::cerr << "[Server Thread] Client connection id mismatch, " << std::to_string(event.connectionid()) << " vs " << std::to_string(clientConnection->GetConnectionId()) << std::endl;
 			continue;
 		}
 

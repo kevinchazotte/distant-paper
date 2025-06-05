@@ -150,6 +150,7 @@ bool ServerConnectionManager::SendDrawable(const Whiteboard::Types::Drawable& dr
         return false;
     }
     Whiteboard::Drawing::StreamEvent event;
+    event.set_connectionid(m_ConnectionId);
     *event.mutable_drawingevent()->mutable_drawable() = drawable;
     return m_ClientStream->Write(event);
 }
@@ -160,6 +161,7 @@ bool ServerConnectionManager::SendErase(const Whiteboard::Types::Drawable& drawa
         return false;
     }
     Whiteboard::Drawing::StreamEvent event;
+    event.set_connectionid(m_ConnectionId);
     *event.mutable_eraseevent()->mutable_drawable() = drawable;
     return m_ClientStream->Write(event);
 }
