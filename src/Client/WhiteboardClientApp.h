@@ -15,6 +15,7 @@ public:
 	WhiteboardClientApp(std::shared_ptr<ServerConnectionManager> serverConnectionManager);
 	~WhiteboardClientApp();
 
+	void CloseWindow();
 	void Run();
 
 private:

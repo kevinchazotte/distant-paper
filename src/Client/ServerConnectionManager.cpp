@@ -18,7 +18,6 @@ bool ServerConnectionManager::Connect() {
     grpc::ChannelArguments channel_args;
     m_ServerChannel = grpc::CreateCustomChannel(m_TargetAddress, grpc::InsecureChannelCredentials(), channel_args);
 
-    std::cout << "[Client] Testing connection with client stub..." << std::endl;
     m_ConnectionServiceStub = Whiteboard::Server::ServerConnectionService::NewStub(m_ServerChannel);
 
     Whiteboard::Server::ServerConnectionRequest request;
@@ -30,17 +29,14 @@ bool ServerConnectionManager::Connect() {
         std::chrono::system_clock::now() + std::chrono::seconds(5);
     context.set_deadline(deadline);
 
-    std::cout << "[Client] Sending Connect RPC..." << std::endl;
     grpc::Status status = m_ConnectionServiceStub->Connect(&context, request, &reply);
     if (status.ok()) {
         m_ConnectionId = reply.connection();
         if (m_ConnectionId < 0) {
-            std::cerr << "[Client] RPC failed with connection Id " << std::to_string(m_ConnectionId) << std::endl;
             return false;
         }
         m_DrawingServiceStub = Whiteboard::Drawing::DrawingService::NewStub(m_ServerChannel);
         if (!m_DrawingServiceStub) {
-            std::cerr << "[Client] Failed to create DrawingService Stub." << std::endl;
             return false;
         }
     }
@@ -61,10 +57,10 @@ bool ServerConnectionManager::Disconnect() {
             std::chrono::system_clock::now() + std::chrono::seconds(5);
         context.set_deadline(deadline);
 
-        std::cout << "[Client] Sending Connect RPC..." << std::endl;
         grpc::Status status = m_ConnectionServiceStub->Disconnect(&context, request, &reply);
         if (!status.ok() || reply.connection() == 98) {
             std::cout << "[Client] RPC failed with error code " << status.error_code() << " and connection id " << std::to_string(reply.connection()) << std::endl;
+            return false;
         }
         m_ConnectionServiceStub.reset();
         m_ConnectionId = -1;
@@ -77,7 +73,6 @@ bool ServerConnectionManager::Disconnect() {
 
 bool ServerConnectionManager::OpenSubscriberStream(IDrawingEventListener* listener) {
     if (!m_DrawingServiceStub || m_ConnectionId < 0 || m_ClientStreamIsOpen) {
-        std::cout << " returning false here ... " << std::endl;
         return false;
     }
     m_DrawingEventListener = listener;
@@ -85,19 +80,17 @@ bool ServerConnectionManager::OpenSubscriberStream(IDrawingEventListener* listen
 
     m_ClientStream = m_DrawingServiceStub->OpenDrawingStream(m_ClientStreamContext.get());
     if (!m_ClientStream) {
-        std::cerr << "[Client] Failed to open drawing stream." << std::endl;
         return false;
     }
 
     Whiteboard::Drawing::StreamEvent initialEvent;
     initialEvent.set_connectionid(m_ConnectionId);
     if (!m_ClientStream->Write(initialEvent)) {
-        std::cerr << "[Client] Initial event message failed." << std::endl;
+        return false;
     }
 
     m_ClientStreamIsOpen = true;
     m_EventListenerThread = std::thread(&ServerConnectionManager::ReadSubscriberStream, this);
-    std::cout << "[Client] Started drawing stream..." << std::endl;
     return true;
 }
 
@@ -146,7 +139,6 @@ void ServerConnectionManager::CloseSubscriberStream() {
 
 bool ServerConnectionManager::SendDrawable(const Whiteboard::Types::Drawable& drawable) {
     if (!m_ClientStream || !m_ClientStreamIsOpen) {
-        std::cerr << "[Client] Failed to send drawable." << std::endl;
         return false;
     }
     Whiteboard::Drawing::StreamEvent event;
@@ -157,7 +149,6 @@ bool ServerConnectionManager::SendDrawable(const Whiteboard::Types::Drawable& dr
 
 bool ServerConnectionManager::SendErase(const Whiteboard::Types::Drawable& drawable) {
     if (!m_ClientStream || !m_ClientStreamIsOpen) {
-        std::cerr << "[Client] Failed to send drawable." << std::endl;
         return false;
     }
     Whiteboard::Drawing::StreamEvent event;

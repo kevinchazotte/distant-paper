@@ -2,12 +2,11 @@
 
 #include <grpcpp/server.h>
 
-HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window, std::shared_ptr<ServerConnectionManager> serverConnectionManager) :
-	m_RenderWindow(window), m_ServerConnectionManager(serverConnectionManager) {}
+HomePageEventHandler::HomePageEventHandler(sf::RenderWindow& window) : m_RenderWindow(window) {}
 	
-int HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
+IEventHandler::EventReturnType HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::DrawTool& currentTool) {
     if (event.is<sf::Event::Closed>()) {
-        m_RenderWindow.close();
+        return IEventHandler::EventReturnType::kAttemptCloseApplication;
     }
     // Mouse button pressed event
     if (const sf::Event::MouseButtonPressed* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
@@ -17,21 +16,14 @@ int HomePageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMac
             sf::FloatRect connectButtonArea = sf::FloatRect(sf::Vector2f(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 2),
                 sf::Vector2f(kButtonWidth, kButtonHeight));
             if (connectButtonArea.contains(mousePosition)) {
-                if (m_ServerConnectionManager->Connect()) {
-                    currentState = WhiteboardStateMachine::AppState::kWhiteboard; // manually update app state
-                    return m_ServerConnectionManager->GetConnectionId();
-                }
-                else {
-                    return -1;
-                }
+                return IEventHandler::EventReturnType::kAttemptConnection;
             }
             sf::FloatRect exitButtonArea = sf::FloatRect(sf::Vector2f(m_RenderWindow.getSize().x / 2 - kButtonWidth / 2, m_RenderWindow.getSize().y / 1.6),
                 sf::Vector2f(kButtonWidth, kButtonHeight));
             if (exitButtonArea.contains(mousePosition)) {
-                m_RenderWindow.close();
-                return -2;
+                return IEventHandler::EventReturnType::kAttemptCloseApplication;
             }
         }
     }
-    return -2;
+    return IEventHandler::EventReturnType::kSuccess;
 }

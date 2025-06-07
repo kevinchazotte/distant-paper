@@ -1,21 +1,20 @@
 #include "WhiteboardPageEventHandler.h"
 
-WhiteboardPageEventHandler::WhiteboardPageEventHandler(sf::RenderWindow& window,
-    std::shared_ptr<ServerConnectionManager> serverConnectionManager, std::shared_ptr<IDrawingManager> drawingManager) :
-    m_RenderWindow(window), m_ServerConnectionManager(serverConnectionManager), m_DrawingManager(drawingManager) {
+WhiteboardPageEventHandler::WhiteboardPageEventHandler(sf::RenderWindow& window, std::shared_ptr<IDrawingManager> drawingManager) :
+    m_RenderWindow(window), m_DrawingManager(drawingManager) {
 }
 
-int WhiteboardPageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
+IEventHandler::EventReturnType WhiteboardPageEventHandler::HandleEvent(const sf::Event& event, WhiteboardStateMachine::DrawTool& currentTool) {
     if (event.is<sf::Event::Closed>()) {
-        m_RenderWindow.close();
+        return IEventHandler::EventReturnType::kAttemptCloseApplication;
     }
-    else if (const sf::Event::MouseButtonPressed* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+    if (const sf::Event::MouseButtonPressed* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
             sf::Vector2f mousePosition = sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y);
             // crude test to see if mouse position is on the menu bar, update to be more dynamic
             sf::FloatRect menuBarArea = sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(m_RenderWindow.getSize().x, kMenuBarHeight + 2));
             if (menuBarArea.contains(mousePosition)) {
-                return HandleMenuClick(mousePosition, currentState, currentTool);
+                return HandleMenuClick(mousePosition, currentTool);
             }
             else {
                 if (m_DrawingManager->IsDrawing()) {
@@ -47,7 +46,6 @@ int WhiteboardPageEventHandler::HandleEvent(const sf::Event& event, WhiteboardSt
             if (m_DrawingManager->IsDrawing() && currentTool == WhiteboardStateMachine::DrawTool::kEraser) {
                 m_DrawingManager->EndDrawingAndUpdate(currentTool);
             }
-            return -1; // don't update shape if on the menu bar
         }
         else {
             if (m_DrawingManager->IsDrawing()) {
@@ -55,10 +53,10 @@ int WhiteboardPageEventHandler::HandleEvent(const sf::Event& event, WhiteboardSt
             }
         }
     }
-    return -1;
+    return IEventHandler::EventReturnType::kSuccess;
 }
 
-int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, WhiteboardStateMachine::AppState& currentState, WhiteboardStateMachine::DrawTool& currentTool) {
+IEventHandler::EventReturnType WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, WhiteboardStateMachine::DrawTool& currentTool) {
     // crude test to see if mouse position is on a menu button, update to be more dynamic
     // temporary values for visualizing
     int buttonX = 10;
@@ -67,15 +65,7 @@ int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, Whit
 
     sf::FloatRect homeButtonArea = sf::FloatRect(sf::Vector2f(buttonX, buttonY), sf::Vector2f(kButtonWidth, kButtonHeight));
     if (homeButtonArea.contains(mousePosition)) {
-        bool success = m_ServerConnectionManager->Disconnect(); // once connection completes, update signal to emit new app state
-        if (success) {
-            m_DrawingManager->Clear();
-            currentState = WhiteboardStateMachine::AppState::kHome; // for now, manually update app state
-            return 0;
-        }
-        else {
-            return -1;
-        }
+        return IEventHandler::EventReturnType::kAttemptDisconnection;
     }
     buttonX += spacing;
     sf::FloatRect markerButtonArea = sf::FloatRect(sf::Vector2f(buttonX, buttonY), sf::Vector2f(kButtonWidth, kButtonHeight));
@@ -84,7 +74,7 @@ int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, Whit
         if (currentTool != WhiteboardStateMachine::DrawTool::kMarker) {
             currentTool = WhiteboardStateMachine::DrawTool::kMarker;
         }
-        return -1;
+        return IEventHandler::EventReturnType::kSuccess;
     }
     buttonX += spacing;
     sf::FloatRect rectangleButtonArea = sf::FloatRect(sf::Vector2f(buttonX, buttonY), sf::Vector2f(kButtonWidth, kButtonHeight));
@@ -93,7 +83,7 @@ int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, Whit
         if (currentTool != WhiteboardStateMachine::DrawTool::kRectangle) {
             currentTool = WhiteboardStateMachine::DrawTool::kRectangle;
         }
-        return -1;
+        return IEventHandler::EventReturnType::kSuccess;
     }
     buttonX += spacing;
     sf::FloatRect eraserButtonArea = sf::FloatRect(sf::Vector2f(buttonX, buttonY), sf::Vector2f(kButtonWidth, kButtonHeight));
@@ -102,7 +92,7 @@ int WhiteboardPageEventHandler::HandleMenuClick(sf::Vector2f mousePosition, Whit
         if (currentTool != WhiteboardStateMachine::DrawTool::kEraser) {
             currentTool = WhiteboardStateMachine::DrawTool::kEraser;
         }
-        return -1;
+        return IEventHandler::EventReturnType::kSuccess;
     }
-    return -1;
+    return IEventHandler::EventReturnType::kSuccess;
 }

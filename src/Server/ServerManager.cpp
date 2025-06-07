@@ -20,7 +20,7 @@ public:
         Whiteboard::Server::ServerConnectionConfirmation* reply) override {
         int newConnectionId = serverManager_->Connect(context->peer());
         reply->set_connection(newConnectionId);
-        std::cout << "[Server Thread] Responded to request with input connection: " << request->connection() << std::endl;
+        std::cout << "[Server Thread] Opened client with input connection: " << newConnectionId << std::endl;
         return grpc::Status::OK;
     }
 
@@ -34,7 +34,7 @@ public:
         else {
             reply->set_connection(98); // hard-coded for testing
         }
-        std::cout << "[Server Thread] Responded to request with input connection: " << request->connection() << std::endl;
+        std::cout << "[Server Thread] Closed client with input connection: " << request->connection() << std::endl;
         return grpc::Status::OK;
     }
 private:

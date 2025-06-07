@@ -11,7 +11,6 @@ grpc::Status DrawingServiceImpl::OpenDrawingStream(grpc::ServerContext* context,
 	}
 
 	std::shared_ptr<ClientConnection> clientConnection = std::make_shared<ClientConnection>(initialEvent.connectionid(), stream);
-	std::cout << "[Server Thread] Client connected with ID: " << clientConnection->GetConnectionId() << std::endl;
 
 	{
 		std::lock_guard<std::mutex> lock(m_StreamWriterMutex);
@@ -23,17 +22,14 @@ grpc::Status DrawingServiceImpl::OpenDrawingStream(grpc::ServerContext* context,
 	Whiteboard::Drawing::StreamEvent event;
 	while (stream->Read(&event)) {
 		if (event.connectionid() != clientConnection->GetConnectionId()) {
-			std::cerr << "[Server Thread] Client connection id mismatch, " << std::to_string(event.connectionid()) << " vs " << std::to_string(clientConnection->GetConnectionId()) << std::endl;
 			continue;
 		}
 
 		if (event.has_drawingevent() && event.drawingevent().has_drawable()) {
-			std::cout << "[Server Thread] Received drawing event" << std::endl;
 			Whiteboard::Types::Drawable drawable = event.drawingevent().drawable();
 			BroadcastDrawable(drawable);
 		}
 		else if (event.has_eraseevent() && event.eraseevent().has_drawable()) {
-			std::cout << "[Server Thread] Received erase event" << std::endl;
 			Whiteboard::Types::Drawable drawable = event.eraseevent().drawable();
 			BroadcastErase(drawable);
 		}
