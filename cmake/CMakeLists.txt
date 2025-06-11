@@ -24,7 +24,11 @@ set(GRPC_GIT_SUBMODULES "third_party/protobuf" "third_party/abseil-cpp")
 # add all third party projects via ExternalProject_Add
 foreach(proj ${projects})
   # set cmake DOWNLOAD_DIR and SOURCE_DIR to be picked up by ExternalProject_Add call
-  set(DOWNLOAD_DIR "$ENV{USERPROFILE}/Downloads")
+  if (WIN32)
+    set(DOWNLOAD_DIR "$ENV{USERPROFILE}/Downloads")
+  else()
+    set(DOWNLOAD_DIR "$ENV{HOME}/Downloads")
+  endif()
   set(SOURCE_DIR "${PROJECT_BUILD_DIR}/src/${proj}")
   foreach(build_type Release;RelWithDebInfo;Debug)
     set(CMAKE_BUILD_TYPE ${build_type})

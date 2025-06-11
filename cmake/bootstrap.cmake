@@ -1,8 +1,14 @@
 # Run this as cmake -P bootstrap.cmake from buildPrompt.bat
 set(PROJECT_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/")
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bld")
+set(NINJA_PATH "")
+if(WIN32)
+  set(MAKE_PROGRAM "${CMAKE_CURRENT_SOURCE_DIR}/ninja.exe")
+else()
+  set(MAKE_PROGRAM "${CMAKE_CURRENT_SOURCE_DIR}/ninja")
+endif()
 execute_process(
-    COMMAND ${CMAKE_COMMAND} -G Ninja -B bld
+    COMMAND ${CMAKE_COMMAND} -G Ninja -DCMAKE_MAKE_PROGRAM=${MAKE_PROGRAM} -B bld
     RESULT_VARIABLE RESULT
 )
 if(NOT RESULT EQUAL 0)
