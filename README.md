@@ -10,13 +10,41 @@ A real-time collaborative Whiteboard application implementing distributed system
 
 ## How to Compile, Build, and Run Code in this Project
 
+This project supports cross-compiling. Below are instructions for building on Linux or Windows. MacOS is not yet supported.
+
 ### Build Prerequisites
+
+* CMake Version 3.24 or greater ([CMake](https://cmake.org/download/))
+* Netwide Assembler ([NASM](https://www.nasm.us/))
+
+#### Linux Prerequisites
+
+* gcc/g++ compiler via `build-essential` on Ubuntu
+* Ninja via `ninja-build` on Ubuntu
+* SFML requirements via [SFML Dependencies](https://www.sfml-dev.org/tutorials/3.0/getting-started/build-from-source/#installing-dependencies) and [Linux Requirements](https://www.sfml-dev.org/tutorials/3.0/getting-started/cmake/#requirements):
+
+      sudo apt update && sudo apt install libxrandr-dev libxcursor-dev xorg openbox \
+      x11-xserver-utils libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev \
+      libegl1-mesa-dev libdrm-dev libgbm-dev libfreetype6-dev libpthread-stubs0-dev \
+      vorbis-tools libogg-dev libogg0
+
+#### Windows Prerequisites
+
 * Windows Version 10/11
 * Microsoft Visual Studio 2022 Community (version / edition can be modified, see [buildPrompt.bat](./cmake/buildPrompt.bat))
-* Netwide Assembler ([NASM](https://www.nasm.us/))
-* CMake Version 3.24 or greater ([CMake](https://cmake.org/download/))
 
 ### Build Instructions
+
+#### Linux Instructions
+
+* Clone this repository
+* Navigate to the `cmake/` directory and run `buildPrompt.sh`. This will verify that the build environment is correctly set up to build this project
+* From the terminal, run `cmake -P bootstrap.cmake`
+
+This will successfully generate the build system used to build this project.
+
+#### Windows Instructions
+
 * Clone this repository
 * Extract NASM binary files to a local directory and add that directory to the PATH environment variable (e.g. C:\Users\kevin\nasm). Create another environment variable named exactly "ASM_NASM" with value equal to the executable name ("nasm.exe" by default)
 * Navigate to the `cmake/` directory and run `buildPrompt.bat`. This will open a command prompt at the `cmake/` directory
@@ -26,6 +54,7 @@ A real-time collaborative Whiteboard application implementing distributed system
 You should now be able to launch the Visual Studio solution for each configuration and make modifications. To add new source code files, you should add them directly in the repository folder, not in Visual Studio, and run `buildSolutions.cmd` afterwards to retrieve them in Visual Studio. Files may then be modified and saved from Visual Studio.
 
 ### Using Protobuf Compiler to Generate Code
+
 Note: to generate cpp code, it may be helpful to copy the `grpc_cpp_plugin.exe` executable compiled during the build process (in the gRPC binary folder) to the folder from where the `protoc.exe` executable is run.
 
 1) Open a command prompt and navigate to the folder where the `protoc.exe` executable was compiled during the build process (the protobuf binary folder).
@@ -41,3 +70,4 @@ Pre-built binaries are not yet available for this repository. They'll be availab
 Kevin Chazotte - chazottek@gmail.com
 
 [distant-paper](https://github.com/kevinchazotte/distant-paper)
+

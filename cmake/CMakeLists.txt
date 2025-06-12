@@ -8,6 +8,8 @@ set(PROJECT_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/")
 set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_MSVC_STATIC_RUNTIME ON)
 
+project(SuperBuild C CXX)
+
 # consider: https://stackoverflow.com/questions/1208681/with-cmake-how-would-you-disable-in-source-builds
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/buildConfig.cmake" "${PROJECT_BUILD_DIR}/buildConfig.cmake" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/projects.cmake" "${PROJECT_BUILD_DIR}/projects.cmake" COPYONLY)
