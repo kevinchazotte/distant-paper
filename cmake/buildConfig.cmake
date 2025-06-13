@@ -19,9 +19,9 @@ endfunction()
 function(make_static_imported_library libfile_name target_name debug_string)
   add_library(SuperBuild::${target_name} STATIC IMPORTED GLOBAL)
   set_target_properties(SuperBuild::${target_name} PROPERTIES
-    IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${debug_string}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${libfile_name}${debug_string}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
   )
 endfunction()
 
@@ -94,12 +94,24 @@ if(abseil-cpp IN_LIST projects)
 endif()
 
 if(zlib IN_LIST projects)
-  top_level_static_imported_library(zlib zlibstatic "d")
+  if(WIN32)
+    top_level_static_imported_library(zlib zlibstatic "d")
+  elseif(UNIX)
+    top_level_static_imported_library(zlib z "")
+  endif()
 endif()
 
 if(boringssl IN_LIST projects)
-  make_static_imported_library(crypto crypto "")
-  top_level_static_imported_library(openssl ssl "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}crypto crypto "")
+  add_library(SuperBuild::openssl STATIC IMPORTED GLOBAL)
+  set_target_properties(SuperBuild::openssl PROPERTIES
+    IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${CMAKE_STATIC_LIBRARY_PREFIX}ssl${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${CMAKE_STATIC_LIBRARY_PREFIX}ssl${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${CMAKE_STATIC_LIBRARY_PREFIX}ssl${CMAKE_STATIC_LIBRARY_SUFFIX}"
+  )
+  set_target_properties(SuperBuild::openssl PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
+  )
   add_dependencies(SuperBuild::openssl SuperBuild::crypto)
   target_link_libraries(SuperBuild::openssl INTERFACE SuperBuild::crypto)
 endif()
@@ -117,18 +129,18 @@ endif()
 if(protobuf IN_LIST projects)
   set(protobuf_debug_string "d")
   # all protobuf lib files have prefix "lib"
-  if (WIN32) # on Windows, set libfile names to include "lib"
+  if (WIN32) # on Windows, manually set libfile names to include "lib"
     make_static_imported_library(libprotobuf libprotobuf ${protobuf_debug_string})
     make_static_imported_library(libprotobuf-lite libprotobuf-lite ${protobuf_debug_string})
     make_static_imported_library(libprotoc libprotoc ${protobuf_debug_string})
     make_static_imported_library(libutf8_range libutf8_range "")
     make_static_imported_library(libutf8_validity libutf8_validity "")
   elseif(UNIX) # on Unix, "lib" is the default CMAKE_STATIC_LIBRARY_PREFIX
-    make_static_imported_library(protobuf libprotobuf ${protobuf_debug_string})
-    make_static_imported_library(protobuf-lite libprotobuf-lite ${protobuf_debug_string})
-    make_static_imported_library(protoc libprotoc ${protobuf_debug_string})
-    make_static_imported_library(utf8_range libutf8_range "")
-    make_static_imported_library(utf8_validity libutf8_validity "")
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf libprotobuf ${protobuf_debug_string})
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf-lite libprotobuf-lite ${protobuf_debug_string})
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protoc libprotoc ${protobuf_debug_string})
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_range libutf8_range "")
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_validity libutf8_validity "")
   endif()
   add_library(protobuf INTERFACE)
   add_library(SuperBuild::protobuf ALIAS protobuf)
@@ -142,21 +154,21 @@ endif()
 
 if(grpc IN_LIST projects)
   # establishing upb dependency libraries
-  make_static_imported_library(upb_base_lib upb_base_lib "")
-  make_static_imported_library(upb_json_lib upb_json_lib "")
-  make_static_imported_library(upb_mem_lib upb_mem_lib "")
-  make_static_imported_library(upb_message_lib upb_message_lib "")
-  make_static_imported_library(upb_mini_descriptor_lib upb_mini_descriptor_lib "")
-  make_static_imported_library(upb_textformat_lib upb_textformat_lib "")
-  make_static_imported_library(upb_wire_lib upb_wire_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_base_lib upb_base_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_json_lib upb_json_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_mem_lib upb_mem_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_message_lib upb_message_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_mini_descriptor_lib upb_mini_descriptor_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_textformat_lib upb_textformat_lib "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_wire_lib upb_wire_lib "")
   add_library(upb INTERFACE)
   add_library(SuperBuild::upb ALIAS upb)
   target_link_libraries(upb INTERFACE SuperBuild::upb_base_lib SuperBuild::upb_json_lib SuperBuild::upb_mem_lib
     SuperBuild::upb_message_lib SuperBuild::upb_mini_descriptor_lib SuperBuild::upb_textformat_lib SuperBuild::upb_wire_lib
   )
-  make_static_imported_library(address_sorting address_sorting "")
-  make_static_imported_library(grpc++ grpc++ "")
-  make_static_imported_library(gpr gpr "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}address_sorting address_sorting "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}grpc++ grpc++ "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}gpr gpr "")
   top_level_static_imported_library(grpc grpc "")
   add_dependencies(SuperBuild::grpc SuperBuild::grpc++ SuperBuild::gpr 
 	SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
