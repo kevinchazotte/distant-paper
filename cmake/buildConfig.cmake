@@ -16,9 +16,9 @@ function(top_level_static_imported_library proj file_name debug_string)
   )
 endfunction()
 
-function(make_static_imported_library libfile_name debug_string)
-  add_library(SuperBuild::${libfile_name} STATIC IMPORTED GLOBAL)
-  set_target_properties(SuperBuild::${libfile_name} PROPERTIES
+function(make_static_imported_library libfile_name target_name debug_string)
+  add_library(SuperBuild::${target_name} STATIC IMPORTED GLOBAL)
+  set_target_properties(SuperBuild::${target_name} PROPERTIES
     IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${debug_string}${CMAKE_STATIC_LIBRARY_SUFFIX}"
     IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
     IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
@@ -40,7 +40,6 @@ if(WIN32 AND "SFML" IN_LIST projects)
   )
   # to statically link SFML, you need to manually link all dependencies, which are included library files in SFML
   # TODO: use SFML_USE_SYSTEM_DEPS to remove these dependencies and add them to the SuperBuild independently of SFML
-  # TODO: add UNIX and MAC support for the library, which should be (largely) consistent with the above 
   set(sfml_dependency_debug_string "d")
   set(sfml_debug_string "-d")
   target_link_libraries(SuperBuild::SFML INTERFACE
@@ -60,7 +59,22 @@ if(WIN32 AND "SFML" IN_LIST projects)
     opengl32.lib
   )
 elseif(UNIX AND "SFML" IN_LIST projects)
-  make_static_imported_library(SFML "-d") # temporary library scaffolding while UNIX kinks are worked out
+  add_library(SFML INTERFACE) # on linux, there is no libsfml-main.a file
+  add_library(SuperBuild::SFML ALIAS SFML)
+  set_target_properties(SFML PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/include/"
+    INTERFACE_COMPILE_DEFINITIONS SFML_STATIC
+  )
+  # to statically link SFML, you need to manually link all dependencies, which are included library files in SFML
+  set(sfml_dependency_debug_string "d")
+  set(sfml_debug_string "-d")
+  target_link_libraries(SFML INTERFACE
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-audio-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-graphics-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-network-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-system-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-window-s$<$<CONFIG:Debug>:${sfml_debug_string}>${CMAKE_STATIC_LIBRARY_SUFFIX}"
+  )
 endif()
 
 if(abseil-cpp IN_LIST projects)
@@ -71,7 +85,7 @@ if(abseil-cpp IN_LIST projects)
   )
   foreach(absl_lib ${ABSEIL_LIBS})
     get_filename_component(libname ${absl_lib} NAME_WE)
-    make_static_imported_library(${libname} "")
+    make_static_imported_library(${libname} ${libname} "")
     target_link_libraries(abseil-cpp INTERFACE SuperBuild::${libname})
   endforeach()
   set_target_properties(abseil-cpp PROPERTIES
@@ -84,7 +98,7 @@ if(zlib IN_LIST projects)
 endif()
 
 if(boringssl IN_LIST projects)
-  make_static_imported_library(crypto "")
+  make_static_imported_library(crypto crypto "")
   top_level_static_imported_library(openssl ssl "")
   add_dependencies(SuperBuild::openssl SuperBuild::crypto)
   target_link_libraries(SuperBuild::openssl INTERFACE SuperBuild::crypto)
@@ -102,39 +116,47 @@ endif()
 
 if(protobuf IN_LIST projects)
   set(protobuf_debug_string "d")
-  make_static_imported_library(libprotobuf ${protobuf_debug_string})
-  make_static_imported_library(libprotobuf-lite ${protobuf_debug_string})
-  make_static_imported_library(libprotoc ${protobuf_debug_string})
-  make_static_imported_library(libutf8_range "")
-  make_static_imported_library(libutf8_validity "")
+  # all protobuf lib files have prefix "lib"
+  if (WIN32) # on Windows, set libfile names to include "lib"
+    make_static_imported_library(libprotobuf libprotobuf ${protobuf_debug_string})
+    make_static_imported_library(libprotobuf-lite libprotobuf-lite ${protobuf_debug_string})
+    make_static_imported_library(libprotoc libprotoc ${protobuf_debug_string})
+    make_static_imported_library(libutf8_range libutf8_range "")
+    make_static_imported_library(libutf8_validity libutf8_validity "")
+  elseif(UNIX) # on Unix, "lib" is the default CMAKE_STATIC_LIBRARY_PREFIX
+    make_static_imported_library(protobuf libprotobuf ${protobuf_debug_string})
+    make_static_imported_library(protobuf-lite libprotobuf-lite ${protobuf_debug_string})
+    make_static_imported_library(protoc libprotoc ${protobuf_debug_string})
+    make_static_imported_library(utf8_range libutf8_range "")
+    make_static_imported_library(utf8_validity libutf8_validity "")
+  endif()
   add_library(protobuf INTERFACE)
   add_library(SuperBuild::protobuf ALIAS protobuf)
   add_dependencies(protobuf SuperBuild::abseil-cpp SuperBuild::zlib)
   set_target_properties(protobuf PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
   )
-  target_link_libraries(protobuf INTERFACE SuperBuild::abseil-cpp SuperBuild::zlib SuperBuild::libprotobuf
-    SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libutf8_range SuperBuild::libutf8_validity
+  target_link_libraries(protobuf INTERFACE SuperBuild::abseil-cpp SuperBuild::zlib SuperBuild::libprotobuf SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libutf8_range SuperBuild::libutf8_validity
   )
 endif()
 
 if(grpc IN_LIST projects)
   # establishing upb dependency libraries
-  make_static_imported_library(upb_base_lib "")
-  make_static_imported_library(upb_json_lib "")
-  make_static_imported_library(upb_mem_lib "")
-  make_static_imported_library(upb_message_lib "")
-  make_static_imported_library(upb_mini_descriptor_lib "")
-  make_static_imported_library(upb_textformat_lib "")
-  make_static_imported_library(upb_wire_lib "")
+  make_static_imported_library(upb_base_lib upb_base_lib "")
+  make_static_imported_library(upb_json_lib upb_json_lib "")
+  make_static_imported_library(upb_mem_lib upb_mem_lib "")
+  make_static_imported_library(upb_message_lib upb_message_lib "")
+  make_static_imported_library(upb_mini_descriptor_lib upb_mini_descriptor_lib "")
+  make_static_imported_library(upb_textformat_lib upb_textformat_lib "")
+  make_static_imported_library(upb_wire_lib upb_wire_lib "")
   add_library(upb INTERFACE)
   add_library(SuperBuild::upb ALIAS upb)
   target_link_libraries(upb INTERFACE SuperBuild::upb_base_lib SuperBuild::upb_json_lib SuperBuild::upb_mem_lib
     SuperBuild::upb_message_lib SuperBuild::upb_mini_descriptor_lib SuperBuild::upb_textformat_lib SuperBuild::upb_wire_lib
   )
-  make_static_imported_library(address_sorting "")
-  make_static_imported_library(grpc++ "")
-  make_static_imported_library(gpr "")
+  make_static_imported_library(address_sorting address_sorting "")
+  make_static_imported_library(grpc++ grpc++ "")
+  make_static_imported_library(gpr gpr "")
   top_level_static_imported_library(grpc grpc "")
   add_dependencies(SuperBuild::grpc SuperBuild::grpc++ SuperBuild::gpr 
 	SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib

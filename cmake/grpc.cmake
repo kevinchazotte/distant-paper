@@ -26,7 +26,8 @@ ExternalProject_Add(${proj}${CMAKE_BUILD_TYPE}
     -DCMAKE_CXX_STANDARD_REQUIRED:BOOL=ON
     -DCMAKE_CXX_STANDARD:STRING=17
     -DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
-    # project specific args for abseil-cpp
+    # project specific args for grpc
+    -DCMAKE_PREFIX_PATH="${INSTALL_DIR}/lib/cmake/"
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     -DgRPC_INSTALL=ON
@@ -39,8 +40,6 @@ ExternalProject_Add(${proj}${CMAKE_BUILD_TYPE}
     -DgRPC_CARES_PROVIDER=package
     -DgRPC_RE2_PROVIDER=package
     -DgRPC_SSL_PROVIDER=package
-    -Dc-ares_DIR="${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/cmake/cares/"
-    -DCMAKE_PREFIX_PATH=${INSTALL_DIR}
   DEPENDS protobuf${CMAKE_BUILD_TYPE} boringssl${CMAKE_BUILD_TYPE} cares${CMAKE_BUILD_TYPE} re2${CMAKE_BUILD_TYPE}
   UPDATE_COMMAND ""
 )
