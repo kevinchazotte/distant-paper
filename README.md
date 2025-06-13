@@ -19,8 +19,10 @@ This project supports cross-compiling. Below are instructions for building on Li
 
 #### Linux Prerequisites
 
+* pkg-config via `pkg-config` on Ubuntu
 * gcc/g++ compiler via `build-essential` on Ubuntu
 * Ninja via `ninja-build` on Ubuntu
+* clang/clang++ via `clang` on Ubuntu 
 * SFML requirements via [SFML Dependencies](https://www.sfml-dev.org/tutorials/3.0/getting-started/build-from-source/#installing-dependencies) and [Linux Requirements](https://www.sfml-dev.org/tutorials/3.0/getting-started/cmake/#requirements):
 
       sudo apt update && sudo apt install libxrandr-dev libxcursor-dev xorg openbox \
