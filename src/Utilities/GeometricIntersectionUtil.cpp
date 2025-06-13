@@ -1,9 +1,10 @@
 #include "GeometricIntersectionUtil.h"
 
 #include <algorithm>
+#include <cmath>
 
 double distance(sf::Vector2f p1, sf::Vector2f p2) {
-    return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
+    return std::sqrt(std::pow(p2.x - p1.x, 2) + std::pow(p2.y - p1.y, 2));
 }
 
 double dotProduct(sf::Vector2f p1, sf::Vector2f p2) {

@@ -59,6 +59,8 @@ if(WIN32 AND "SFML" IN_LIST projects)
     winmm.lib
     opengl32.lib
   )
+elseif(UNIX AND "SFML" IN_LIST projects)
+  make_static_imported_library(SFML "-d") # temporary library scaffolding while UNIX kinks are worked out
 endif()
 
 if(abseil-cpp IN_LIST projects)
