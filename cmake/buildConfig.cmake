@@ -132,8 +132,7 @@ if(abseil-cpp IN_LIST projects)
   if(${Threads_FOUND})
     target_link_libraries(abseil-cpp INTERFACE Threads::Threads)
   endif()
-  set_target_properties(abseil-cpp PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
+  set_target_properties(abseil-cpp PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
   )
 endif()
 
@@ -215,11 +214,11 @@ if(grpc IN_LIST projects)
   make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}gpr gpr "")
   top_level_static_imported_library(grpc++ grpc++ "")
   add_dependencies(SuperBuild::grpc++ SuperBuild::grpc SuperBuild::gpr 
-	SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
-    SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
+    SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
+    SuperBuild::protobuf SuperBuild::abseil-cpp SuperBuild::openssl SuperBuild::cares SuperBuild::re2
   )
   target_link_libraries(SuperBuild::grpc++ INTERFACE SuperBuild::grpc SuperBuild::gpr
     SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
-    SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
+    SuperBuild::protobuf SuperBuild::abseil-cpp SuperBuild::openssl SuperBuild::cares SuperBuild::re2
   )
 endif()
