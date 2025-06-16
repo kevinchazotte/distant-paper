@@ -22,7 +22,6 @@ if(NOT TARGET download-all)
 endif()
 
 include(ExternalProject)
-set(GRPC_GIT_SUBMODULES "third_party/protobuf" "third_party/abseil-cpp")
 # add all third party projects via ExternalProject_Add
 foreach(proj ${projects})
   # set cmake DOWNLOAD_DIR and SOURCE_DIR to be picked up by ExternalProject_Add call

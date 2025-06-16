@@ -93,55 +93,38 @@ elseif(UNIX AND "SFML" IN_LIST projects)
   )
 endif()
 
-if(abseil-cpp IN_LIST projects)
-  add_library(abseil-cpp INTERFACE)
-  add_library(SuperBuild::abseil-cpp ALIAS abseil-cpp)
-  set(ABSL_LIBS absl_bad_any_cast_impl absl_bad_optional_access absl_bad_variant_access absl_base absl_city
-    absl_civil_time absl_cord absl_cord_internal absl_cordz_functions absl_cordz_handle absl_cordz_info
-    absl_cordz_sample_token absl_crc32c absl_crc_cord_state absl_crc_cpu_detect absl_crc_internal
-    absl_debugging_internal absl_decode_rust_punycode absl_demangle_internal absl_demangle_rust absl_die_if_null
-    absl_examine_stack absl_exponential_biased absl_failure_signal_handler absl_flags_commandlineflag
-    absl_flags_commandlineflag_internal absl_flags_config absl_flags_internal absl_flags_marshalling absl_flags_parse
-    absl_flags_private_handle_accessor absl_flags_program_name absl_flags_reflection absl_flags_usage
-    absl_flags_usage_internal absl_graphcycles_internal absl_hash absl_hashtablez_sampler absl_int128
-    absl_kernel_timeout_internal absl_leak_check absl_log_entry absl_log_flags absl_log_globals absl_log_initialize
-    absl_log_internal_check_op absl_log_internal_conditions absl_log_internal_fnmatch absl_log_internal_format
-    absl_log_internal_globals absl_log_internal_log_sink_set absl_log_internal_message absl_log_internal_nullguard
-    absl_log_internal_proto absl_log_internal_structured_proto absl_log_severity absl_log_sink absl_low_level_hash
-    absl_malloc_internal absl_periodic_sampler absl_poison absl_random_distributions
-    absl_random_internal_distribution_test_util absl_random_internal_platform absl_random_internal_pool_urbg
-    absl_random_internal_randen absl_random_internal_randen_hwaes absl_random_internal_randen_hwaes_impl
-    absl_random_internal_randen_slow absl_random_internal_seed_material absl_random_seed_gen_exception
-    absl_random_seed_sequences absl_raw_hash_set absl_raw_logging_internal absl_scoped_set_env absl_spinlock_wait
-    absl_stacktrace absl_status absl_statusor absl_str_format_internal absl_strerror absl_string_view absl_strings
-    absl_strings_internal absl_symbolize absl_synchronization absl_throw_delegate absl_time absl_time_zone
-    absl_tracing_internal absl_utf8_for_code_point absl_vlog_config_internal
-  )
-  set(ABSL_LIB_PATHS)
-  foreach(lib_name IN LISTS ABSL_LIBS)
-    list(APPEND ABSL_LIB_PATHS "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  endforeach()
-  # abseil-cpp build generates dozens of lib files, instead of linking manually with correct dependency order:
-  # use linker --start-group and --end-group commands to allow linker to resolve circular dependencies among absl libs
-  target_link_libraries(abseil-cpp INTERFACE
-    -Wl,--start-group
-    ${ABSL_LIB_PATHS}
-    -Wl,--end-group
-  )
-  find_package(Threads)
-  if(${Threads_FOUND})
-    target_link_libraries(abseil-cpp INTERFACE Threads::Threads)
-  endif()
-  set_target_properties(abseil-cpp PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
-  )
-endif()
-
 if(zlib IN_LIST projects)
   if(WIN32)
     top_level_static_imported_library(zlib zlibstatic "d")
   elseif(UNIX)
     top_level_static_imported_library(zlib z "")
   endif()
+endif()
+
+if(protobuf IN_LIST projects)
+  set(protobuf_debug_string "d")
+  # all protobuf lib files have prefix "lib"
+  if (WIN32) # on Windows, manually set libfile names to include "lib"
+    make_static_imported_library(libprotobuf libprotobuf ${protobuf_debug_string})
+    make_static_imported_library(libprotobuf-lite libprotobuf-lite ${protobuf_debug_string})
+    make_static_imported_library(libprotoc libprotoc ${protobuf_debug_string})
+    make_static_imported_library(libutf8_range libutf8_range "")
+    make_static_imported_library(libutf8_validity libutf8_validity "")
+  elseif(UNIX) # on Unix, "lib" is the default CMAKE_STATIC_LIBRARY_PREFIX
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf libprotobuf ${protobuf_debug_string})
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf-lite libprotobuf-lite ${protobuf_debug_string})
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protoc libprotoc ${protobuf_debug_string})
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_range libutf8_range "")
+    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_validity libutf8_validity "")
+  endif()
+  add_library(protobuf INTERFACE)
+  add_library(SuperBuild::protobuf ALIAS protobuf)
+  add_dependencies(protobuf SuperBuild::zlib)
+  set_target_properties(protobuf PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
+  )
+  target_link_libraries(protobuf INTERFACE SuperBuild::libprotobuf SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libutf8_range SuperBuild::libutf8_validity SuperBuild::zlib ${protobuf_ABSL_USED_TARGETS}
+  )
 endif()
 
 if(boringssl IN_LIST projects)
@@ -165,34 +148,6 @@ endif()
 
 if(re2 IN_LIST projects)
   top_level_static_imported_library(re2 re2 "")
-  add_dependencies(SuperBuild::re2 SuperBuild::abseil-cpp)
-  target_link_libraries(SuperBuild::re2 INTERFACE SuperBuild::abseil-cpp)
-endif()
-
-if(protobuf IN_LIST projects)
-  set(protobuf_debug_string "d")
-  # all protobuf lib files have prefix "lib"
-  if (WIN32) # on Windows, manually set libfile names to include "lib"
-    make_static_imported_library(libprotobuf libprotobuf ${protobuf_debug_string})
-    make_static_imported_library(libprotobuf-lite libprotobuf-lite ${protobuf_debug_string})
-    make_static_imported_library(libprotoc libprotoc ${protobuf_debug_string})
-    make_static_imported_library(libutf8_range libutf8_range "")
-    make_static_imported_library(libutf8_validity libutf8_validity "")
-  elseif(UNIX) # on Unix, "lib" is the default CMAKE_STATIC_LIBRARY_PREFIX
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf libprotobuf ${protobuf_debug_string})
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf-lite libprotobuf-lite ${protobuf_debug_string})
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protoc libprotoc ${protobuf_debug_string})
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_range libutf8_range "")
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_validity libutf8_validity "")
-  endif()
-  add_library(protobuf INTERFACE)
-  add_library(SuperBuild::protobuf ALIAS protobuf)
-  add_dependencies(protobuf SuperBuild::abseil-cpp SuperBuild::zlib)
-  set_target_properties(protobuf PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
-  )
-  target_link_libraries(protobuf INTERFACE SuperBuild::libprotobuf SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libutf8_range SuperBuild::libutf8_validity SuperBuild::abseil-cpp SuperBuild::zlib
-  )
 endif()
 
 if(grpc IN_LIST projects)
@@ -215,10 +170,10 @@ if(grpc IN_LIST projects)
   top_level_static_imported_library(grpc++ grpc++ "")
   add_dependencies(SuperBuild::grpc++ SuperBuild::grpc SuperBuild::gpr 
     SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
-    SuperBuild::protobuf SuperBuild::abseil-cpp SuperBuild::openssl SuperBuild::cares SuperBuild::re2
+    SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
   )
   target_link_libraries(SuperBuild::grpc++ INTERFACE SuperBuild::grpc SuperBuild::gpr
     SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
-    SuperBuild::protobuf SuperBuild::abseil-cpp SuperBuild::openssl SuperBuild::cares SuperBuild::re2
+    SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
   )
 endif()

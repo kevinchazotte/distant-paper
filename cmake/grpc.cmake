@@ -34,8 +34,7 @@ ExternalProject_Add(${proj}${CMAKE_BUILD_TYPE}
     -DgRPC_BUILD_CODEGEN=ON
     -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON
     -DgRPC_BUILD_TESTS=OFF
-    -DgRPC_ABSL_PROVIDER=package
-    -Dabsl_DIR="${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/cmake/absl"
+    -DgRPC_ABSL_PROVIDER=module
     -DgRPC_PROTOBUF_PROVIDER=package
     -Dprotobuf_DIR="${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/cmake/protobuf"
     -DgRPC_ZLIB_PROVIDER=package

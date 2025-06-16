@@ -7,16 +7,6 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 project(distant-paper)
 
-set(PROJECT_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/")
-
-# Check for SuperBuild completion
-if(NOT EXISTS "${PROJECT_BUILD_DIR}/build_complete.marker")
-    message(FATAL_ERROR "Dependencies not built. Please see bootstrap.cmake first.")
-endif()
-
-# Find the libraries installed by SuperBuild
-find_package(build REQUIRED PATHS "${PROJECT_BUILD_DIR}")
-
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(src)

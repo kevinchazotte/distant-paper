@@ -30,7 +30,5 @@ ExternalProject_Add(${proj}${CMAKE_BUILD_TYPE}
     -DCMAKE_POLICY_DEFAULT_CMP0091=NEW # without this, re2 doesn't adhere to runtime library and config
     -DRE2_BUILD_TESTING:BOOL=OFF
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -Dabsl_DIR="${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/cmake/absl/"
   UPDATE_COMMAND ""
-  DEPENDS abseil-cpp${CMAKE_BUILD_TYPE}
 )
