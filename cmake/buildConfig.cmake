@@ -1,4 +1,5 @@
 include("${CMAKE_CURRENT_LIST_DIR}/projects.cmake")
+set(CMAKE_PREFIX_PATH "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}")
 
 if (UNIX)
   find_package(PkgConfig REQUIRED)
@@ -103,28 +104,24 @@ endif()
 
 if(protobuf IN_LIST projects)
   set(protobuf_debug_string "d")
+  find_package(absl)
   # all protobuf lib files have prefix "lib"
-  if (WIN32) # on Windows, manually set libfile names to include "lib"
-    make_static_imported_library(libprotobuf libprotobuf ${protobuf_debug_string})
-    make_static_imported_library(libprotobuf-lite libprotobuf-lite ${protobuf_debug_string})
-    make_static_imported_library(libprotoc libprotoc ${protobuf_debug_string})
-    make_static_imported_library(libutf8_range libutf8_range "")
-    make_static_imported_library(libutf8_validity libutf8_validity "")
-  elseif(UNIX) # on Unix, "lib" is the default CMAKE_STATIC_LIBRARY_PREFIX
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf libprotobuf ${protobuf_debug_string})
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protobuf-lite libprotobuf-lite ${protobuf_debug_string})
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}protoc libprotoc ${protobuf_debug_string})
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_range libutf8_range "")
-    make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}utf8_validity libutf8_validity "")
-  endif()
-  add_library(protobuf INTERFACE)
-  add_library(SuperBuild::protobuf ALIAS protobuf)
-  add_dependencies(protobuf SuperBuild::zlib)
-  set_target_properties(protobuf PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
+  make_static_imported_library(libprotobuf libprotobuf ${protobuf_debug_string})
+  make_static_imported_library(libprotobuf-lite libprotobuf-lite ${protobuf_debug_string})
+  make_static_imported_library(libprotoc libprotoc ${protobuf_debug_string})
+  make_static_imported_library(libutf8_range libutf8_range "")
+  make_static_imported_library(libutf8_validity libutf8_validity "")
+
+  add_dependencies(SuperBuild::libprotobuf SuperBuild::zlib)
+
+  set_target_properties(SuperBuild::libprotobuf-lite PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/" INTERFACE_LINK_LIBRARIES "absl::absl_check;absl::absl_log;absl::algorithm;absl::base;absl::bind_front;absl::bits;absl::btree;absl::cleanup;absl::cord;absl::core_headers;absl::debugging;absl::die_if_null;absl::dynamic_annotations;absl::flags;absl::flat_hash_map;absl::flat_hash_set;absl::function_ref;absl::hash;absl::layout;absl::log_initialize;absl::log_globals;absl::log_severity;absl::memory;absl::node_hash_map;absl::node_hash_set;absl::optional;absl::random_distributions;absl::random_random;absl::span;absl::status;absl::statusor;absl::strings;absl::synchronization;absl::time;absl::type_traits;absl::utility;absl::variant;\$<LINK_ONLY:utf8_range::utf8_validity>")
+  
+  set_target_properties(SuperBuild::libprotoc PROPERTIES INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:protobuf::libprotobuf>;absl::absl_check;absl::absl_log;absl::algorithm;absl::base;absl::bind_front;absl::bits;absl::btree;absl::cleanup;absl::cord;absl::core_headers;absl::debugging;absl::die_if_null;absl::dynamic_annotations;absl::flags;absl::flat_hash_map;absl::flat_hash_set;absl::function_ref;absl::hash;absl::layout;absl::log_initialize;absl::log_globals;absl::log_severity;absl::memory;absl::node_hash_map;absl::node_hash_set;absl::optional;absl::random_distributions;absl::random_random;absl::span;absl::status;absl::statusor;absl::strings;absl::synchronization;absl::time;absl::type_traits;absl::utility;absl::variant")
+
+  set_target_properties(SuperBuild::libprotobuf PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/" INTERFACE_LINK_LIBRARIES "absl::absl_check;absl::absl_log;absl::algorithm;absl::base;absl::bind_front;absl::bits;absl::btree;absl::cleanup;absl::cord;absl::core_headers;absl::debugging;absl::die_if_null;absl::dynamic_annotations;absl::flags;absl::flat_hash_map;absl::flat_hash_set;absl::function_ref;absl::hash;absl::layout;absl::log_initialize;absl::log_globals;absl::log_severity;absl::memory;absl::node_hash_map;absl::node_hash_set;absl::optional;absl::random_distributions;absl::random_random;absl::span;absl::status;absl::statusor;absl::strings;absl::synchronization;absl::time;absl::type_traits;absl::utility;absl::variant"
   )
-  target_link_libraries(protobuf INTERFACE SuperBuild::libprotobuf SuperBuild::libprotobuf-lite SuperBuild::libprotoc SuperBuild::libutf8_range SuperBuild::libutf8_validity SuperBuild::zlib ${protobuf_ABSL_USED_TARGETS}
-  )
+  target_link_libraries(SuperBuild::libprotobuf INTERFACE SuperBuild::zlib SuperBuild::libutf8_range SuperBuild::libutf8_validity)
 endif()
 
 if(boringssl IN_LIST projects)
@@ -151,6 +148,7 @@ if(re2 IN_LIST projects)
 endif()
 
 if(grpc IN_LIST projects)
+  find_package(absl)
   # establishing upb dependency libraries
   make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_base_lib upb_base_lib "")
   make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}upb_json_lib upb_json_lib "")
@@ -164,16 +162,21 @@ if(grpc IN_LIST projects)
   target_link_libraries(upb INTERFACE SuperBuild::upb_textformat_lib SuperBuild::upb_wire_lib SuperBuild::upb_message_lib 
     SuperBuild::upb_mini_descriptor_lib SuperBuild::upb_json_lib SuperBuild::upb_mem_lib SuperBuild::upb_base_lib
   )
-  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}address_sorting address_sorting "")
-  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}grpc grpc "")
+
   make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}gpr gpr "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}grpc grpc "")
   top_level_static_imported_library(grpc++ grpc++ "")
+  make_static_imported_library(${CMAKE_STATIC_LIBRARY_PREFIX}address_sorting address_sorting "")
+  
   add_dependencies(SuperBuild::grpc++ SuperBuild::grpc SuperBuild::gpr 
     SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
-    SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
+    SuperBuild::libprotobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
   )
-  target_link_libraries(SuperBuild::grpc++ INTERFACE SuperBuild::grpc SuperBuild::gpr
-    SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib
-    SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2
-  )
+
+  set_target_properties(SuperBuild::gpr PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/" INTERFACE_LINK_LIBRARIES "absl::base;absl::core_headers;absl::log_severity;absl::cleanup;absl::flags;absl::flags_marshalling;absl::any_invocable;absl::check;absl::log_globals;absl::log;absl::memory;absl::bits;absl::random_random;absl::status;absl::cord;absl::str_format;absl::strings;absl::synchronization;absl::time;absl::optional")
+  
+  set_target_properties(SuperBuild::grpc PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/" INTERFACE_LINK_LIBRARIES "SuperBuild::upb;SuperBuild::re2;SuperBuild::zlib;absl::algorithm_container;absl::config;absl::no_destructor;absl::flat_hash_map;absl::flat_hash_set;absl::inlined_vector;absl::bind_front;absl::function_ref;absl::hash;absl::type_traits;absl::random_bit_gen_ref;absl::random_distributions;absl::statusor;absl::span;absl::utility;SuperBuild::cares;SuperBuild::gpr;SuperBuild::openssl;SuperBuild::address_sorting")
+
+  set_target_properties(SuperBuild::grpc++ PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/" INTERFACE_LINK_LIBRARIES "absl::absl_check;absl::absl_log")
+  target_link_libraries(SuperBuild::grpc++ INTERFACE SuperBuild::grpc SuperBuild::libprotobuf)
 endif()

@@ -6,7 +6,7 @@ for p in distant-paper; do
     echo
     echo "Configuring project \"$p\" with config \"$c\" to: \"$SCRIPT_DIR/../build/bld/x64/$c/$p/\""
     echo
-    cmake -DCMAKE_BUILD_TYPE=$c -DCMAKE_PREFIX_PATH="$SCRIPT_DIR/../build/x64/$c" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -S "$SCRIPT_DIR/../../$p/" -B "$SCRIPT_DIR/../build/bld/x64/$c/$p/"
+    cmake -DCMAKE_BUILD_TYPE=$c -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -S "$SCRIPT_DIR/../../$p/" -B "$SCRIPT_DIR/../build/bld/x64/$c/$p/"
     cmake --build "$SCRIPT_DIR/../build/bld/x64/$c/$p/"
   done
 done
