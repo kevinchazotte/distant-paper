@@ -30,5 +30,6 @@ ExternalProject_Add(${proj}${CMAKE_BUILD_TYPE}
     -DCMAKE_POLICY_DEFAULT_CMP0091=NEW # without this, re2 doesn't adhere to runtime library and config
     -DRE2_BUILD_TESTING:BOOL=OFF
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+  DEPENDS protobuf${CMAKE_BUILD_TYPE}
   UPDATE_COMMAND ""
 )
