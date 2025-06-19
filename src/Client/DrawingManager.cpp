@@ -31,7 +31,7 @@ void DrawingManager::OnDrawableAdded(const Whiteboard::Types::Drawable& drawable
         return;
     }
     m_Drawables[id] = drawable;
-    m_IdCounter = std::stoi(id) + 1; // m_IdCounter should always be greater than the id of the last drawable
+    m_IdCounter = std::max(m_IdCounter, std::stoi(id) + 1); // m_IdCounter should always be greater than the id of the last drawable
 }
 
 void DrawingManager::OnDrawableErased(const Whiteboard::Types::Drawable& drawable) {
@@ -182,6 +182,7 @@ void DrawingManager::Clear() {
         pair.second.Clear();
     }
     m_Drawables.clear();
+    m_IdCounter = 0;
 }
 
 std::unordered_map<std::string, Whiteboard::Types::Drawable> DrawingManager::GetDrawables() {
