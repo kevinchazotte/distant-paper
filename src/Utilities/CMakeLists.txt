@@ -12,4 +12,4 @@ add_library(${library} STATIC
 )
 
 target_include_directories(${library} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../proto/")
-target_link_libraries(${library} SuperBuild::grpc++ SuperBuild::libprotobuf SuperBuild::SFML)
+target_link_libraries(${library} SuperBuild::grpc++ SuperBuild::protobuf SuperBuild::SFML)

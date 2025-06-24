@@ -15,4 +15,4 @@ add_executable(${proj}
 )
 
 target_include_directories(${proj} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../proto/")
-target_link_libraries(${proj} SuperBuild::grpc++ SuperBuild::libprotobuf SuperBuild::SFML)
+target_link_libraries(${proj} SuperBuild::grpc++ SuperBuild::protobuf SuperBuild::SFML)

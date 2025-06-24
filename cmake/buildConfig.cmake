@@ -11,10 +11,10 @@ function(create_static_imported_library target_name libfile_name debug_suffix)
 
   # explicitly set imported locations per config that may be generated for the library
   set_target_properties(SuperBuild::${target_name} PROPERTIES
-    IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${libfile_name}${debug_string}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-	INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
+    IMPORTED_LOCATION_DEBUG "${PROJECT_BUILD_DIR}/x64/Debug/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${debug_suffix}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELWITHDEBINFO "${PROJECT_BUILD_DIR}/x64/RelWithDebInfo/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    IMPORTED_LOCATION_RELEASE "${PROJECT_BUILD_DIR}/x64/Release/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${libfile_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_BUILD_DIR}/x64/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>/include/"
   )
 endfunction()
 
@@ -39,7 +39,7 @@ if("SFML" IN_LIST projects)
       target_link_libraries(SuperBuild::SFML INTERFACE "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${dependency}$<$<CONFIG:Debug>:d>${CMAKE_STATIC_LIBRARY_SUFFIX}")
      endforeach()
     target_link_libraries(SuperBuild::SFML INTERFACE ${SFML_SYSTEM_LIBS})
-  elseif(UNIX AND "SFML" IN_LIST projects)
+  elseif(UNIX)
     add_library(SFML INTERFACE) # on linux, there is no libsfml-main.a file
     add_library(SuperBuild::SFML ALIAS SFML)
     set_target_properties(SFML PROPERTIES
@@ -52,11 +52,11 @@ if("SFML" IN_LIST projects)
     foreach(component IN LISTS SFML_COMPONENTS)
       target_link_libraries(SFML INTERFACE "${PROJECT_BUILD_DIR}/x64/${CMAKE_BUILD_TYPE}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sfml-${component}-s$<$<CONFIG:Debug>:-d>${CMAKE_STATIC_LIBRARY_SUFFIX}")
     endforeach()
-    foreach(package in LISTS REQUIRED_PACKAGES)
+    foreach(package IN LISTS REQUIRED_PACKAGES)
       string(TOUPPER ${package} package_var)
       pkg_check_modules(${package_var} REQUIRED ${package})
     endforeach()
-    target_link_libraries(SFML INTERFACE ${X11_STATIC_LIBRARIES} ${XRANDR_STATIC_LIBRARIES} ${XCURSOR_STATIC_LIBRARIES} ${XI_STATIC_LIBRARIES} ${FREETYPE_STATIC_LIBRARIES} ${UDEV_STATIC_LIBRARIES})
+    target_link_libraries(SFML INTERFACE ${X11_STATIC_LIBRARIES} ${XRANDR_STATIC_LIBRARIES} ${XCURSOR_STATIC_LIBRARIES} ${XI_STATIC_LIBRARIES} ${FREETYPE2_STATIC_LIBRARIES} ${LIBUDEV_STATIC_LIBRARIES})
   endif()
 endif()
 
@@ -64,17 +64,17 @@ if(zlib IN_LIST projects)
   if(WIN32)
     create_static_imported_library(zlib zlibstatic "d")
   elseif(UNIX)
-    create_static_imported_library(zlib libz "")
+    create_static_imported_library(zlib z "")
   endif()
 endif()
 
 if(protobuf IN_LIST projects)
   find_package(absl)
   # all protobuf lib files have prefix "lib"
-  set(UTF8_LIBRARIES libutf8_range libutf8_validity)
-  set(PROTOBUF_LIBRARIES libprotobuf libprotobuf-lite libprotoc)
+  set(UTF8_LIBRARIES utf8_range utf8_validity)
+  set(PROTOBUF_LIBRARIES protobuf protobuf-lite protoc)
   foreach(utf8_lib IN LISTS UTF8_LIBRARIES)
-    create_static_imported_library(${utf8_lib} ${utf8_lib} "")
+    create_static_imported_library(${utf8_lib}  ${utf8_lib} "")
   endforeach()
   foreach(protobuf_lib IN LISTS PROTOBUF_LIBRARIES)
     create_static_imported_library(${protobuf_lib} ${protobuf_lib} "d")
@@ -82,29 +82,29 @@ if(protobuf IN_LIST projects)
   
   set(ABSL_DEPS absl::absl_check;absl::absl_log;absl::algorithm;absl::base;absl::bind_front;absl::bits;absl::btree;absl::cleanup;absl::cord;absl::core_headers;absl::debugging;absl::die_if_null;absl::dynamic_annotations;absl::flags;absl::flat_hash_map;absl::flat_hash_set;absl::function_ref;absl::hash;absl::layout;absl::log_initialize;absl::log_globals;absl::log_severity;absl::memory;absl::node_hash_map;absl::node_hash_set;absl::optional;absl::random_distributions;absl::random_random;absl::span;absl::status;absl::statusor;absl::strings;absl::synchronization;absl::time;absl::type_traits;absl::utility;absl::variant)
 
-  set_target_properties(SuperBuild::libprotobuf-lite PROPERTIES INTERFACE_LINK_LIBRARIES "${ABSL_DEPS};\$<LINK_ONLY:utf8_range::utf8_validity>")
+  set_target_properties(SuperBuild::protobuf-lite PROPERTIES INTERFACE_LINK_LIBRARIES "${ABSL_DEPS};\$<LINK_ONLY:SuperBuild::utf8_validity>")
 
-  set_target_properties(SuperBuild::libprotoc PROPERTIES INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:protobuf::libprotobuf>;${ABSL_DEPS}")
+  set_target_properties(SuperBuild::protoc PROPERTIES INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:SuperBuild::protobuf>;${ABSL_DEPS}")
 
-  set_target_properties(SuperBuild::libprotobuf PROPERTIES INTERFACE_LINK_LIBRARIES ${ABSL_DEPS})
-  target_link_libraries(SuperBuild::libprotobuf INTERFACE SuperBuild::zlib SuperBuild::libutf8_range SuperBuild::libutf8_validity)
+  set_target_properties(SuperBuild::protobuf PROPERTIES INTERFACE_LINK_LIBRARIES ${ABSL_DEPS})
+  target_link_libraries(SuperBuild::protobuf INTERFACE SuperBuild::zlib SuperBuild::utf8_range SuperBuild::utf8_validity)
 
-  add_dependencies(SuperBuild::libprotobuf SuperBuild::zlib)
+  add_dependencies(SuperBuild::protobuf SuperBuild::zlib)
 endif()
 
 if(boringssl IN_LIST projects)
-  create_static_imported_library(crypto ${CMAKE_STATIC_LIBRARY_PREFIX}crypto "")
-  create_static_imported_library(openssl ${CMAKE_STATIC_LIBRARY_PREFIX}ssl "")
+  create_static_imported_library(crypto crypto "")
+  create_static_imported_library(openssl ssl "")
   add_dependencies(SuperBuild::openssl SuperBuild::crypto)
   target_link_libraries(SuperBuild::openssl INTERFACE SuperBuild::crypto)
 endif()
 
 if(cares IN_LIST projects)
-  create_static_imported_library(cares ${CMAKE_STATIC_LIBRARY_PREFIX}cares "")
+  create_static_imported_library(cares cares "")
 endif()
 
 if(re2 IN_LIST projects)
-  create_static_imported_library(re2 ${CMAKE_STATIC_LIBRARY_PREFIX}re2 "")
+  create_static_imported_library(re2 re2 "")
 endif()
 
 if(grpc IN_LIST projects)
@@ -112,16 +112,16 @@ if(grpc IN_LIST projects)
 
   add_library(upb INTERFACE)
   add_library(SuperBuild::upb ALIAS upb)
-  set(UPB_LIBRARIES upb_base_lib upb_json_lib upb_mem_lib upb_message_lib upb_mini_descriptor_lib upb_textformat_lib upb_wire_lib)
+  set(UPB_LIBRARIES upb_textformat_lib upb_wire_lib upb_message_lib upb_mini_descriptor_lib upb_json_lib upb_mem_lib upb_base_lib)
   foreach(upb_lib IN LISTS UPB_LIBRARIES)
     create_static_imported_library(${upb_lib} ${upb_lib} "")
     target_link_libraries(upb INTERFACE SuperBuild::${upb_lib})
   endforeach()
 
-  create_static_imported_library(address_sorting ${CMAKE_STATIC_LIBRARY_PREFIX}address_sorting "")
-  create_static_imported_library(gpr ${CMAKE_STATIC_LIBRARY_PREFIX}gpr "")
-  create_static_imported_library(grpc ${CMAKE_STATIC_LIBRARY_PREFIX}grpc "")
-  create_static_imported_library(grpc++ ${CMAKE_STATIC_LIBRARY_PREFIX}grpc++ "")
+  create_static_imported_library(address_sorting address_sorting "")
+  create_static_imported_library(gpr gpr "")
+  create_static_imported_library(grpc grpc "")
+  create_static_imported_library(grpc++ grpc++ "")
 
   set(GPR_ABSL_DEPS absl::base;absl::core_headers;absl::log_severity;absl::cleanup;absl::flags;absl::flags_marshalling;absl::any_invocable;absl::check;absl::log_globals;absl::log;absl::memory;absl::bits;absl::random_random;absl::status;absl::cord;absl::str_format;absl::strings;absl::synchronization;absl::time;absl::optional)
 
@@ -132,7 +132,8 @@ if(grpc IN_LIST projects)
   set_target_properties(SuperBuild::grpc PROPERTIES INTERFACE_LINK_LIBRARIES "SuperBuild::upb;SuperBuild::re2;SuperBuild::zlib;${GPRC_ABSL_DEPS};SuperBuild::cares;SuperBuild::gpr;SuperBuild::openssl;SuperBuild::address_sorting")
 
   set_target_properties(SuperBuild::grpc++ PROPERTIES INTERFACE_LINK_LIBRARIES "absl::absl_check;absl::absl_log")
-  target_link_libraries(SuperBuild::grpc++ INTERFACE SuperBuild::grpc SuperBuild::libprotobuf)
+  target_link_libraries(SuperBuild::grpc++ INTERFACE SuperBuild::grpc SuperBuild::protobuf)
 
-  add_dependencies(SuperBuild::grpc++ SuperBuild::grpc SuperBuild::gpr SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib SuperBuild::libprotobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2)
+  add_dependencies(SuperBuild::grpc++ SuperBuild::grpc SuperBuild::gpr SuperBuild::upb SuperBuild::address_sorting SuperBuild::zlib SuperBuild::protobuf SuperBuild::openssl SuperBuild::cares SuperBuild::re2)
 endif()
+
