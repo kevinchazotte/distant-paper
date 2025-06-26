@@ -8,11 +8,12 @@
 
 WhiteboardClientApp::WhiteboardClientApp(std::shared_ptr<ServerConnectionManager> serverConnectionManager) {
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    m_RenderWindow.create(sf::VideoMode(sf::Vector2u(1024, 768), desktop.bitsPerPixel), "SFML window");
+    m_RenderWindow.create(sf::VideoMode(sf::Vector2u(1024, 768), desktop.bitsPerPixel), "Distant-Paper");
 
     sf::Font font;
-    if (!font.openFromFile("../../assets/fonts/KodeMono-VariableFont_wght.ttf") &&
-        !font.openFromFile("../../../assets/fonts/KodeMono-VariableFont_wght.ttf")) {
+    if (!font.openFromFile("./assets/fonts/KodeMono-VariableFont_wght.ttf") && // install build assets location
+        !font.openFromFile("../../assets/fonts/KodeMono-VariableFont_wght.ttf") && // VS working directory assets location
+        !font.openFromFile("../../../assets/fonts/KodeMono-VariableFont_wght.ttf")) { // binary directory assets location
         std::cerr << "Error loading font\n";
         return;
     }

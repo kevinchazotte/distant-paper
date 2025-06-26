@@ -41,9 +41,8 @@ This project supports cross-compiling. Below are instructions for building on Li
 
 * Clone this repository
 * Navigate to the `cmake/` directory and run `buildPrompt.sh`. This will verify that the build environment is correctly set up to build this project
-* From the terminal, run `cmake -P bootstrap.cmake`
-
-This will successfully generate the build system used to build this project.
+* From the terminal, run `cmake -P bootstrap.cmake`. For any issues, see [Linux Prerequisites](#linux-prerequisites)
+* Once the build succeeds, run `buildLinux.sh`. This will build executable files to be run. Solution files will not be generated
 
 #### Windows Instructions
 
@@ -51,9 +50,9 @@ This will successfully generate the build system used to build this project.
 * Extract NASM binary files to a local directory and add that directory to the PATH environment variable (e.g. C:\Users\kevin\nasm). Create another environment variable named exactly "ASM_NASM" with value equal to the executable name ("nasm.exe" by default)
 * Navigate to the `cmake/` directory and run `buildPrompt.bat`. This will open a command prompt at the `cmake/` directory
 * From the build prompt, run `cmake -P bootstrap.cmake`
-* Once the build succeeds, run `buildSolutions.cmd`. This will generate Visual Studio solution files in the binary directory built for this repository, which will be output to the console
+* Once the build succeeds, run `buildSolutions.cmd`. This will generate Visual Studio solution files in the binary directory, which will be output to the console
 
-You should now be able to launch the Visual Studio solution for each configuration and make modifications. To add new source code files, you should add them directly in the repository folder, not in Visual Studio, and run `buildSolutions.cmd` afterwards to retrieve them in Visual Studio. Files may then be modified and saved from Visual Studio.
+You should now be able to launch the Visual Studio solution file for your desired configuration and make modifications. To add new source code files, you should add them directly in the repository folder and run `buildSolutions.cmd` afterwards to retrieve them in Visual Studio. Files may then be modified and saved from Visual Studio. Building the appropriate target in Visual Studio will generate executable files to be run.
 
 ### Using Protobuf Compiler to Generate Code
 
@@ -62,6 +61,10 @@ Note: to generate cpp code, it may be helpful to copy the `grpc_cpp_plugin.exe` 
 1) Open a command prompt and navigate to the folder where the `protoc.exe` executable was compiled during the build process (the protobuf binary folder).
 2) Note the input folder where the .proto source files exist and the output folder where the `.pb.*` and `.grpc.pb.*` files should be compiled to. These may be the same or different folders. The folders will be referenced below as ${input_folder} and ${output_folder}.
 3) Run the following command from the terminal: `protoc.exe --cpp_out=${output_folder} --grpc_out=${output_folder} --plugin=protoc-gen-grpc=${grpc_cpp_plugin.exe_folder}\grpc_cpp_plugin.exe --proto_path=${input_folder} ${proto_file}.proto`. `${grpc_cpp_plugin.exe_folder}` may be `.` if the plugin was copied to the folder with `protoc.exe`, or should point to the plugin folder otherwise.
+
+## Hosting
+
+This project is not yet configured for web-based hosting. The server can be hosted via port forwarding and accessed with reverse SSH tunneling through the client. Reach out for a demo.
 
 ## Pre-built Binaries
 

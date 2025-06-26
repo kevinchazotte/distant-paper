@@ -85,7 +85,7 @@ void UIRenderer::RenderMenuBar(WhiteboardStateMachine::DrawTool currentTool) {
 }
 
 void UIRenderer::DrawTitle() {
-	sf::Text title(m_Font, "WHITEBOARD");
+	sf::Text title(m_Font, "DISTANT-PAPER");
 	title.setCharacterSize(48);
 	title.setFillColor(sf::Color::Black);
 	title.setPosition(sf::Vector2f(m_RenderWindow.getSize().x / 2 - title.getGlobalBounds().size.x / 2, 200));

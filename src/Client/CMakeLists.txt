@@ -17,3 +17,5 @@ add_executable(${proj}
 add_dependencies(${proj} Utilities)
 target_include_directories(${proj} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../proto/")
 target_link_libraries(${proj} Utilities SuperBuild::grpc++ SuperBuild::protobuf SuperBuild::SFML)
+
+install(TARGETS ${proj} DESTINATION .)
