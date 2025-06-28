@@ -66,10 +66,6 @@ Note: to generate cpp code, it may be helpful to copy the `grpc_cpp_plugin.exe` 
 
 This project is not yet configured for web-based hosting. The server can be hosted via port forwarding and accessed with reverse SSH tunneling through the client. Reach out for a demo.
 
-## Pre-built Binaries
-
-Pre-built binaries are not yet available for this repository. They'll be available once a release is prepared for distribution. If you'd like to run this project on your own system, see the [How to Compile, Build, and Run Code in this Project](#how-to-compile-build-and-run-code-in-this-project) section for detailed information on how to get it running.
-
 ## Contact
 
 Kevin Chazotte - chazottek@gmail.com
